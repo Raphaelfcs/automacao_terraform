@@ -1,0 +1,25 @@
+# Terraform
+**/.terraform/*
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfplan
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+# Segredos locais
+*.auto.tfvars
+secrets.tfvars
+.env
+*.pem
+*.pfx
+# Artefatos
+**/build/
+*.zip
+__pycache__/
+.DS_Store
