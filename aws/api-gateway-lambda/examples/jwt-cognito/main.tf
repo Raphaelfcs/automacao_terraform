@@ -1,0 +1,22 @@
+# Exemplo "jwt-cognito" do módulo aws/api-gateway-lambda: HTTP API -> Lambda.
+# Ambiente, região e tags ficam em locals.tf; o estado remoto em backend.tf.
+
+provider "aws" {
+  region = local.region
+
+  default_tags {
+    tags = local.tags
+  }
+}
+
+module "api_gateway_lambda" {
+  source = "../.."
+
+  name                 = "demo-dev-api"
+  lambda_function_name = "demo-dev-processa"
+  lambda_invoke_arn    = "arn:aws:apigateway:sa-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:sa-east-1:123456789012:function:demo-dev-processa/invocations"
+  routes               = ["GET /pedidos", "POST /pedidos"]
+  jwt_authorizer       = { issuer = "https://cognito-idp.sa-east-1.amazonaws.com/sa-east-1_EXAMPLE", audience = ["1example23456789"] }
+  cors_allow_origins   = ["https://app.example.com"]
+  tags                 = local.tags
+}
