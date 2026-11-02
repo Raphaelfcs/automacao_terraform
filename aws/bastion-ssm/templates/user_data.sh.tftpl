@@ -1,0 +1,34 @@
+#!/bin/bash
+# Bootstrap do bastion SSM-only (Amazon Linux 2023). Versões fixadas por variável.
+set -euo pipefail
+exec > >(tee /var/log/bastion-bootstrap.log) 2>&1
+
+dnf -y update
+dnf -y install jq unzip tar git
+
+# AWS CLI v2 pelo instalador oficial (nunca dnf), versão fixada.
+curl -fsSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${awscli_version}.zip" -o /tmp/awscliv2.zip
+unzip -q /tmp/awscliv2.zip -d /tmp && /tmp/aws/install --update
+
+# kubectl fixado (dentro da skew policy do cluster).
+curl -fsSL "https://dl.k8s.io/release/${kubectl_version}/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl
+chmod +x /usr/local/bin/kubectl
+
+%{ if enable_helm ~}
+curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+%{ endif ~}
+%{ if enable_k9s ~}
+curl -fsSL https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz | tar -xz -C /usr/local/bin k9s
+%{ endif ~}
+%{ if enable_stern ~}
+curl -fsSL https://github.com/stern/stern/releases/download/v1.30.0/stern_1.30.0_linux_amd64.tar.gz | tar -xz -C /usr/local/bin stern
+%{ endif ~}
+%{ if enable_grpcurl ~}
+curl -fsSL https://github.com/fullstorydev/grpcurl/releases/download/v1.9.1/grpcurl_1.9.1_linux_x86_64.tar.gz | tar -xz -C /usr/local/bin grpcurl
+%{ endif ~}
+
+# kubeconfig para o ssm-user (usado pelas sessões do Session Manager).
+install -d -o ssm-user -g ssm-user /home/ssm-user 2>/dev/null || useradd -m ssm-user
+sudo -u ssm-user -H /usr/local/bin/aws eks update-kubeconfig --name "${cluster_name}" --region "${aws_region}" || true
+
+echo "bastion ${environment} pronto"
