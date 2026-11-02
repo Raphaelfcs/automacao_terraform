@@ -1,0 +1,19 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "LeituraRedeEObservabilidade",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*",
+        "ec2:GetVpnConnectionDeviceTypes",
+        "cloudwatch:GetMetricData",
+        "cloudwatch:ListMetrics",
+        "logs:FilterLogEvents",
+        "logs:GetLogEvents",
+        "network-firewall:Describe*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
