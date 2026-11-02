@@ -1,3 +1,135 @@
 # automacao_terraform
 
-Módulos Terraform reutilizáveis para AWS, Google Cloud e Azure.
+Catálogo de módulos Terraform (AWS, Google Cloud e Azure) consolidado a partir de projetos reais de
+arquitetura cloud entre 2017 e 2026: landing zones, plataformas de containers, dados, integração, FinOps e governança.
+Cada módulo é uma *engine* reutilizável, com exemplos prontos, testes e diagrama de arquitetura.
+
+> Projeto idealizado em setembro de 2017. Com a correria dos projetos, o repositório não foi mantido em dia;
+> o conteúdo está sendo publicado e atualizado agora. Cada módulo informa no README quando foi idealizado.
+
+**55 módulos** · AWS: 44 · Microsoft Azure: 4 · Google Cloud: 7
+
+## Estrutura
+
+```text
+<nuvem>/<recurso>/
+├── main.tf            # recursos principais
+├── variables.tf       # entradas com validação
+├── outputs.tf         # saídas consumidas por outros módulos
+├── iam.tf             # políticas, papéis e permissões do recurso
+├── versions.tf        # Terraform e providers
+├── <tema>.tf          # arquivos específicos do recurso (ex.: routes.tf, addons.tf)
+├── examples/<caso>/   # main.tf, locals.tf, backend.tf (state isolado por caso)
+├── tests/             # terraform test com providers simulados
+├── diagram.drawio     # arquitetura editável (ícones oficiais + legenda)
+├── diagram.png        # prévia renderizada
+└── README.md
+```
+
+Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md).
+
+## AWS
+
+| Módulo | Categoria | Descrição |
+|---|---|---|
+| [`acm-expiry-alert`](aws/acm-expiry-alert) | automacao | Alerta de expiração de certificados |
+| [`api-gateway-lambda`](aws/api-gateway-lambda) | integracao | HTTP API -> Lambda |
+| [`autoscaling-schedule`](aws/autoscaling-schedule) | finops | Desligamento agendado de node groups |
+| [`backup-plan`](aws/backup-plan) | automacao | AWS Backup centralizado |
+| [`bastion-ssm`](aws/bastion-ssm) | containers | Bastion SSM-only para EKS privado |
+| [`cloudfront-spa`](aws/cloudfront-spa) | borda | SPA em S3 + CloudFront |
+| [`cloudwatch-logs`](aws/cloudwatch-logs) | observabilidade | Log group de aplicação + IRSA do coletor |
+| [`cognito-user-pool`](aws/cognito-user-pool) | seguranca | Cognito como IdP OAuth2/OIDC |
+| [`cur-focus-export`](aws/cur-focus-export) | finops | Exportação de custos FOCUS 1.0 |
+| [`ecr`](aws/ecr) | containers | Repositórios ECR com scan, KMS e retenção |
+| [`eks-addons`](aws/eks-addons) | containers | Addons de plataforma EKS |
+| [`eks-argocd`](aws/eks-argocd) | devops | Argo CD bootstrap (GitOps) |
+| [`eks-cluster`](aws/eks-cluster) | containers | Cluster EKS privado |
+| [`eks-fluent-bit`](aws/eks-fluent-bit) | observabilidade | Fluent Bit -> CloudWatch Logs |
+| [`eks-node-group`](aws/eks-node-group) | containers | Node groups EKS com launch template |
+| [`elasticache-redis`](aws/elasticache-redis) | dados | ElastiCache Valkey/Redis cifrado |
+| [`eventbridge-bus-sqs`](aws/eventbridge-bus-sqs) | integracao | Barramento de eventos entre contas -> SQS |
+| [`finops-cost-report`](aws/finops-cost-report) | automacao | Relatório diário de custos |
+| [`iam-github-oidc`](aws/iam-github-oidc) | devops | GitHub Actions -> AWS por OIDC |
+| [`iam-group`](aws/iam-group) | seguranca | Grupo IAM com MFA obrigatório |
+| [`iam-inventory-export`](aws/iam-inventory-export) | automacao | Inventário IAM semanal |
+| [`iam-mfa-audit`](aws/iam-mfa-audit) | automacao | Auditoria de MFA |
+| [`identity-center-permission-set`](aws/identity-center-permission-set) | seguranca | IAM Identity Center: permission sets e atribuições |
+| [`instance-scheduler`](aws/instance-scheduler) | automacao | Agendador FinOps de EC2/RDS |
+| [`kms-key`](aws/kms-key) | seguranca | Chave KMS (CMK) da plataforma |
+| [`lambda-function`](aws/lambda-function) | computacao | Função Lambda empacotada |
+| [`msk-kafka`](aws/msk-kafka) | integracao | Amazon MSK com SASL/IAM |
+| [`network-hub`](aws/network-hub) | rede | Conta Network hub-and-spoke |
+| [`organizations-scp`](aws/organizations-scp) | governanca | Organizations: OUs, SCPs e Tag Policy |
+| [`rds-aurora`](aws/rds-aurora) | dados | Amazon Aurora (MySQL/PostgreSQL, provisionado ou Serverless v2) |
+| [`rds-instance`](aws/rds-instance) | dados | RDS MySQL/PostgreSQL privado |
+| [`route53-private-zone`](aws/route53-private-zone) | rede | Zona Route 53 privada multi-conta |
+| [`s3-bucket`](aws/s3-bucket) | armazenamento | Bucket S3 seguro por padrão |
+| [`security-baseline`](aws/security-baseline) | seguranca | Baseline de segurança da organização |
+| [`security-group`](aws/security-group) | rede | Security group declarativo |
+| [`sns-topic`](aws/sns-topic) | integracao | Tópicos SNS com assinaturas |
+| [`sqs-queue`](aws/sqs-queue) | integracao | Filas SQS com DLQ |
+| [`tag-compliance`](aws/tag-compliance) | automacao | Conformidade de tags por evento |
+| [`textract-pipeline`](aws/textract-pipeline) | automacao | Pipeline de extração com Textract |
+| [`tf-backend-bootstrap`](aws/tf-backend-bootstrap) | devops | Bootstrap do backend S3 do Terraform |
+| [`transit-gateway-attachment`](aws/transit-gateway-attachment) | rede | Attachment de VPC ao Transit Gateway |
+| [`vpc`](aws/vpc) | rede | VPC em três camadas |
+| [`vpc-endpoints`](aws/vpc-endpoints) | rede | VPC Endpoints Interface/Gateway |
+| [`vpn-site-to-site`](aws/vpn-site-to-site) | rede | VPN Site-to-Site (TGW/VGW) declarativa |
+
+## Microsoft Azure
+
+| Módulo | Categoria | Descrição |
+|---|---|---|
+| [`monitor-alerts`](azure/monitor-alerts) | observabilidade | Azure Monitor: action group e alertas de métrica |
+| [`monitor-diagnostic-setting`](azure/monitor-diagnostic-setting) | observabilidade | Diagnostic settings em lote |
+| [`sql-database`](azure/sql-database) | dados | Azure SQL com Entra ID e auditoria |
+| [`storage-account`](azure/storage-account) | armazenamento | Storage Account seguro com CMK |
+
+## Google Cloud
+
+| Módulo | Categoria | Descrição |
+|---|---|---|
+| [`cloud-sql`](gcp/cloud-sql) | dados | Cloud SQL privado |
+| [`edge-load-balancer`](gcp/edge-load-balancer) | borda | Load Balancer global + Cloud Armor |
+| [`gke-private`](gcp/gke-private) | containers | GKE privado com Workload Identity |
+| [`project-foundation`](gcp/project-foundation) | governanca | Projeto GCP com APIs e org policies |
+| [`pubsub`](gcp/pubsub) | integracao | Pub/Sub + Cloud Function (notificação) |
+| [`static-site`](gcp/static-site) | borda | Site estático em Cloud Storage |
+| [`vpc-network`](gcp/vpc-network) | rede | VPC GCP com ranges secundários e PSA |
+
+## Labs
+
+Exercícios históricos de cursos ficam em [`labs/`](labs), fora do padrão do catálogo.
+
+## Como usar um módulo
+
+```hcl
+module "vpc" {
+  source = "git::https://github.com/raphaelfcs/automacao_terraform.git//aws/vpc?ref=v1.0.0"
+
+  name_prefix = "app-prod"
+  cidr_block  = "10.20.0.0/16"
+  azs         = ["sa-east-1a", "sa-east-1b", "sa-east-1c"]
+}
+```
+
+## Qualidade
+
+```bash
+make fmt        # terraform fmt -recursive
+make validate   # init -backend=false + validate em cada módulo
+make test       # terraform test em cada módulo
+make lint       # tflint
+```
+
+O mesmo fluxo roda no GitHub Actions a cada pull request ([`terraform-ci.yml`](.github/workflows/terraform-ci.yml)).
+
+## Referências
+
+- AWS Well-Architected Framework, Google Cloud Architecture Framework e Azure Well-Architected Framework.
+- *Infrastructure as Code* (Kief Morris), *Cloud FinOps* (Storment e Fuller) e *Software Architecture: The Hard Parts* (Ford et al.).
+
+## Licença
+
+MIT. Veja [`LICENSE`](LICENSE).

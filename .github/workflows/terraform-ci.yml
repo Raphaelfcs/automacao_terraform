@@ -1,0 +1,66 @@
+name: terraform-ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  descobrir:
+    runs-on: ubuntu-latest
+    outputs:
+      modulos: ${{ steps.lista.outputs.modulos }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: lista
+        run: echo "modulos=$(ls -d aws/*/ gcp/*/ azure/*/ | sed 's#/$##' | jq -R . | jq -sc .)" >> "$GITHUB_OUTPUT"
+
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+      - run: terraform fmt -recursive -check -diff
+
+  modulo:
+    needs: descobrir
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        modulo: ${{ fromJson(needs.descobrir.outputs.modulos) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+      - name: init
+        run: terraform -chdir=${{ matrix.modulo }} init -backend=false -input=false
+      - name: validate
+        run: terraform -chdir=${{ matrix.modulo }} validate
+      - name: test
+        run: terraform -chdir=${{ matrix.modulo }} test
+
+  tflint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: terraform-linters/setup-tflint@v4
+      - run: tflint --init && tflint --recursive --config="$GITHUB_WORKSPACE/.tflint.hcl"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  checkov:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          skip_path: labs
+          soft_fail: true
