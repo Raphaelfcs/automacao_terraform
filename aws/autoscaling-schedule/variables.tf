@@ -20,7 +20,7 @@ variable "up_cron" {
   default     = "0 8 * * 1-5"
 
   validation {
-    condition     = can(regex("^[0-9*,/-]+ [0-9*,/-]+ [0-9*,/?-]+ [0-9*,/-]+ [0-9*,/-]+$", var.up_cron))
+    condition     = can(regex("^[0-9*,/-]+ [0-9*,/-]+ [0-9*,/?-]+ [0-9A-Za-z*,/-]+ [0-9A-Za-z*,/?-]+$", var.up_cron))
     error_message = "up_cron tem de ter cinco campos: `minuto hora dia mes dia-da-semana`. Sem segundos e sem ano — este nao e o formato do EventBridge."
   }
 }
@@ -31,7 +31,7 @@ variable "down_cron" {
   default     = "45 23 * * 1-5"
 
   validation {
-    condition     = can(regex("^[0-9*,/-]+ [0-9*,/-]+ [0-9*,/?-]+ [0-9*,/-]+ [0-9*,/-]+$", var.down_cron))
+    condition     = can(regex("^[0-9*,/-]+ [0-9*,/-]+ [0-9*,/?-]+ [0-9A-Za-z*,/-]+ [0-9A-Za-z*,/?-]+$", var.down_cron))
     error_message = "down_cron tem de ter cinco campos: `minuto hora dia mes dia-da-semana`."
   }
 }

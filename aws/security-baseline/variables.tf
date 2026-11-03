@@ -43,7 +43,7 @@ variable "enable_macie" {
 variable "securityhub_standards" {
   description = "Padrões do Security Hub habilitados."
   type        = list(string)
-  default     = [
+  default = [
     "standards/aws-foundational-security-best-practices/v/1.0.0",
     "standards/cis-aws-foundations-benchmark/v/1.4.0",
   ]

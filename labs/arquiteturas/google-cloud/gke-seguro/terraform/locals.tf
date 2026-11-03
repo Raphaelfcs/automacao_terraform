@@ -6,6 +6,6 @@ locals {
     projeto    = "demo"
     ambiente   = "dev"
     gerenciado = "terraform"
-    lab     = "gke-seguro"
+    lab        = "gke-seguro"
   }
 }

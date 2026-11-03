@@ -21,6 +21,8 @@ module "function" {
 
   policy_json = data.aws_iam_policy_document.function.json
 
+  attach_policy_json = true
+
   event_patterns = {
     criacao = {
       source        = ["aws.ec2", "aws.rds"]

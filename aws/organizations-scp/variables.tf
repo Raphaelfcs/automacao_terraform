@@ -6,7 +6,7 @@ variable "allowed_regions" {
 
 variable "organizational_units" {
   description = "OUs da organização. parent = \"root\" ou o nome de outra OU de primeiro nível."
-  type        = map(object({
+  type = map(object({
     parent = string
   }))
   default = {
@@ -23,7 +23,7 @@ variable "organizational_units" {
 variable "exempt_role_patterns" {
   description = "Roles isentas das SCPs de proteção (Control Tower, AFT e break-glass)."
   type        = list(string)
-  default     = [
+  default = [
     "arn:aws:iam::*:role/AWSControlTowerExecution",
     "arn:aws:iam::*:role/AWSAFTExecution",
     "arn:aws:iam::*:role/stacksets-exec-*",
@@ -34,7 +34,7 @@ variable "exempt_role_patterns" {
 variable "global_services_exempt" {
   description = "Ações de serviços globais que não podem ser bloqueadas pela SCP de região."
   type        = list(string)
-  default     = [
+  default = [
     "iam:*", "organizations:*", "sts:*", "support:*", "route53:*", "route53domains:*", "cloudfront:*",
     "waf:*", "wafv2:*", "shield:*", "budgets:*", "ce:*", "cur:*", "health:*", "trustedadvisor:*",
     "sso:*", "sso-directory:*", "identitystore:*", "kms:*", "account:*", "globalaccelerator:*",

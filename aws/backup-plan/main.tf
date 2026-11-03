@@ -25,13 +25,13 @@ resource "aws_backup_plan" "this" {
   dynamic "rule" {
     for_each = var.rules
     content {
-      rule_name                = rule.key
-      target_vault_name        = aws_backup_vault.this.name
-      schedule                 = rule.value.schedule
+      rule_name                    = rule.key
+      target_vault_name            = aws_backup_vault.this.name
+      schedule                     = rule.value.schedule
       schedule_expression_timezone = var.timezone
-      start_window             = 60
-      completion_window        = 360
-      enable_continuous_backup = rule.value.continuous
+      start_window                 = 60
+      completion_window            = 360
+      enable_continuous_backup     = rule.value.continuous
 
       lifecycle {
         cold_storage_after = rule.value.cold_storage_after_days

@@ -6,6 +6,6 @@ locals {
     Projeto    = "demo"
     Ambiente   = "dev"
     Gerenciado = "terraform"
-    Lab     = "desafio-api-serverless"
+    Lab        = "desafio-api-serverless"
   }
 }

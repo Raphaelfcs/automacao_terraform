@@ -15,7 +15,7 @@ output "ou_ids" {
 
 output "ou_arns" {
   description = "ARNs das OUs por nome."
-  value       = merge(
+  value = merge(
     { for k, ou in aws_organizations_organizational_unit.level1 : k => ou.arn },
     { for k, ou in aws_organizations_organizational_unit.level2 : k => ou.arn },
   )

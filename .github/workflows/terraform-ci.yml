@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.10.5
+          terraform_version: 1.12.2
       - run: terraform fmt -recursive -check -diff aws gcp azure labs/arquiteturas
 
   modulo:
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.10.5
+          terraform_version: 1.12.2
       - name: init
         run: terraform -chdir=${{ matrix.modulo }} init -backend=false -input=false
       - name: validate

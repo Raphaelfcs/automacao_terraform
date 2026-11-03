@@ -56,6 +56,7 @@ Each example has its own backend (state isolated per module and example). Differ
 | `reserved_concurrency` | `number` | `-1` | no | Reserved concurrency (-1 = no reservation). |
 | `environment` | `map(string)` | `{}` | no | Environment variables (never secrets: use Secrets Manager/Parameter Store). |
 | `policy_json` | `string` | `null` | no | JSON policy document with the function-specific permissions. |
+| `attach_policy_json` | `bool` | `false` | no | Creates the inline policy from `policy_json`. A separate flag because the JSON often depends on ARNs created in the same apply. |
 | `permissions_boundary_arn` | `string` | `null` | no | Execution role permissions boundary. |
 | `vpc` | `object(...)` | `null` | no | Runs inside the VPC (private subnets + SGs). null = outside the VPC. |
 | `dead_letter_target_arn` | `string` | `null` | no | SQS queue or SNS topic for failed asynchronous invocations. |

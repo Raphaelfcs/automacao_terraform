@@ -6,6 +6,6 @@ locals {
     Projeto    = "demo"
     Ambiente   = "dev"
     Gerenciado = "terraform"
-    Lab     = "bloqueio-e-reset-de-acesso"
+    Lab        = "bloqueio-e-reset-de-acesso"
   }
 }

@@ -6,6 +6,6 @@ locals {
     projeto    = "demo"
     ambiente   = "dev"
     gerenciado = "terraform"
-    lab     = "landing-zone-gcp"
+    lab        = "landing-zone-gcp"
   }
 }

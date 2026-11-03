@@ -6,6 +6,6 @@ locals {
     Projeto    = "demo"
     Ambiente   = "dev"
     Gerenciado = "terraform"
-    Lab     = "workflow-multi-x-mono-repo"
+    Lab        = "workflow-multi-x-mono-repo"
   }
 }

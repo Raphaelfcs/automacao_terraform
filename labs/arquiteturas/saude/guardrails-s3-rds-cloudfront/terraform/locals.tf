@@ -6,6 +6,6 @@ locals {
     Projeto    = "demo"
     Ambiente   = "dev"
     Gerenciado = "terraform"
-    Lab     = "guardrails-s3-rds-cloudfront"
+    Lab        = "guardrails-s3-rds-cloudfront"
   }
 }

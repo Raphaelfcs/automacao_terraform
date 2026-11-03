@@ -18,24 +18,21 @@ resource "aws_ecr_lifecycle_policy" "this" {
         }
         action = { type = "expire" }
       }],
-      length(var.release_tag_prefixes) == 0 ? [{
+      # Uma única regra 2 com seleção montada por merge: sem prefixos, conta qualquer imagem;
+      # com prefixos, só as de release. (Ramos de um condicional precisam ter o mesmo tipo.)
+      [{
         rulePriority = 2
-        description  = "Manter apenas as ${var.max_image_count} imagens mais recentes"
-        selection = {
-          tagStatus   = "any"
-          countType   = "imageCountMoreThan"
-          countNumber = var.max_image_count
-        }
-        action = { type = "expire" }
-        }] : [{
-        rulePriority = 2
-        description  = "Manter as ${var.max_image_count} últimas imagens de release"
-        selection = {
-          tagStatus     = "tagged"
-          tagPrefixList = var.release_tag_prefixes
-          countType     = "imageCountMoreThan"
-          countNumber   = var.max_image_count
-        }
+        description = (length(var.release_tag_prefixes) == 0
+          ? "Manter apenas as ${var.max_image_count} imagens mais recentes"
+        : "Manter as ${var.max_image_count} últimas imagens de release")
+        selection = merge(
+          {
+            tagStatus   = length(var.release_tag_prefixes) == 0 ? "any" : "tagged"
+            countType   = "imageCountMoreThan"
+            countNumber = var.max_image_count
+          },
+          { for k, v in { tagPrefixList = var.release_tag_prefixes } : k => v if length(var.release_tag_prefixes) > 0 }
+        )
         action = { type = "expire" }
       }]
     )

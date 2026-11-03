@@ -6,6 +6,6 @@ locals {
     Projeto    = "demo"
     Ambiente   = "dev"
     Gerenciado = "terraform"
-    Lab     = "autenticacao-b2c-v1"
+    Lab        = "autenticacao-b2c-v1"
   }
 }

@@ -29,11 +29,18 @@ resource "aws_iam_role_policy_attachment" "xray" {
 
 # Permissões específicas da função (JSON de policy document), escopadas por quem chama.
 resource "aws_iam_role_policy" "inline" {
-  count = var.policy_json == null ? 0 : 1
+  count = var.attach_policy_json ? 1 : 0
 
   name   = "${var.function_name}-permissoes"
   role   = aws_iam_role.this.id
   policy = var.policy_json
+
+  lifecycle {
+    precondition {
+      condition     = var.policy_json != null
+      error_message = "attach_policy_json = true exige policy_json."
+    }
+  }
 }
 
 data "aws_iam_policy_document" "sqs_trigger" {

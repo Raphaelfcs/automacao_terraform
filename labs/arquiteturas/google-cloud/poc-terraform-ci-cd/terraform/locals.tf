@@ -6,6 +6,6 @@ locals {
     projeto    = "demo"
     ambiente   = "dev"
     gerenciado = "terraform"
-    lab     = "poc-terraform-ci-cd"
+    lab        = "poc-terraform-ci-cd"
   }
 }

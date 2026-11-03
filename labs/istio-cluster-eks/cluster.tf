@@ -1,7 +1,7 @@
 resource "aws_instance" "kubernetesmaster" {
   count           = 3
   ami             = var.AWS_AMI
-  instance_type   = "%{ if var.ENV == "prod" || var.ENV == "stress-test" }${var.AWS_TYPE_INSTANCE}%{ else }t2.micro%{ endif }"
+  instance_type   = "%{if var.ENV == "prod" || var.ENV == "stress-test"}${var.AWS_TYPE_INSTANCE}%{else}t2.micro%{endif}"
   key_name        = var.KEYEC2
   security_groups = ["${aws_security_group.kube.id}"]
   subnet_id       = var.SUBNET_EC2

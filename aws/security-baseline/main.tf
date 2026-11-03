@@ -80,8 +80,8 @@ resource "aws_kms_key" "alerts" {
   count               = var.enable_detection ? 1 : 0
   description         = "${local.name} - tópico de alertas de segurança"
   enable_key_rotation = true
-  policy              = jsonencode({
-    Version   = "2012-10-17"
+  policy = jsonencode({
+    Version = "2012-10-17"
     Statement = [
       {
         Sid       = "AdminDaConta"
@@ -117,7 +117,7 @@ resource "aws_sns_topic_subscription" "email" {
 }
 
 resource "aws_cloudwatch_event_rule" "alerts" {
-  for_each      = var.enable_detection ? local.alert_patterns : {}
+  for_each      = { for k, v in local.alert_patterns : k => v if var.enable_detection }
   name          = "${local.name}-${each.key}-critico"
   description   = "Achados críticos de ${each.key} de qualquer conta da organização"
   event_pattern = jsonencode(each.value)

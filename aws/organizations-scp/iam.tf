@@ -21,7 +21,7 @@ resource "aws_organizations_policy" "suspended" {
   name        = "negar-tudo-suspensas"
   description = "Contas em encerramento: bloqueia qualquer ação"
   type        = "SERVICE_CONTROL_POLICY"
-  content     = jsonencode({
+  content = jsonencode({
     Version   = "2012-10-17"
     Statement = [{ Sid = "NegarTudo", Effect = "Deny", Action = "*", Resource = "*" }]
   })

@@ -16,7 +16,7 @@ locals {
     securityhub = {
       source        = ["aws.securityhub"]
       "detail-type" = ["Security Hub Findings - Imported"]
-      detail        = {
+      detail = {
         findings = {
           Severity    = { Label = ["HIGH", "CRITICAL"] }
           Workflow    = { Status = ["NEW"] }

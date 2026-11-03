@@ -32,5 +32,7 @@ module "function" {
   }
 
   policy_json = data.aws_iam_policy_document.function.json
-  tags        = var.tags
+
+  attach_policy_json = true
+  tags               = var.tags
 }

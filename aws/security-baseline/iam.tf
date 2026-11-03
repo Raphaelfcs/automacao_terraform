@@ -1,8 +1,8 @@
 resource "aws_sns_topic_policy" "alerts" {
-  count  = var.enable_detection ? 1 : 0
-  arn    = aws_sns_topic.alerts[0].arn
+  count = var.enable_detection ? 1 : 0
+  arn   = aws_sns_topic.alerts[0].arn
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [{
       Sid       = "EventBridgePublica"
       Effect    = "Allow"
@@ -17,7 +17,7 @@ resource "aws_s3_bucket_policy" "logs" {
   count  = length(aws_s3_bucket.logs)
   bucket = aws_s3_bucket.logs[0].id
   policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
         Sid       = "SomenteTLS"

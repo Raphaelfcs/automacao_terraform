@@ -6,6 +6,6 @@ locals {
     Projeto    = "demo"
     Ambiente   = "dev"
     Gerenciado = "terraform"
-    Lab     = "migracao-de-conta-aws"
+    Lab        = "migracao-de-conta-aws"
   }
 }

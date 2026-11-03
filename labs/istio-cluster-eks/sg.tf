@@ -1,7 +1,7 @@
 
 resource "aws_security_group" "kube" {
   name   = "k8s_multi_${var.ENV}"
-  vpc_id = "${var.VPCNAME}"
+  vpc_id = var.VPCNAME
 
   egress {
     from_port   = 0

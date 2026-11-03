@@ -57,9 +57,15 @@ variable "environment" {
 }
 
 variable "policy_json" {
-  description = "Policy document JSON com as permissões específicas da função."
+  description = "Policy document JSON com as permissões específicas da função. Use junto com attach_policy_json = true."
   type        = string
   default     = null
+}
+
+variable "attach_policy_json" {
+  description = "Cria a policy inline com policy_json. É um booleano separado porque o JSON costuma depender de ARNs que só existem depois do apply, e o count precisa ser conhecido no plan."
+  type        = bool
+  default     = false
 }
 
 variable "permissions_boundary_arn" {

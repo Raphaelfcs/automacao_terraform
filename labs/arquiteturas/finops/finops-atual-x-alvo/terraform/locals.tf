@@ -5,6 +5,6 @@ locals {
     Projeto    = "demo"
     Ambiente   = "dev"
     Gerenciado = "terraform"
-    Lab     = "finops-atual-x-alvo"
+    Lab        = "finops-atual-x-alvo"
   }
 }

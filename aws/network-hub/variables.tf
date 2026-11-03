@@ -68,7 +68,7 @@ variable "dx_gateway_asn" {
 
 variable "dx_transit_vifs" {
   description = "Uma transit VIF por conexão física (2 × 1 Gbps em locais distintos). Conexões são pedidas ao parceiro antes."
-  type        = list(object({
+  type = list(object({
     name           = string
     connection_id  = string
     vlan           = number
@@ -81,7 +81,7 @@ variable "dx_transit_vifs" {
 # ----------------------------------------------------------------- VPN de backup
 variable "vpn_customer_gateways" {
   description = "Roteadores do data center para a VPN de backup (BGP)."
-  type        = list(object({
+  type = list(object({
     name       = string
     ip_address = string
     bgp_asn    = number

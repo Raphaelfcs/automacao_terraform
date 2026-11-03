@@ -6,6 +6,6 @@ locals {
     projeto    = "demo"
     ambiente   = "dev"
     gerenciado = "terraform"
-    lab     = "compartilhamento-de-rede"
+    lab        = "compartilhamento-de-rede"
   }
 }

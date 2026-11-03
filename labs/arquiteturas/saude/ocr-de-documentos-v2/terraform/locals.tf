@@ -6,6 +6,6 @@ locals {
     Projeto    = "demo"
     Ambiente   = "dev"
     Gerenciado = "terraform"
-    Lab     = "ocr-de-documentos-v2"
+    Lab        = "ocr-de-documentos-v2"
   }
 }

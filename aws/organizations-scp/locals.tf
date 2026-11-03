@@ -19,7 +19,7 @@ locals {
   base_scps = {
     "regiao-permitida" = {
       description = "Nega uso fora das regiões permitidas (residência dos dados), exceto serviços globais"
-      statements  = [{
+      statements = [{
         Sid       = "NegarForaDaRegiao"
         Effect    = "Deny"
         NotAction = var.global_services_exempt
@@ -32,7 +32,7 @@ locals {
     }
     "proteger-organizacao-e-seguranca" = {
       description = "Impede sair da organização e desligar CloudTrail, GuardDuty, Config, Security Hub e Access Analyzer"
-      statements  = [
+      statements = [
         {
           Sid      = "NaoSairDaOrganizacao"
           Effect   = "Deny"
@@ -63,7 +63,7 @@ locals {
     }
     "negar-usuario-root" = {
       description = "Nega ações do usuário root nas contas-membro"
-      statements  = [{
+      statements = [{
         Sid       = "NegarRoot"
         Effect    = "Deny"
         Action    = "*"
@@ -73,7 +73,7 @@ locals {
     }
     "exigir-criptografia" = {
       description = "Nega volumes EBS e bancos RDS sem criptografia"
-      statements  = [
+      statements = [
         {
           Sid       = "EbsCriptografado"
           Effect    = "Deny"

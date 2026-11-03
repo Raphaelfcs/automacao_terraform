@@ -6,6 +6,6 @@ locals {
     projeto    = "demo"
     ambiente   = "dev"
     gerenciado = "terraform"
-    lab     = "ciclo-de-vida-cloud-sql"
+    lab        = "ciclo-de-vida-cloud-sql"
   }
 }

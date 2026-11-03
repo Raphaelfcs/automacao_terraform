@@ -5,6 +5,6 @@ locals {
     Projeto    = "demo"
     Ambiente   = "dev"
     Gerenciado = "terraform"
-    Lab     = "dr-de-arquivos-azure"
+    Lab        = "dr-de-arquivos-azure"
   }
 }

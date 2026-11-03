@@ -56,6 +56,7 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `reserved_concurrency` | `number` | `-1` | não | Concorrência reservada (-1 = sem reserva). |
 | `environment` | `map(string)` | `{}` | não | Variáveis de ambiente (nunca segredos: use Secrets Manager/Parameter Store). |
 | `policy_json` | `string` | `null` | não | Policy document JSON com as permissões específicas da função. |
+| `attach_policy_json` | `bool` | `false` | não | Cria a policy inline com `policy_json`. Booleano separado porque o JSON costuma depender de ARNs criados no mesmo apply. |
 | `permissions_boundary_arn` | `string` | `null` | não | Permissions boundary da role de execução. |
 | `vpc` | `object(...)` | `null` | não | Executa dentro da VPC (subnets privadas + SGs). null = fora da VPC. |
 | `dead_letter_target_arn` | `string` | `null` | não | Fila SQS ou tópico SNS para invocações assíncronas que falharam. |

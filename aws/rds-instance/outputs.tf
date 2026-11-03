@@ -20,7 +20,7 @@ output "database_name" {
 
 output "master_user_secret_arn" {
   description = "ARN do secret gerenciado pela AWS com a credencial master. Aplicações leem daqui."
-  value       = aws_db_instance.this.master_user_secret[0].secret_arn
+  value       = try(aws_db_instance.this.master_user_secret[0].secret_arn, null)
 }
 
 output "security_group_id" {

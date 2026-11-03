@@ -8,7 +8,7 @@ locals {
   instance_arn      = tolist(data.aws_ssoadmin_instances.this.arns)[0]
   identity_store_id = tolist(data.aws_ssoadmin_instances.this.identity_store_ids)[0]
 
-  managed = flatten([for ps, cfg in var.permission_sets : [for arn in cfg.managed_policy_arns : { ps = ps, arn = arn }]])
+  managed  = flatten([for ps, cfg in var.permission_sets : [for arn in cfg.managed_policy_arns : { ps = ps, arn = arn }]])
   customer = flatten([for ps, cfg in var.permission_sets : [for name in cfg.customer_managed_policies : { ps = ps, name = name }]])
 
   assignments = { for a in var.account_assignments : "${a.permission_set}|${a.group}|${a.account_id}" => a }

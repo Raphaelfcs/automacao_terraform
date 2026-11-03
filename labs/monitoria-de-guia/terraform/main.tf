@@ -33,6 +33,7 @@ module "lambda_function" {
   timeout             = 60
   schedule_expression = "cron(0 9,15,21 * * ? *)" # 06h, 12h e 18h em Brasília
   policy_json         = data.aws_iam_policy_document.ses.json
+  attach_policy_json  = true
   environment = {
     URL_CANAIS    = local.url_canais
     URL_GUIA      = local.url_guia

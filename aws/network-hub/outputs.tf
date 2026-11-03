@@ -23,7 +23,7 @@ output "resolver_inbound_ips" {
 
 output "vpn_tunnels" {
   description = "Endereços dos túneis da VPN de backup (configurar no roteador do data center)."
-  value       = {
+  value = {
     for k, v in aws_vpn_connection.this : k => [v.tunnel1_address, v.tunnel2_address]
   }
 }

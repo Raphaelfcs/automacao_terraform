@@ -48,8 +48,8 @@ resource "aws_db_instance" "this" {
   monitoring_interval             = var.enhanced_monitoring_interval
   monitoring_role_arn             = var.enhanced_monitoring_interval > 0 ? aws_iam_role.monitoring[0].arn : null
 
-  auto_minor_version_upgrade      = true
-  enabled_cloudwatch_logs_exports = local.log_exports[var.engine]
+  auto_minor_version_upgrade          = true
+  enabled_cloudwatch_logs_exports     = local.log_exports[var.engine]
   iam_database_authentication_enabled = var.iam_database_authentication
 
   tags = merge(var.tags, { Name = "${var.name_prefix}-${var.engine}" })

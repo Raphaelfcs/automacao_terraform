@@ -6,7 +6,7 @@ variable "ENV" {
 
 
 variable "RANGE_IPS_SR" {
-  type        = list
+  type        = list(any)
   default     = ["203.0.113.214/32"]
   description = "LISTA DE IPS PARA ACESSO AO CLUSTER"
 }
@@ -85,7 +85,7 @@ variable "AWS_ALB_NAME" {
 
 
 variable "ENVSUBNET" {
-  type        = list
+  type        = list(any)
   default     = ["subnet-0aaa1111bbbb2222c"]
   description = "lista de subnets"
 
@@ -101,7 +101,7 @@ variable "TYPEALB" {
 
 
 variable "PATHALBCHECK" {
-  type        = list
+  type        = list(any)
   default     = ["/static/*"]
   description = "path para checar ouvir serviço "
 }
@@ -120,8 +120,8 @@ variable "TARGET_GROUP_CHECK" {
 }
 
 
-variable services_ports {
-  type = list
+variable "services_ports" {
+  type = list(any)
   default = [
     "22",
     "10250",
