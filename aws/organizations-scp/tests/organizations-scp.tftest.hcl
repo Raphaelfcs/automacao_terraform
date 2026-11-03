@@ -2,6 +2,18 @@
 # Valida que cada exemplo documentado é aceito pelas variáveis e validações do módulo.
 
 mock_provider "aws" {
+  mock_resource "aws_organizations_organizational_unit" {
+    defaults = {
+      id  = "ou-ab12-34cdef56"
+      arn = "arn:aws:organizations::123456789012:ou/o-abcd123456/ou-ab12-34cdef56"
+    }
+  }
+  mock_resource "aws_organizations_policy" {
+    defaults = {
+      id  = "p-examplepolicy1"
+      arn = "arn:aws:organizations::123456789012:policy/o-abcd123456/service_control_policy/p-examplepolicy1"
+    }
+  }
   mock_resource "aws_iam_role" {
     defaults = {
       arn = "arn:aws:iam::123456789012:role/mock-role"

@@ -2,6 +2,11 @@
 # Valida que cada exemplo documentado é aceito pelas variáveis e validações do módulo.
 
 mock_provider "aws" {
+  mock_resource "aws_ssoadmin_permission_set" {
+    defaults = {
+      arn = "arn:aws:sso:::permissionSet/ssoins-0123456789abcdef/ps-1234567890abcdef"
+    }
+  }
   mock_data "aws_identitystore_group" {
     defaults = {
       group_id = "9067a1b2c3-1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"
