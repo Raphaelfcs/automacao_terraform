@@ -23,6 +23,7 @@ _Arquiteturas de referência no Google Cloud (2026)_
 | [Landing zone no Google Cloud](google-cloud/landing-zone-gcp) | Google Cloud | Terraform |
 | [Compartilhamento de rede no Google Cloud](google-cloud/compartilhamento-de-rede) | Google Cloud | Terraform |
 | [GKE seguro de ponta a ponta](google-cloud/gke-seguro) | Google Cloud | Terraform |
+| [POC de Terraform com CI/CD no Google Cloud](google-cloud/poc-terraform-ci-cd) | Google Cloud | Terraform |
 
 ## Operadora de saúde
 
@@ -51,6 +52,7 @@ _Plataforma AWS de uma operadora de saúde (2024)_
 | [Portal de negociação de débitos](saude/negociacao-de-debitos) | AWS | Terraform |
 | [Guardrails para S3, RDS e CloudFront](saude/guardrails-s3-rds-cloudfront) | AWS | Terraform |
 | [Rede híbrida com OCI](saude/rede-oci) | OCI | referência |
+| [Serviço de autenticação B2C — primeira versão](saude/autenticacao-b2c-v1) | AWS | Terraform |
 
 ## Seguradora
 
@@ -82,6 +84,9 @@ _CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)_
 | [EKS core 5G — detalhe do cluster](telecom/eks-core-5g-cluster) | AWS | referência |
 | [EKS core 5G — fluxo de deploy](telecom/eks-core-5g-deploy) | AWS | referência |
 | [Integração de rede com parceiro](telecom/integracao-rede-parceiro) | AWS | Terraform |
+| [Plataforma de tarifação multicloud](telecom/plataforma-multicloud) | AWS | Terraform |
+| [Migração de workload entre contas AWS](telecom/migracao-de-conta-aws) | AWS | Terraform |
+| [Governança de CI/CD dos repositórios de IaC](telecom/governanca-ci-cd-repos) | AWS | Terraform |
 
 ## Desafios técnicos
 
@@ -91,3 +96,51 @@ _Desafios técnicos de arquitetura_
 |---|---|---|
 | [Desafio: API serverless](desafios/desafio-api-serverless) | AWS | Terraform |
 | [Desafio: aplicação web escalável](desafios/desafio-aplicacao-web) | AWS | Terraform |
+| [Notificações em arquitetura multi-AZ](desafios/notificacao-serverless) | AWS | Terraform |
+
+## Benefícios
+
+_Plataforma de benefícios em AWS (2023)_
+
+| Lab | Nuvem | Automação |
+|---|---|---|
+| [Opções de computação: ECS Fargate, EKS e Beanstalk](beneficios/opcoes-de-computacao) | AWS | Terraform |
+| [Pipeline de deploy por ambiente](beneficios/pipeline-de-deploy) | AWS | Terraform |
+
+## Consultoria Google Cloud
+
+_Rede, gateways e dados no Google Cloud (2024)_
+
+| Lab | Nuvem | Automação |
+|---|---|---|
+| [Gateways de API no Google Cloud](consultoria-gcp/gateways-de-api) | Google Cloud | Terraform |
+| [Rede compartilhada para GKE e bancos](consultoria-gcp/rede-gke-compartilhada) | Google Cloud | Terraform |
+| [API gateway externo com Kong no GKE](consultoria-gcp/api-gateway-externo-kong) | Google Cloud | Terraform |
+| [Ciclo de vida de dados do Cloud SQL](consultoria-gcp/ciclo-de-vida-cloud-sql) | Google Cloud | Terraform |
+| [Migração para AlloyDB](consultoria-gcp/migracao-alloydb) | Google Cloud | Terraform |
+
+## FinOps
+
+_Assessment e processo de FinOps (2024)_
+
+| Lab | Nuvem | Automação |
+|---|---|---|
+| [FinOps: processo atual e alvo](finops/finops-atual-x-alvo) | Azure | Terraform |
+
+## Plataforma de IaC
+
+_Portal do desenvolvedor e templates de infraestrutura (2024)_
+
+| Lab | Nuvem | Automação |
+|---|---|---|
+| [Plataforma de templates de IaC](plataforma-iac/templates-de-iac) | AWS | Terraform |
+| [Workflow de templates: multi-repo x monorepo](plataforma-iac/workflow-multi-x-mono-repo) | AWS | Terraform |
+| [Catálogo de serviços self-service](plataforma-iac/catalogo-de-servicos) | AWS | Terraform |
+
+## Estudos
+
+_Rascunhos e estudos pessoais_
+
+| Lab | Nuvem | Automação |
+|---|---|---|
+| [Rascunho de estudos de FinOps](estudos/fundamentos-finops) | Azure | referência |
