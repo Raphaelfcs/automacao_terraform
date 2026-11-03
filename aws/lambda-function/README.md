@@ -1,5 +1,7 @@
 # Função Lambda empacotada
 
+**Português** · [English](README.en.md)
+
 > `aws/lambda-function` · categoria **computacao** · origem: Operadora de saúde em AWS (2024)
 
 > Idealizado em fevereiro de 2024. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Função Lambda empacotada a partir de um diretório de código (archive_file), 
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Código empacotado no plan (archive_file).
 2. Log group com retenção criado antes da função.

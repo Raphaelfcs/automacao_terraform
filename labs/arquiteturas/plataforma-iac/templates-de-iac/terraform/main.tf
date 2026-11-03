@@ -1,4 +1,4 @@
-# Automação do lab "Plataforma de templates de IaC".
+# Automação do lab "Portal do desenvolvedor com templates de IaC".
 # Compõe módulos do catálogo; cada módulo continua testado e versionado no próprio diretório.
 # Dependências entre módulos são resolvidas pelas saídas (outputs) de um módulo nas entradas do outro.
 

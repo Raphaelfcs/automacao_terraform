@@ -1,27 +1,26 @@
 # EKS para funções de core 5G
 
+**Português** · [English](README.en.md)
+
 > CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)
 
-Cluster EKS para funções de rede de core 5G, arquitetura alvo e fluxo de deploy.
+Control plane gerenciado, nós no Outposts, Transit Gateway compartilhado e Local Gateway.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. AMF_Cluster
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![AMF_Cluster](desenho-1.png)
+### EKS para funções de core 5G
+
+![EKS para funções de core 5G](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
-- Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
-- AWS Lambda → módulo [`aws/lambda-function`](../../../../aws/lambda-function)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 - Transit Gateway → módulo [`aws/transit-gateway-attachment`](../../../../aws/transit-gateway-attachment)
-- Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
-- Amazon CloudWatch → módulo [`aws/cloudwatch-logs`](../../../../aws/cloudwatch-logs)
-- IAM Identity Center → módulo [`aws/identity-center-permission-set`](../../../../aws/identity-center-permission-set)
 
 ## Automação pronta
 
@@ -33,8 +32,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/transit-gateway-attachment`](../../../../aws/transit-gateway-attachment): Attachment de VPC ao Transit Gateway
 1. [`aws/ecr`](../../../../aws/ecr): Repositórios ECR com scan, KMS e retenção
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

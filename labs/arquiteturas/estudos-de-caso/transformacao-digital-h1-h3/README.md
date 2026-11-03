@@ -1,14 +1,16 @@
 # Evolução de arquitetura em três horizontes
 
+**Português** · [English](README.en.md)
+
 > Estudos de caso de arquitetura (2026)
 
 Roteiro de modernização em três horizontes (estabilizar, integrar, inovar) para uma empresa de médio porte com sistemas legados.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Case 1 — Arquitetura de evolução (H1, H2, H3)
+### Case 1 — Arquitetura de evolução (H1, H2, H3)
 
 ![Case 1 — Arquitetura de evolução (H1, H2, H3)](desenho-1.png)
 
@@ -43,8 +45,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/rds-instance`](../../../../aws/rds-instance): RDS MySQL/PostgreSQL privado
 1. [`aws/backup-plan`](../../../../aws/backup-plan): AWS Backup centralizado
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

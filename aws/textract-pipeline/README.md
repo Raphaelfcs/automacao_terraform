@@ -1,5 +1,7 @@
 # Pipeline de extração com Textract
 
+**Português** · [English](README.en.md)
+
 > `aws/textract-pipeline` · categoria **automacao** · origem: Operadora de saúde em AWS (2024)
 
 > Idealizado em julho de 2024. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Pipeline de extração de documentos (OCR inteligente): upload no bucket de entr
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Upload no bucket de entrada.
 2. EventBridge filtra por extensão.

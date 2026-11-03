@@ -1,5 +1,7 @@
 # Node groups EKS com launch template
 
+**Português** · [English](README.en.md)
+
 > `aws/eks-node-group` · categoria **containers** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em setembro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Node groups gerenciados com launch template próprio: IMDSv2 obrigatório (hop l
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Launch template impõe IMDSv2 e disco cifrado.
 2. Node group gerenciado faz rolling update.

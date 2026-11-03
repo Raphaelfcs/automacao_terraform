@@ -1,22 +1,26 @@
 # Processamento em lote com AWS Batch
 
+**Português** · [English](README.en.md)
+
 > Plataforma AWS de uma operadora de saúde (2024)
 
-Prova de conceito de jobs em lote com AWS Batch.
+Evento no S3 dispara job no Batch com computação sob demanda e saída no DynamoDB.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Processamento em lote com AWS Batch
+
+![Processamento em lote com AWS Batch](desenho-1.png)
 
 ## Componentes identificados no desenho
 
-- Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
 - Amazon ECS/Fargate: serviços em ECS/Fargate ficam no repositório da aplicação (task definition + service); a rede, o ECR e o banco vêm daqui
 - Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
+- Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 - Amazon EventBridge → módulo [`aws/eventbridge-bus-sqs`](../../../../aws/eventbridge-bus-sqs)
 - AWS Batch: os jobs em lote podem ser acionados pela regra do EventBridge criada aqui
 - Amazon DynamoDB: tabelas de controle ficam junto do serviço que as usa
@@ -29,8 +33,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/eventbridge-bus-sqs`](../../../../aws/eventbridge-bus-sqs): Barramento de eventos entre contas -> SQS
 1. [`aws/lambda-function`](../../../../aws/lambda-function): Função Lambda empacotada
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

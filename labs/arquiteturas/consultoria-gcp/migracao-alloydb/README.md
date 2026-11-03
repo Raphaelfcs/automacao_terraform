@@ -1,16 +1,25 @@
 # Migração para AlloyDB
 
+**Português** · [English](README.en.md)
+
 > Rede, gateways e dados no Google Cloud (2024)
 
-Migração de banco transacional para AlloyDB com backup e arquivamento em Cloud Storage.
+AlloyDB com backup, arquivamento em Cloud Storage e API para dados antigos.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Migração para AlloyDB
+
+![Migração para AlloyDB](desenho-1.png)
+
+## Componentes identificados no desenho
+
+- VPC do Google Cloud → módulo [`gcp/vpc-network`](../../../../gcp/vpc-network)
+- Cloud Storage → módulo [`gcp/static-site`](../../../../gcp/static-site)
 
 ## Automação pronta
 
@@ -19,8 +28,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`gcp/project-foundation`](../../../../gcp/project-foundation): Projeto GCP com APIs e org policies
 1. [`gcp/vpc-network`](../../../../gcp/vpc-network): VPC GCP com ranges secundários e PSA
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

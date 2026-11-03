@@ -1,20 +1,23 @@
 # Desafio: API serverless
 
+**Português** · [English](README.en.md)
+
 > Desafios técnicos de arquitetura
 
-Desafio técnico: API Gateway + Lambda com IaC.
+API Gateway + Lambda em sub-rede privada, tudo em Terraform.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Página-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Página-1](desenho-1.png)
+### Desafio: API serverless com IaC
+
+![Desafio: API serverless com IaC](desenho-1.png)
 
 ## Componentes identificados no desenho
 
-- Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
 - AWS Lambda → módulo [`aws/lambda-function`](../../../../aws/lambda-function)
 - API Gateway → módulo [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
@@ -26,8 +29,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/lambda-function`](../../../../aws/lambda-function): Função Lambda empacotada
 1. [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda): HTTP API -> Lambda
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

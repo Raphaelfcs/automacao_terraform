@@ -1,14 +1,16 @@
 # Fundação no Google Cloud em três horizontes
 
+**Português** · [English](README.en.md)
+
 > Estudos de caso de arquitetura (2026)
 
 O mesmo roteiro de modernização desenhado no Google Cloud: organização, rede compartilhada, GKE e dados.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Case 1 no Google Cloud — Arquitetura de fundação (H1, H2, H3)
+### Case 1 no Google Cloud — Arquitetura de fundação (H1, H2, H3)
 
 ![Case 1 no Google Cloud — Arquitetura de fundação (H1, H2, H3)](desenho-1.png)
 
@@ -30,8 +32,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`gcp/cloud-sql`](../../../../gcp/cloud-sql): Cloud SQL privado
 1. [`gcp/static-site`](../../../../gcp/static-site): Site estático em Cloud Storage
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

@@ -1,5 +1,7 @@
 # Conformidade de tags por evento
 
+**Português** · [English](README.en.md)
+
 > `aws/tag-compliance` · categoria **automacao** · origem: Varejo, migração para AWS (2017-2018)
 
 > Idealizado em março de 2019. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Conformidade de tags orientada a eventos: CloudTrail -> EventBridge -> Lambda. R
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. CloudTrail registra a criação.
 2. EventBridge dispara a Lambda.

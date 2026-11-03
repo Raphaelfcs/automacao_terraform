@@ -1,21 +1,25 @@
-# API gateway externo com Kong no GKE
+# Kong externo na DMZ do GKE
+
+**Português** · [English](README.en.md)
 
 > Rede, gateways e dados no Google Cloud (2024)
 
-Situação atual e alvo de um gateway Kong exposto na DMZ, com balanceador interno e GKE por ambiente.
+Cloud Armor, LB externo, Kong isolado com network policy e LB interno até os microsserviços.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Kong externo na DMZ do GKE: AS-IS x TO-BE
+
+![Kong externo na DMZ do GKE: AS-IS x TO-BE](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - GKE → módulo [`gcp/gke-private`](../../../../gcp/gke-private)
-- VPC do Google Cloud → módulo [`gcp/vpc-network`](../../../../gcp/vpc-network)
+- Cloud Load Balancing + Cloud Armor → módulo [`gcp/edge-load-balancer`](../../../../gcp/edge-load-balancer)
 
 ## Automação pronta
 
@@ -26,8 +30,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`gcp/gke-private`](../../../../gcp/gke-private): GKE privado com Workload Identity
 1. [`gcp/edge-load-balancer`](../../../../gcp/edge-load-balancer): Load Balancer global + Cloud Armor
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

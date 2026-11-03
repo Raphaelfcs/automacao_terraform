@@ -1,35 +1,31 @@
-# Envio de dados ao órgão regulador
+# Envio periódico ao órgão regulador
+
+**Português** · [English](README.en.md)
 
 > Plataforma AWS de uma operadora de saúde (2024)
 
-Integração para envio periódico de informações ao órgão regulador de seguros.
+Regras cron no EventBridge, Lambda que monta o arquivo, evidência no S3 e envio por API.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Página-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Página-1](desenho-1.png)
+### Envio periódico ao órgão regulador
+
+![Envio periódico ao órgão regulador](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
 - Amazon RDS → módulo [`aws/rds-instance`](../../../../aws/rds-instance)
 - Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
-- Amazon SQS → módulo [`aws/sqs-queue`](../../../../aws/sqs-queue)
 - AWS Lambda → módulo [`aws/lambda-function`](../../../../aws/lambda-function)
 - API Gateway → módulo [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda)
-- Amazon CloudFront → módulo [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
-- Route 53 → módulo [`aws/route53-private-zone`](../../../../aws/route53-private-zone)
-- Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
 - Amazon EventBridge → módulo [`aws/eventbridge-bus-sqs`](../../../../aws/eventbridge-bus-sqs)
-- VPC Endpoints → módulo [`aws/vpc-endpoints`](../../../../aws/vpc-endpoints)
-- AWS Secrets Manager: a senha master do RDS já é gerenciada pelo próprio RDS no Secrets Manager; segredos de aplicação entram via External Secrets
-- AWS WAF: o Web ACL é passado por ARN para o CloudFront (`web_acl_id`) ou associado ao ALB
 - Amazon DynamoDB: tabelas de controle ficam junto do serviço que as usa
-- IAM Identity Center → módulo [`aws/identity-center-permission-set`](../../../../aws/identity-center-permission-set)
 
 ## Automação pronta
 
@@ -42,8 +38,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/lambda-function`](../../../../aws/lambda-function): Função Lambda empacotada
 1. [`aws/s3-bucket`](../../../../aws/s3-bucket): Bucket S3 seguro por padrão
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

@@ -1,16 +1,18 @@
 # VPN Site-to-Site (TGW/VGW) declarativa
 
+**Português** · [English](README.en.md)
+
 > `aws/vpn-site-to-site` · categoria **rede** · origem: CCoE e landing zone de telecom (2025)
 
 > Idealizado em novembro de 2025. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
 
-Customer Gateway — criado apenas para VPNs com customer_gateway.mode = "new". Para mode = "existing", nenhum recurso é criado aqui — reaproveitamos o ID informado (ver local.customer_gateway_ids em locals.tf).
+VPN Site-to-Site declarativa (Transit Gateway ou VGW): customer gateway novo ou existente, dois túneis IPsec por conexão, opções de túnel iguais às do console e associação/propagação opcional na route table do TGW.
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Customer gateway novo ou existente por VPN.
 2. Dois túneis por conexão (redundância).
@@ -48,24 +50,9 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 
 | Nome | Tipo | Padrão | Obrigatória | Descrição |
 |---|---|---|---|---|
-| `transit_gateway_route_table_id` | `string` | `null` | não | <<-EOT
-    ID de uma Transit Gateway Route Table JÁ EXISTENTE (ex: tgw-rtb-0123456789abcdef0)
-    onde o(s) attachment(s) das VPNs com target_gateway_type = "transit_gateway" devem
-    ser associados e ter suas rotas propagadas.
-
-    IMPORTANTE (não destrutivo): aditivo, só afeta os NOVOS attachments criados aqui.
-    Não recria, substitui nem apaga a route table, nem afeta associações/propagações/
-    rotas de outros attachments já existentes (VPCs, outras VPNs, Direct Connect etc.).
-
-    Deixe como null se não quiser que o módulo gerencie associação/propagação (ex:
-    quando o TGW já tem "default route table association/propagation = true").
-  EOT |
+| `transit_gateway_route_table_id` | `string` | `null` | não | ID de uma Transit Gateway Route Table JÁ EXISTENTE (ex: tgw-rtb-0123456789abcdef0) onde o(s) attachment(s) das VPNs com target_gateway_type = "transit_gateway" devem ser associados e ter suas rotas propagadas. IMPORTANTE (não destrutivo): aditivo, só afeta os NOVOS attachments criados aqui. Não recria, substitui nem apaga a route table, nem afeta associações/propagações/ rotas de outros attachments já existentes (VPCs, outras VPNs, Direct Connect etc.). Deixe como null se não quiser que o módulo gerencie associação/propagação (ex: quando o TGW já tem "default route table association/propagation = true"). |
 | `tags` | `map(string)` | `{}` | não | Tags comuns aplicadas a todos os recursos criados pelo módulo (cgw, vpn connection, etc.). |
-| `vpn_connections` | `map(...)` | - | **sim** | <<-EOT
-    Mapa de VPNs Site-to-Site a serem criadas. Veja os comentários no type acima
-    para o significado de cada campo — eles espelham 1:1 as opções do wizard
-    "Create VPN Connection" do console AWS.
-  EOT |
+| `vpn_connections` | `map(...)` | - | **sim** | Mapa de VPNs Site-to-Site a serem criadas. Veja os comentários no type acima para o significado de cada campo — eles espelham 1:1 as opções do wizard "Create VPN Connection" do console AWS. |
 
 ## Saídas
 
@@ -75,13 +62,7 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `vpn_connection_ids` | Mapa { chave_da_vpn => id da VPN Connection }. |
 | `transit_gateway_attachment_ids` | Mapa { chave_da_vpn => id do Transit Gateway Attachment }, apenas para VPNs com target_gateway_type = "transit_gateway". |
 | `preshared_key_arns` | Mapa { chave_da_vpn => ARN da PSK no Secrets Manager }, apenas para VPNs com preshared_key_storage = "SecretsManager". |
-| `vpn_connections` | <<-EOT
-    Mapa completo { chave_da_vpn => detalhes da VPN }, incluindo os endereços
-    públicos AWS de cada túnel e as pre-shared keys (geradas pela AWS quando
-    não informadas em var.vpn_connections, ou vazias quando preshared_key_storage
-    = "SecretsManager" — nesse caso use o output preshared_key_arns). Use estes
-    dados para configurar o equipamento do outro lado (firewall, roteador etc.).
-  EOT |
+| `vpn_connections` | Mapa completo { chave_da_vpn => detalhes da VPN }, incluindo os endereços públicos AWS de cada túnel e as pre-shared keys (geradas pela AWS quando não informadas em var.vpn_connections, ou vazias quando preshared_key_storage = "SecretsManager" — nesse caso use o output preshared_key_arns). Use estes dados para configurar o equipamento do outro lado (firewall, roteador etc.). |
 | `customer_gateway_configuration` | Mapa { chave_da_vpn => XML de configuração completo gerado pela AWS para essa VPN (contém PSKs). |
 
 ## Arquivos

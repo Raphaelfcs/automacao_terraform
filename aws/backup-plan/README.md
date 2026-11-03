@@ -1,5 +1,7 @@
 # AWS Backup centralizado
 
+**Português** · [English](README.en.md)
+
 > `aws/backup-plan` · categoria **automacao** · origem: Varejo, migração para AWS (2017-2018)
 
 > Idealizado em maio de 2018. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ AWS Backup nativo no lugar das antigas Lambdas de AMI diária: vault cifrado com
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Recursos com tag Backup=true entram no plano.
 2. Regras diária/semanal/mensal com retenção.

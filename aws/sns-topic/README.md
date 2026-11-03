@@ -1,5 +1,7 @@
 # Tópicos SNS com assinaturas
 
+**Português** · [English](README.en.md)
+
 > `aws/sns-topic` · categoria **integracao** · origem: Operadora de saúde em AWS (2024)
 
 > Idealizado em abril de 2024. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Tópicos SNS cifrados com KMS, com assinaturas declarativas (lambda, sqs, email,
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Tópico cifrado; política restringe à conta e a serviços informados.
 2. Assinaturas declarativas com filtro opcional.

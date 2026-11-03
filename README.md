@@ -1,5 +1,7 @@
 # automacao_terraform
 
+**Português** · [English](README.en.md)
+
 Catálogo de módulos Terraform (AWS, Google Cloud e Azure) consolidado a partir de projetos reais de
 arquitetura cloud entre 2017 e 2026: landing zones, plataformas de containers, dados, integração, FinOps e governança.
 Cada módulo é uma *engine* reutilizável, com exemplos prontos, testes e diagrama de arquitetura.
@@ -100,7 +102,7 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 
 ## Labs e arquiteturas
 
-- [`labs/arquiteturas/`](labs/arquiteturas): 47 desenhos de arquitetura de projetos reais (AWS, Google Cloud, Azure e OCI), anonimizados, com README passo a passo e automação Terraform pronta composta com estes módulos.
+- [`labs/arquiteturas/`](labs/arquiteturas): 65 desenhos de arquitetura de projetos reais (AWS, Google Cloud, Azure e OCI), anonimizados e redesenhados num padrão único, em português e inglês, com README, seção de FinOps e automação Terraform pronta composta com estes módulos.
 - [`labs/`](labs): exercícios históricos de cursos, fora do padrão do catálogo.
 
 ## Como usar um módulo

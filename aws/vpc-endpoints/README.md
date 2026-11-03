@@ -1,5 +1,7 @@
 # VPC Endpoints Interface/Gateway
 
+**Português** · [English](README.en.md)
+
 > `aws/vpc-endpoints` · categoria **rede** · origem: Operadora de saúde em AWS (2024)
 
 > Idealizado em setembro de 2024. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ VPC Endpoints (Interface e Gateway) para acesso privado a serviços AWS sem NAT/
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Acesso a serviços AWS sem NAT/internet.
 2. SG compartilhado só libera 443 da VPC.

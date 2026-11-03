@@ -1,5 +1,7 @@
 # Azure SQL com Entra ID e auditoria
 
+**Português** · [English](README.en.md)
+
 > `azure/sql-database` · categoria **dados** · origem: Banco digital em Azure (2020-2021)
 
 > Idealizado em julho de 2021. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Azure SQL: servidor lógico com administrador Entra ID (sem SQL auth), TDE com c
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Só autenticação Entra ID.
 2. TDE com CMK opcional.

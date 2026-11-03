@@ -1,16 +1,20 @@
-# Geração de relatórios regulatórios
+# Relatórios regulatórios assíncronos
+
+**Português** · [English](README.en.md)
 
 > Plataforma AWS de uma operadora de saúde (2024)
 
-Fluxo serverless que solicita, gera e entrega relatórios exigidos pelo órgão regulador.
+Pedido assíncrono com fila, Lambda, integração SOAP com legado na OCI e entrega por link assinado.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Página-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Página-1](desenho-1.png)
+### Geração de relatórios regulatórios
+
+![Geração de relatórios regulatórios](desenho-1.png)
 
 ## Componentes identificados no desenho
 
@@ -19,7 +23,6 @@ Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navega
 - Amazon SQS → módulo [`aws/sqs-queue`](../../../../aws/sqs-queue)
 - AWS Lambda → módulo [`aws/lambda-function`](../../../../aws/lambda-function)
 - API Gateway → módulo [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda)
-- Amazon DynamoDB: tabelas de controle ficam junto do serviço que as usa
 
 ## Automação pronta
 
@@ -30,8 +33,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/lambda-function`](../../../../aws/lambda-function): Função Lambda empacotada
 1. [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda): HTTP API -> Lambda
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

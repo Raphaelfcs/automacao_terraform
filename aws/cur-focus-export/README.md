@@ -1,5 +1,7 @@
 # Exportação de custos FOCUS 1.0
 
+**Português** · [English](README.en.md)
+
 > `aws/cur-focus-export` · categoria **finops** · origem: CCoE e landing zone de telecom (2025)
 
 > Idealizado em abril de 2025. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Exportação de custos no padrão FOCUS 1.0 (FinOps Open Cost & Usage Specificat
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Data Exports gera FOCUS 1.0 em Parquet.
 2. Athena consulta por conta, serviço e tag.

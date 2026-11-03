@@ -1,44 +1,27 @@
 # OCR de documentos — API v2
 
+**Português** · [English](README.en.md)
+
 > Plataforma AWS de uma operadora de saúde (2024)
 
-Segunda versão da API de OCR com processamento assíncrono.
+Back-office serverless com authorizer e uma função por recurso.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Página-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Página-1](desenho-1.png)
+### OCR de documentos — API v2 assíncrona
 
-### 2. Página-2
-
-![Página-2](desenho-2.png)
-
-### 3. Página-3
-
-![Página-3](desenho-3.png)
+![OCR de documentos — API v2 assíncrona](desenho-1.png)
 
 ## Componentes identificados no desenho
 
-- Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
-- Amazon SQS → módulo [`aws/sqs-queue`](../../../../aws/sqs-queue)
-- Amazon SNS → módulo [`aws/sns-topic`](../../../../aws/sns-topic)
 - AWS Lambda → módulo [`aws/lambda-function`](../../../../aws/lambda-function)
 - API Gateway → módulo [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda)
-- Amazon Cognito → módulo [`aws/cognito-user-pool`](../../../../aws/cognito-user-pool)
-- Amazon Textract → módulo [`aws/textract-pipeline`](../../../../aws/textract-pipeline)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
-- Transit Gateway → módulo [`aws/transit-gateway-attachment`](../../../../aws/transit-gateway-attachment)
-- Route 53 → módulo [`aws/route53-private-zone`](../../../../aws/route53-private-zone)
-- Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
-- Amazon EventBridge → módulo [`aws/eventbridge-bus-sqs`](../../../../aws/eventbridge-bus-sqs)
-- VPC Endpoints → módulo [`aws/vpc-endpoints`](../../../../aws/vpc-endpoints)
-- AWS WAF: o Web ACL é passado por ARN para o CloudFront (`web_acl_id`) ou associado ao ALB
 - Amazon DynamoDB: tabelas de controle ficam junto do serviço que as usa
-- Amazon CloudWatch → módulo [`aws/cloudwatch-logs`](../../../../aws/cloudwatch-logs)
-- IAM Identity Center → módulo [`aws/identity-center-permission-set`](../../../../aws/identity-center-permission-set)
 
 ## Automação pronta
 
@@ -50,8 +33,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/lambda-function`](../../../../aws/lambda-function): Função Lambda empacotada
 1. [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda): HTTP API -> Lambda
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

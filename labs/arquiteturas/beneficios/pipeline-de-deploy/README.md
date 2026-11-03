@@ -1,20 +1,25 @@
 # Pipeline de deploy por ambiente
 
+**Português** · [English](README.en.md)
+
 > Plataforma de benefícios em AWS (2023)
 
-Fluxo de build de imagem a partir de template, publicação no registry e deploy em DEV, HML e PRD.
+Imagem construída uma vez a partir de template e promovida de DEV a PRD.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Página-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Página-1](desenho-1.png)
+### Pipeline de deploy por ambiente
+
+![Pipeline de deploy por ambiente](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon ECS/Fargate: serviços em ECS/Fargate ficam no repositório da aplicação (task definition + service); a rede, o ECR e o banco vêm daqui
+- Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 - Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
 
 ## Automação pronta
@@ -24,8 +29,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/iam-github-oidc`](../../../../aws/iam-github-oidc): GitHub Actions -> AWS por OIDC
 1. [`aws/ecr`](../../../../aws/ecr): Repositórios ECR com scan, KMS e retenção
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

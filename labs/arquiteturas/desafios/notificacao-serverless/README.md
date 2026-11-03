@@ -1,21 +1,26 @@
-# Notificações em arquitetura multi-AZ
+# Aplicação em duas AZs com notificações
+
+**Português** · [English](README.en.md)
 
 > Desafios técnicos de arquitetura
 
-Trabalho de IaC: aplicação em duas AZs com balanceador, banco e envio de notificações.
+Trabalho de IaC: ELB, web servers em duas AZs, RDS e SNS por endpoint privado.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Aplicação em duas AZs com notificações
+
+![Aplicação em duas AZs com notificações](desenho-1.png)
 
 ## Componentes identificados no desenho
 
+- Amazon RDS → módulo [`aws/rds-instance`](../../../../aws/rds-instance)
 - Amazon SNS → módulo [`aws/sns-topic`](../../../../aws/sns-topic)
-- VPC Endpoints → módulo [`aws/vpc-endpoints`](../../../../aws/vpc-endpoints)
+- Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 
 ## Automação pronta
 
@@ -26,8 +31,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/rds-instance`](../../../../aws/rds-instance): RDS MySQL/PostgreSQL privado
 1. [`aws/sns-topic`](../../../../aws/sns-topic): Tópicos SNS com assinaturas
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

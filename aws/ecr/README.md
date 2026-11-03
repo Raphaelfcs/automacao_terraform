@@ -1,5 +1,7 @@
 # Repositórios ECR com scan, KMS e retenção
 
+**Português** · [English](README.en.md)
+
 > `aws/ecr` · categoria **containers** · origem: Plataforma de benefícios em AWS (2023-2024)
 
 > Idealizado em setembro de 2023. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Repositórios ECR — um por serviço containerizado. O pipeline de CI constrói
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. O pipeline publica a imagem com tag de release.
 2. O ECR escaneia vulnerabilidades e cifra as camadas com KMS.

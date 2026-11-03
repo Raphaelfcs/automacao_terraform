@@ -1,5 +1,7 @@
 # Alerta de expiração de certificados
 
+**Português** · [English](README.en.md)
+
 > `aws/acm-expiry-alert` · categoria **automacao** · origem: Varejo, migração para AWS (2017-2018)
 
 > Idealizado em dezembro de 2017. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Alerta de expiração de certificados sem código: o ACM emite eventos "ACM Cert
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. ACM emite eventos de expiração próxima.
 2. EventBridge formata e envia ao SNS.

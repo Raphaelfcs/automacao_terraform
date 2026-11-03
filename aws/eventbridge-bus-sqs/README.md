@@ -1,5 +1,7 @@
 # Barramento de eventos entre contas -> SQS
 
+**Português** · [English](README.en.md)
+
 > `aws/eventbridge-bus-sqs` · categoria **integracao** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em setembro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Integração orientada a eventos entre contas: um produtor (outra conta AWS) pub
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Só a role da conta parceira publica, com source/detail-type combinados.
 2. O archive permite replay sem depender do parceiro.

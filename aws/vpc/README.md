@@ -1,5 +1,7 @@
 # VPC em três camadas
 
+**Português** · [English](README.en.md)
+
 > `aws/vpc` · categoria **rede** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ VPC em três camadas por AZ: pública (ALB/NAT), privada (workloads, saída via 
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Tráfego público entra pelo IGW nas subnets públicas (ALB).
 2. Workloads privados saem pela NAT (uma por AZ em produção).

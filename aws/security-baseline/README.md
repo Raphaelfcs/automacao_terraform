@@ -1,5 +1,7 @@
 # Baseline de segurança da organização
 
+**Português** · [English](README.en.md)
+
 > `aws/security-baseline` · categoria **seguranca** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Baseline de segurança da organização a partir da conta Security (administrado
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Conta Security como administradora delegada.
 2. Ativação automática em novas contas.

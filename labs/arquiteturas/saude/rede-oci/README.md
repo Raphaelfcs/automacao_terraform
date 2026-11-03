@@ -1,20 +1,25 @@
-# Rede híbrida com OCI
+# Rede híbrida na OCI
+
+**Português** · [English](README.en.md)
 
 > Plataforma AWS de uma operadora de saúde (2024)
 
-Rede na Oracle Cloud integrada ao ambiente AWS.
+Hub com firewalls por região, FastConnect a dois datacenters e peering remoto para DR.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Rede híbrida na OCI: hub por região
+
+![Rede híbrida na OCI: hub por região](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
+- Transit Gateway → módulo [`aws/transit-gateway-attachment`](../../../../aws/transit-gateway-attachment)
 
 ## Automação
 

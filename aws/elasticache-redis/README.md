@@ -1,5 +1,7 @@
 # ElastiCache Valkey/Redis cifrado
 
+**Português** · [English](README.en.md)
+
 > `aws/elasticache-redis` · categoria **dados** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em setembro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ ElastiCache (Valkey ou Redis) em subnets privadas, cifrado em repouso e em trân
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Cliente conecta com TLS em trânsito.
 2. Dados cifrados em repouso com KMS.

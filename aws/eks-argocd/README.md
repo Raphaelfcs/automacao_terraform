@@ -1,5 +1,7 @@
 # Argo CD bootstrap (GitOps)
 
+**Português** · [English](README.en.md)
+
 > `aws/eks-argocd` · categoria **devops** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em agosto de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Argo CD instalado por Terraform (bootstrap do GitOps): release Helm, Secret do r
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Terraform instala só o Argo CD, o Secret do repo e o app-of-apps.
 2. Todo o resto é declarado no Git e sincronizado.

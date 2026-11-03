@@ -1,5 +1,7 @@
 # Attachment de VPC ao Transit Gateway
 
+**Português** · [English](README.en.md)
+
 > `aws/transit-gateway-attachment` · categoria **rede** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Anexa uma VPC a um Transit Gateway existente (próprio ou compartilhado via RAM)
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. ENIs do attachment em subnets dedicadas por AZ.
 2. Rotas para CIDRs remotos nas tabelas privadas.

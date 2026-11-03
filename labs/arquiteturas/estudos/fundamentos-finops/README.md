@@ -1,16 +1,24 @@
-# Rascunho de estudos de FinOps
+# Estudo: visibilidade de custos
+
+**Português** · [English](README.en.md)
 
 > Rascunhos e estudos pessoais
 
-Anotações de estudo sobre visibilidade de custos e autenticação de um portal de FinOps.
+Rascunho de estudo sobre um portal de custos com login federado.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Página-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Página-1](desenho-1.png)
+### Estudo: visibilidade de custos para um portal
+
+![Estudo: visibilidade de custos para um portal](desenho-1.png)
+
+## Componentes identificados no desenho
+
+- Azure Monitor → módulo [`azure/monitor-alerts`](../../../../azure/monitor-alerts)
 
 ## Automação
 

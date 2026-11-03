@@ -1,5 +1,7 @@
 # Cluster EKS privado
 
+**Português** · [English](README.en.md)
+
 > `aws/eks-cluster` · categoria **containers** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em setembro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Cluster EKS com control plane em subnets privadas, secrets cifrados com KMS (env
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Acesso humano por Access Entries (sem aws-auth).
 2. Secrets cifrados com KMS (envelope encryption).

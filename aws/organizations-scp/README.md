@@ -1,5 +1,7 @@
 # Organizations: OUs, SCPs e Tag Policy
 
+**Português** · [English](README.en.md)
+
 > `aws/organizations-scp` · categoria **governanca** · origem: CCoE e landing zone de telecom (2025)
 
 > Idealizado em outubro de 2025. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Governança da AWS Organizations como código: OUs (dois níveis), SCPs preventi
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. OUs em dois níveis.
 2. SCP de região, proteção de segurança, root negado, criptografia.

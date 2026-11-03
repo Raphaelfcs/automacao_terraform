@@ -1,14 +1,16 @@
 # MVP de automação de processos com IA
 
+**Português** · [English](README.en.md)
+
 > Estudos de caso de arquitetura (2026)
 
 MVP que recebe documentos, extrai dados com IA gerenciada e devolve o resultado para o sistema de origem com rastreabilidade.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Case 2 — Arquitetura do MVP
+### Case 2 — Arquitetura do MVP
 
 ![Case 2 — Arquitetura do MVP](desenho-1.png)
 
@@ -40,8 +42,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/cognito-user-pool`](../../../../aws/cognito-user-pool): Cognito como IdP OAuth2/OIDC
 1. [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa): SPA em S3 + CloudFront
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

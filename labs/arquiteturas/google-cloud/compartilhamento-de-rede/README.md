@@ -1,20 +1,18 @@
 # Compartilhamento de rede no Google Cloud
 
+**Português** · [English](README.en.md)
+
 > Arquiteturas de referência no Google Cloud (2026)
 
 Shared VPC e Network Connectivity Center como equivalentes ao Transit Gateway + RAM da AWS.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Compartilhamento de rede (equivalente ao TGW + RAM)
+### Compartilhamento de rede (equivalente ao TGW + RAM)
 
 ![Compartilhamento de rede (equivalente ao TGW + RAM)](desenho-1.png)
-
-### 2. Network sharing (TGW + RAM equivalent)
-
-![Network sharing (TGW + RAM equivalent)](desenho-2.png)
 
 ## Componentes identificados no desenho
 
@@ -33,8 +31,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`gcp/project-foundation`](../../../../gcp/project-foundation): Projeto GCP com APIs e org policies
 1. [`gcp/vpc-network`](../../../../gcp/vpc-network): VPC GCP com ranges secundários e PSA
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

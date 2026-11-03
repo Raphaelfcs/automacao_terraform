@@ -1,5 +1,7 @@
 # Bootstrap do backend S3 do Terraform
 
+**Português** · [English](README.en.md)
+
 > `aws/tf-backend-bootstrap` · categoria **devops** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Bootstrap do backend remoto do Terraform: bucket S3 versionado, cifrado (KMS), p
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Rodado uma vez por conta, com estado local.
 2. Lock nativo do S3 (Terraform >= 1.10).

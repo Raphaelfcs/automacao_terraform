@@ -1,5 +1,7 @@
 # Diagnostic settings em lote
 
+**Português** · [English](README.en.md)
+
 > `azure/monitor-diagnostic-setting` · categoria **observabilidade** · origem: Banco digital em Azure (2020-2021)
 
 > Idealizado em abril de 2021. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Diagnostic settings em lote: envia logs e métricas de N recursos para um Log An
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Categorias lidas do próprio recurso.
 2. Destino: Log Analytics e/ou storage.

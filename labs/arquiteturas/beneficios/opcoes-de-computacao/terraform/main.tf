@@ -1,4 +1,4 @@
-# Automação do lab "Opções de computação: ECS Fargate, EKS e Beanstalk".
+# Automação do lab "Opções de computação: ECS, EKS e Beanstalk".
 # Compõe módulos do catálogo; cada módulo continua testado e versionado no próprio diretório.
 # Dependências entre módulos são resolvidas pelas saídas (outputs) de um módulo nas entradas do outro.
 

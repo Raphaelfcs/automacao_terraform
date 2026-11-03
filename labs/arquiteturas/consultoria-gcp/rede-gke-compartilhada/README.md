@@ -1,16 +1,20 @@
-# Rede compartilhada para GKE e bancos
+# Shared VPC para GKE e bancos
+
+**Português** · [English](README.en.md)
 
 > Rede, gateways e dados no Google Cloud (2024)
 
-Shared VPC com peerings para bancos gerenciados e clusters GKE em projetos de serviço.
+Projeto host de rede, projetos de serviço, peering de serviços e VPN por ambiente.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Shared VPC para GKE e bancos
+
+![Shared VPC para GKE e bancos](desenho-1.png)
 
 ## Componentes identificados no desenho
 
@@ -26,8 +30,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`gcp/gke-private`](../../../../gcp/gke-private): GKE privado com Workload Identity
 1. [`gcp/cloud-sql`](../../../../gcp/cloud-sql): Cloud SQL privado
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

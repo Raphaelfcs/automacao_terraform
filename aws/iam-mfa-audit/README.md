@@ -1,5 +1,7 @@
 # Auditoria de MFA
 
+**Português** · [English](README.en.md)
+
 > `aws/iam-mfa-audit` · categoria **automacao** · origem: CCoE e landing zone de telecom (2025)
 
 > Idealizado em julho de 2025. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Auditoria de MFA: regra gerenciada do AWS Config (contínua) + Lambda semanal qu
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Config avalia continuamente IAM_USER_MFA_ENABLED.
 2. Lambda semanal envia o relatório.

@@ -1,16 +1,18 @@
 # Site estático em Cloud Storage
 
+**Português** · [English](README.en.md)
+
 > `gcp/static-site` · categoria **borda** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
 
------------------------------------------------------------------------------ Bucket de logs de acesso (auditoria) — NUNCA público https://cloud.google.com/storage/docs/access-logs -----------------------------------------------------------------------------
+Site estático no Cloud Storage por ambiente, com bucket de logs de acesso, versionamento para rollback e acesso público controlado por variável.
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Bucket por ambiente (devel/stage).
 2. Deploy por pipeline com promoção.

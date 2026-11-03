@@ -1,5 +1,7 @@
 # Bucket S3 seguro por padrão
 
+**Português** · [English](README.en.md)
+
 > `aws/s3-bucket` · categoria **armazenamento** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Bucket S3 seguro por padrão: acesso público bloqueado, ownership do bucket (se
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Acesso público bloqueado e ACLs desligadas.
 2. Política nega tráfego sem TLS.

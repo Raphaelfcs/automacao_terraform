@@ -1,32 +1,20 @@
-# Processo de provisionamento de VMs
+# Provisionamento de VMs automatizado
+
+**Português** · [English](README.en.md)
 
 > Governança e modernização em Azure para uma seguradora (2024-2025)
 
-Fluxo de criação de VMs Linux e bancos (PaaS x IaaS) com automação.
+Catálogo de VM, automação de IP e tarefas de IPAM, DNS e firewall em paralelo.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. FLuxo-criacao-vm-linux
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![FLuxo-criacao-vm-linux](desenho-1.png)
+### Provisionamento de VMs: processo atual x proposto
 
-### 2. VM-DBPAAS-DBIAAS
-
-![VM-DBPAAS-DBIAAS](desenho-2.png)
-
-### 3. Proposta-processo
-
-![Proposta-processo](desenho-3.png)
-
-### 4. APP-PYTHON
-
-![APP-PYTHON](desenho-4.png)
-
-## Componentes identificados no desenho
-
-- Azure Storage → módulo [`azure/storage-account`](../../../../azure/storage-account)
+![Provisionamento de VMs: processo atual x proposto](desenho-1.png)
 
 ## Automação pronta
 
@@ -35,8 +23,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`azure/sql-database`](../../../../azure/sql-database): Azure SQL com Entra ID e auditoria
 1. [`azure/monitor-alerts`](../../../../azure/monitor-alerts): Azure Monitor: action group e alertas de métrica
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

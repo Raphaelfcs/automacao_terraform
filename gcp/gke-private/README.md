@@ -1,16 +1,18 @@
 # GKE privado com Workload Identity
 
+**Português** · [English](README.en.md)
+
 > `gcp/gke-private` · categoria **containers** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
 
-
+GKE Autopilot regional e privado: nós sem IP público, conta de serviço própria, Workload Identity, endpoint autorizado e janela de manutenção.
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Nós privados com SA própria (não a default).
 2. Workload Identity no lugar de chaves.

@@ -1,5 +1,7 @@
 # Inventário IAM semanal
 
+**Português** · [English](README.en.md)
+
 > `aws/iam-inventory-export` · categoria **automacao** · origem: CCoE e landing zone de telecom (2025)
 
 > Idealizado em junho de 2025. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Inventário IAM semanal em JSON no S3 (versionado, cifrado, com retenção): usu
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Lambda semanal lê GetAccountAuthorizationDetails.
 2. JSON versionado no S3 com retenção.

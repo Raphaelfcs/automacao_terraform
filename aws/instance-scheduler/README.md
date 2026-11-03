@@ -1,5 +1,7 @@
 # Agendador FinOps de EC2/RDS
 
+**Português** · [English](README.en.md)
+
 > `aws/instance-scheduler` · categoria **automacao** · origem: Varejo, migração para AWS (2017-2018)
 
 > Idealizado em outubro de 2018. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Agendador FinOps de EC2/RDS por tag: EventBridge Scheduler (cron com fuso horár
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Scheduler dispara start/stop no fuso local.
 2. A Lambda filtra recursos pela tag.

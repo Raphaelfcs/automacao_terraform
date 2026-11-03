@@ -1,5 +1,7 @@
 # RDS MySQL/PostgreSQL privado
 
+**Português** · [English](README.en.md)
+
 > `aws/rds-instance` · categoria **dados** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ RDS (MySQL ou PostgreSQL) em subnets privadas, cifrado com KMS, sem acesso públ
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. O cliente conecta por TLS obrigatório (parameter group).
 2. O SG aceita apenas security groups de origem, nunca CIDR aberto.

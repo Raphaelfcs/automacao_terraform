@@ -1,33 +1,25 @@
 # Evolução do portal de seguros
 
+**Português** · [English](README.en.md)
+
 > Plataforma AWS de uma operadora de saúde (2024)
 
-APIs e portais (cliente, administração e cadastro) evoluídos para containers e serviços gerenciados.
+Portais viram SPAs no CloudFront, APIs no API Gateway, serviços no EKS e banco gerenciado com backup.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. portal-unico-api
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![portal-unico-api](desenho-1.png)
+### Evolução do portal de seguros
 
-### 2. Portal Seguros
-
-![Portal Seguros](desenho-2.png)
-
-### 3. Portal Da Seguros Admin
-
-![Portal Da Seguros Admin](desenho-3.png)
-
-### 4. Insurance register update app
-
-![Insurance register update app](desenho-4.png)
+![Evolução do portal de seguros](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
-- Amazon RDS → módulo [`aws/rds-instance`](../../../../aws/rds-instance)
+- Amazon Aurora → módulo [`aws/rds-aurora`](../../../../aws/rds-aurora)
 - Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
 - API Gateway → módulo [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda)
 - Amazon CloudFront → módulo [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa)
@@ -35,9 +27,7 @@ Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navega
 - Route 53 → módulo [`aws/route53-private-zone`](../../../../aws/route53-private-zone)
 - Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
 - AWS Backup → módulo [`aws/backup-plan`](../../../../aws/backup-plan)
-- VPC Endpoints → módulo [`aws/vpc-endpoints`](../../../../aws/vpc-endpoints)
 - AWS WAF: o Web ACL é passado por ARN para o CloudFront (`web_acl_id`) ou associado ao ALB
-- IAM Identity Center → módulo [`aws/identity-center-permission-set`](../../../../aws/identity-center-permission-set)
 
 ## Automação pronta
 
@@ -50,8 +40,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/ecr`](../../../../aws/ecr): Repositórios ECR com scan, KMS e retenção
 1. [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa): SPA em S3 + CloudFront
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

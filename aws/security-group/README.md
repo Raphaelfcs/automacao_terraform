@@ -1,5 +1,7 @@
 # Security group declarativo
 
+**Português** · [English](README.en.md)
+
 > `aws/security-group` · categoria **rede** · origem: Fintechs e Open Finance em AWS (2021)
 
 > Idealizado em agosto de 2021. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Security group declarativo: regras de entrada/saída por mapa, usando os recurso
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Uma regra por recurso (sem diff perpétuo).
 2. Validação impede 0.0.0.0/0 fora de 80/443.

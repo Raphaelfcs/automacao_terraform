@@ -1,44 +1,20 @@
-# Governança, IaC e DevOps
+# Governança de IaC e DevOps no Azure
+
+**Português** · [English](README.en.md)
 
 > Governança e modernização em Azure para uma seguradora (2024-2025)
 
-Ferramentas, pipeline de IaC, estratégia de branches e estrutura de diretórios para Azure.
+Engines versionadas, revisão obrigatória e Azure Pipelines com state por projeto.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Página-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Página-1](desenho-1.png)
+### Governança de IaC e DevOps no Azure
 
-### 2. ferramentas
-
-![ferramentas](desenho-2.png)
-
-### 3. iac-zoom-out
-
-![iac-zoom-out](desenho-3.png)
-
-### 4. iac-pipeline-zoom-in
-
-![iac-pipeline-zoom-in](desenho-4.png)
-
-### 5. estrutura-azure-branch-zoom-in
-
-![estrutura-azure-branch-zoom-in](desenho-5.png)
-
-### 6. estrutura-diretorio-zoom-in
-
-![estrutura-diretorio-zoom-in](desenho-6.png)
-
-### 7. PPT
-
-![PPT](desenho-7.png)
-
-### 8. File-system
-
-![File-system](desenho-8.png)
+![Governança de IaC e DevOps no Azure](desenho-1.png)
 
 ## Componentes identificados no desenho
 
@@ -51,8 +27,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`azure/storage-account`](../../../../azure/storage-account): Storage Account seguro com CMK
 1. [`azure/monitor-diagnostic-setting`](../../../../azure/monitor-diagnostic-setting): Diagnostic settings em lote
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

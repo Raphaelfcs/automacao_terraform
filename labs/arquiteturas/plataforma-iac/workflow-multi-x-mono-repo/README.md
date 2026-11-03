@@ -1,29 +1,27 @@
 # Workflow de templates: multi-repo x monorepo
 
+**Português** · [English](README.en.md)
+
 > Portal do desenvolvedor e templates de infraestrutura (2024)
 
-Visão macro do workflow de templates e comparação entre organização multi-repo e monorepo.
+Repositórios de aplicação e de infra, CI/CD e Atlantis, comparados ao monorepo.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Workflow - Visao Macro
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Workflow - Visao Macro](desenho-1.png)
+### Workflow de templates: multi-repo x monorepo
 
-### 2. Visao Geral - Templates
-
-![Visao Geral - Templates](desenho-2.png)
-
-### 3. Multi Repo
-
-![Multi Repo](desenho-3.png)
+![Workflow de templates: multi-repo x monorepo](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon ECS/Fargate: serviços em ECS/Fargate ficam no repositório da aplicação (task definition + service); a rede, o ECR e o banco vêm daqui
 - Amazon RDS → módulo [`aws/rds-instance`](../../../../aws/rds-instance)
+- Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
+- Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
 
 ## Automação pronta
 
@@ -32,8 +30,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/tf-backend-bootstrap`](../../../../aws/tf-backend-bootstrap): Bootstrap do backend S3 do Terraform
 1. [`aws/iam-github-oidc`](../../../../aws/iam-github-oidc): GitHub Actions -> AWS por OIDC
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

@@ -1,5 +1,7 @@
 # Cognito como IdP OAuth2/OIDC
 
+**Português** · [English](README.en.md)
+
 > `aws/cognito-user-pool` · categoria **seguranca** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em agosto de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Amazon Cognito como IdP OAuth2/OIDC: pool de usuários (login humano com MFA), g
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. O front usa authorization code + PKCE (sem segredo).
 2. Grupos viram o claim cognito:groups (RBAC).

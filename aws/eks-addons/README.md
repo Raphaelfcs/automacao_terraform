@@ -1,16 +1,18 @@
 # Addons de plataforma EKS
 
+**Português** · [English](README.en.md)
+
 > `aws/eks-addons` · categoria **containers** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em agosto de 2026 e publicado agora.
 
-Addons de plataforma de um cluster EKS: Cluster Autoscaler, AWS Load Balancer Controller (IngressClass interna padrão), Metrics Server e External Secrets Operator. As roles IRSA de cada controlador são criadas fora (ex.: módulo eks-cluster + políticas próprias). O LBC é instalado PRIMEIRO: seu webhook de mutação intercepta Services/Pods; se outro chart sobe enquanto o webhook não responde, o apply falha com "no endpoints available". ── Cluster Autoscaler ────────────────────────────────────────────────────────
+Addons de plataforma de um cluster EKS: Cluster Autoscaler, AWS Load Balancer Controller (IngressClass interna padrão), Metrics Server e External Secrets Operator. O LBC é instalado primeiro: seu webhook intercepta Services/Pods e outro chart que suba antes dele falha com "no endpoints available".
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. LBC primeiro (webhook) e IngressClass interna por padrão.
 2. Autoscaler descobre os node groups por tag.

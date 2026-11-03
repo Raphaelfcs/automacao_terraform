@@ -1,16 +1,18 @@
 # Pub/Sub + Cloud Function (notificação)
 
+**Português** · [English](README.en.md)
+
 > `gcp/pubsub` · categoria **integracao** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
 
-
+Pub/Sub com tópico e DLQ e uma Cloud Run function acionada por Eventarc que lê segredos no Secret Manager e envia notificações.
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. App publica eventos no tópico.
 2. Function processa e notifica.

@@ -1,16 +1,18 @@
 # VPC GCP com ranges secundários e PSA
 
+**Português** · [English](README.en.md)
+
 > `gcp/vpc-network` · categoria **rede** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
 
-
+VPC em modo custom com sub-rede e faixas secundárias para GKE, Cloud NAT para saída sem IP público e Private Service Access para serviços gerenciados.
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. VPC sem sub-redes automáticas.
 2. Ranges secundários para GKE VPC-native.

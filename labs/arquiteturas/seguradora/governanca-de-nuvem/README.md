@@ -1,56 +1,20 @@
 # Governança de nuvem e cálculo de migração
 
+**Português** · [English](README.en.md)
+
 > Governança e modernização em Azure para uma seguradora (2024-2025)
 
-Cálculo de migração de servidores, IaC, pipelines e estrutura de diretórios.
+Fórmula de prazo de migração a partir de servidores, time e buffer, executada por IaC.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. calculo-migração-servidores
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![calculo-migração-servidores](desenho-1.png)
+### Governança de nuvem e cálculo de migração
 
-### 2. iac-zoom-out
-
-![iac-zoom-out](desenho-2.png)
-
-### 3. iac-pipeline-zoom-in
-
-![iac-pipeline-zoom-in](desenho-3.png)
-
-### 4. estrutura-azure-branch-zoom-in
-
-![estrutura-azure-branch-zoom-in](desenho-4.png)
-
-### 5. estrutura-diretorio-zoom-in
-
-![estrutura-diretorio-zoom-in](desenho-5.png)
-
-### 6. draft-zoom-out
-
-![draft-zoom-out](desenho-6.png)
-
-### 7. filesystem
-
-![filesystem](desenho-7.png)
-
-### 8. PPT
-
-![PPT](desenho-8.png)
-
-### 9. CITRIX
-
-![CITRIX](desenho-9.png)
-
-### 10. Página-10
-
-![Página-10](desenho-10.png)
-
-## Componentes identificados no desenho
-
-- Azure Storage → módulo [`azure/storage-account`](../../../../azure/storage-account)
+![Governança de nuvem e cálculo de migração](desenho-1.png)
 
 ## Automação pronta
 
@@ -60,8 +24,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`azure/monitor-alerts`](../../../../azure/monitor-alerts): Azure Monitor: action group e alertas de métrica
 1. [`azure/monitor-diagnostic-setting`](../../../../azure/monitor-diagnostic-setting): Diagnostic settings em lote
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

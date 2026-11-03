@@ -1,16 +1,20 @@
-# Landing zone Azure
+# Landing zone Azure com AKS privado
+
+**Português** · [English](README.en.md)
 
 > CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)
 
-Visão da landing zone Azure integrada à governança multicloud.
+Front Door, Private Link Service, AKS em três zonas e banco por Private Endpoint.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Landing zone Azure com AKS privado
+
+![Landing zone Azure com AKS privado](desenho-1.png)
 
 ## Automação
 

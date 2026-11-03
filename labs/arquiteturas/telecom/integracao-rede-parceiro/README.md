@@ -1,24 +1,26 @@
 # Integração de rede com parceiro
 
+**Português** · [English](README.en.md)
+
 > CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)
 
-Conectividade entre a plataforma e a rede de um parceiro via Transit Gateway.
+Peering de Transit Gateways para sinalização Diameter e dados em sub-redes privadas.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Rede Empresa x Empresa
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Rede Empresa x Empresa](desenho-1.png)
+### Integração de rede com parceiro via Transit Gateway
+
+![Integração de rede com parceiro via Transit Gateway](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
 - Amazon RDS → módulo [`aws/rds-instance`](../../../../aws/rds-instance)
 - ElastiCache → módulo [`aws/elasticache-redis`](../../../../aws/elasticache-redis)
-- Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
-- Amazon Cognito → módulo [`aws/cognito-user-pool`](../../../../aws/cognito-user-pool)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 - Transit Gateway → módulo [`aws/transit-gateway-attachment`](../../../../aws/transit-gateway-attachment)
 - Route 53 → módulo [`aws/route53-private-zone`](../../../../aws/route53-private-zone)
@@ -36,8 +38,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/elasticache-redis`](../../../../aws/elasticache-redis): ElastiCache Valkey/Redis cifrado
 1. [`aws/rds-instance`](../../../../aws/rds-instance): RDS MySQL/PostgreSQL privado
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

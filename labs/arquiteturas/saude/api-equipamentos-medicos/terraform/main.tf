@@ -1,4 +1,4 @@
-# Automação do lab "API de equipamentos médicos".
+# Automação do lab "API de reembolso de equipamentos médicos".
 # Compõe módulos do catálogo; cada módulo continua testado e versionado no próprio diretório.
 # Dependências entre módulos são resolvidas pelas saídas (outputs) de um módulo nas entradas do outro.
 

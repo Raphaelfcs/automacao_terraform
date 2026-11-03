@@ -1,36 +1,32 @@
 # Guardrails para S3, RDS e CloudFront
 
+**Português** · [English](README.en.md)
+
 > Plataforma AWS de uma operadora de saúde (2024)
 
-Controles preventivos e detectivos para buckets, bancos e distribuições.
+Controles preventivos por SCP e boundary, detectivos por Config e lifecycle por IaC.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. S3
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![S3](desenho-1.png)
+### Guardrails para S3, RDS e CloudFront
 
-### 2. RDS
-
-![RDS](desenho-2.png)
-
-### 3. Cloud Front
-
-![Cloud Front](desenho-3.png)
+![Guardrails para S3, RDS e CloudFront](desenho-1.png)
 
 ## Componentes identificados no desenho
 
-- Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
 - Amazon RDS → módulo [`aws/rds-instance`](../../../../aws/rds-instance)
 - Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
 - Amazon CloudFront → módulo [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa)
 - AWS KMS → módulo [`aws/kms-key`](../../../../aws/kms-key)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
-- Route 53 → módulo [`aws/route53-private-zone`](../../../../aws/route53-private-zone)
+- AWS Backup → módulo [`aws/backup-plan`](../../../../aws/backup-plan)
 - AWS Organizations / SCP → módulo [`aws/organizations-scp`](../../../../aws/organizations-scp)
-- VPC Endpoints → módulo [`aws/vpc-endpoints`](../../../../aws/vpc-endpoints)
+- AWS WAF: o Web ACL é passado por ARN para o CloudFront (`web_acl_id`) ou associado ao ALB
+- GuardDuty / Security Hub → módulo [`aws/security-baseline`](../../../../aws/security-baseline)
 
 ## Automação pronta
 
@@ -43,8 +39,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/vpc`](../../../../aws/vpc): VPC em três camadas
 1. [`aws/rds-instance`](../../../../aws/rds-instance): RDS MySQL/PostgreSQL privado
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

@@ -1,5 +1,7 @@
 # Conta Network hub-and-spoke
 
+**Português** · [English](README.en.md)
+
 > `aws/network-hub` · categoria **rede** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Conta Network (hub-and-spoke): Transit Gateway compartilhado via RAM com as cont
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. TGW compartilhado com a organização via RAM.
 2. Tabelas segmentadas: prod, nonprod e shared.

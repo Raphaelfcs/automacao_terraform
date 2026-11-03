@@ -1,5 +1,7 @@
 # Zona Route 53 privada multi-conta
 
+**Português** · [English](README.en.md)
+
 > `aws/route53-private-zone` · categoria **rede** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Zona Route 53 PRIVADA com nomes estáveis para recursos internos (ALB, RDS, cach
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Nomes estáveis apontam para DNS gerenciados (nunca IPs).
 2. VPCs de outra conta são autorizadas aqui e associadas lá.

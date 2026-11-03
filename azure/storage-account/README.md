@@ -1,5 +1,7 @@
 # Storage Account seguro com CMK
 
+**Português** · [English](README.en.md)
+
 > `azure/storage-account` · categoria **armazenamento** · origem: Banco digital em Azure (2020-2021)
 
 > Idealizado em outubro de 2021. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Storage Account seguro: TLS 1.2, sem acesso público a blobs, sem chave comparti
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Acesso por Entra ID (chaves desligadas).
 2. CMK no Key Vault por identidade gerenciada.

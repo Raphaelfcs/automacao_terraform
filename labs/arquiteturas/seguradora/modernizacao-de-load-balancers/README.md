@@ -1,24 +1,20 @@
 # Modernização de load balancers
 
+**Português** · [English](README.en.md)
+
 > Governança e modernização em Azure para uma seguradora (2024-2025)
 
-Situação atual e alvo dos balanceadores de carga e da infraestrutura associada.
+AS-IS do caminho de uma cotação, onde o tempo é gasto e o que muda no alvo.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. LB-ARCH-IS
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![LB-ARCH-IS](desenho-1.png)
+### Modernização de load balancers: AS-IS
 
-### 2. INFRA_AS-IS
-
-![INFRA_AS-IS](desenho-2.png)
-
-### 3. ARCH_AS-IS
-
-![ARCH_AS-IS](desenho-3.png)
+![Modernização de load balancers: AS-IS](desenho-1.png)
 
 ## Automação
 

@@ -1,4 +1,4 @@
-# Automação do lab "Notificações em arquitetura multi-AZ".
+# Automação do lab "Aplicação em duas AZs com notificações".
 # Compõe módulos do catálogo; cada módulo continua testado e versionado no próprio diretório.
 # Dependências entre módulos são resolvidas pelas saídas (outputs) de um módulo nas entradas do outro.
 

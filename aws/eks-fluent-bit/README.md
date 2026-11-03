@@ -1,5 +1,7 @@
 # Fluent Bit -> CloudWatch Logs
 
+**Português** · [English](README.en.md)
+
 > `aws/eks-fluent-bit` · categoria **observabilidade** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em setembro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Fluent Bit (DaemonSet) enviando logs de container ao CloudWatch Logs. A role IRS
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Coleta dos logs de container com metadados do Kubernetes.
 2. Envio ao log group criado pela IaC (auto_create_group=false).

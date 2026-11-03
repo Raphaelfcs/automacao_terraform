@@ -1,16 +1,20 @@
-# EKS core 5G — fluxo de deploy
+# EKS core 5G — ordem de deploy
+
+**Português** · [English](README.en.md)
 
 > CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)
 
-Fluxo de deploy da infraestrutura e das funções de rede.
+Rede, cluster, nós, BGP e funções de rede em etapas.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### EKS core 5G — ordem de deploy
+
+![EKS core 5G — ordem de deploy](desenho-1.png)
 
 ## Componentes identificados no desenho
 

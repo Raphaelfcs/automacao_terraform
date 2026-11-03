@@ -1,21 +1,24 @@
-# Serviço de autenticação B2C — primeira versão
+# Autenticação B2C — primeira versão
+
+**Português** · [English](README.en.md)
 
 > Plataforma AWS de uma operadora de saúde (2024)
 
-Primeira versão do serviço de autenticação B2C, antes da evolução para EKS.
+Primeira versão em EKS com IRSA, Secrets Manager e banco por serviço.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Zoom-in
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Zoom-in](desenho-1.png)
+### Autenticação B2C — primeira versão em EKS
+
+![Autenticação B2C — primeira versão em EKS](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
-- Amazon ECS/Fargate: serviços em ECS/Fargate ficam no repositório da aplicação (task definition + service); a rede, o ECR e o banco vêm daqui
 - API Gateway → módulo [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 - Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
@@ -30,8 +33,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/lambda-function`](../../../../aws/lambda-function): Função Lambda empacotada
 1. [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda): HTTP API -> Lambda
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

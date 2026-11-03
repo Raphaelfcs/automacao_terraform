@@ -1,4 +1,4 @@
-# Automação do lab "Envio de dados ao órgão regulador".
+# Automação do lab "Envio periódico ao órgão regulador".
 # Compõe módulos do catálogo; cada módulo continua testado e versionado no próprio diretório.
 # Dependências entre módulos são resolvidas pelas saídas (outputs) de um módulo nas entradas do outro.
 

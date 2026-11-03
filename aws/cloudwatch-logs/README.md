@@ -1,5 +1,7 @@
 # Log group de aplicação + IRSA do coletor
 
+**Português** · [English](README.en.md)
+
 > `aws/cloudwatch-logs` · categoria **observabilidade** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em agosto de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Log group de aplicação criado pela IaC (com retenção e KMS) e a role IRSA do
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. O log group nasce na IaC com retenção (nunca "Never expire").
 2. O coletor só escreve; não cria log group.

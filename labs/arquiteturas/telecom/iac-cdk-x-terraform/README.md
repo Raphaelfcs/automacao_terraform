@@ -1,28 +1,23 @@
 # IaC: CDK x Terraform
 
+**Português** · [English](README.en.md)
+
 > CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)
 
-Comparação prática entre CDK e Terraform para o mesmo ambiente.
+O mesmo fluxo trunk-based em CDK e em Terraform, de engine a workload.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. CDK
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![CDK](desenho-1.png)
+### IaC: mesmo fluxo em CDK e em Terraform
 
-### 2. terrafrom
-
-![terrafrom](desenho-2.png)
-
-### 3. Page-1
-
-![Page-1](desenho-3.png)
+![IaC: mesmo fluxo em CDK e em Terraform](desenho-1.png)
 
 ## Componentes identificados no desenho
 
-- Amazon ECS/Fargate: serviços em ECS/Fargate ficam no repositório da aplicação (task definition + service); a rede, o ECR e o banco vêm daqui
 - Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 
@@ -33,8 +28,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/tf-backend-bootstrap`](../../../../aws/tf-backend-bootstrap): Bootstrap do backend S3 do Terraform
 1. [`aws/vpc`](../../../../aws/vpc): VPC em três camadas
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

@@ -1,5 +1,7 @@
 # Azure Monitor: action group e alertas de métrica
 
+**Português** · [English](README.en.md)
+
 > `azure/monitor-alerts` · categoria **observabilidade** · origem: Banco digital em Azure (2020-2021)
 
 > Idealizado em janeiro de 2021. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Alertas do Azure Monitor: Action Group (e-mail, webhook, SMS) e alertas de métr
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Um alerta aplicado a N recursos.
 2. Action group com e-mail e webhooks.

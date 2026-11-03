@@ -1,4 +1,4 @@
-# Automação do lab "Governança de CI/CD dos repositórios de IaC".
+# Automação do lab "Governança de CI/CD para repositórios Terraform".
 # Compõe módulos do catálogo; cada módulo continua testado e versionado no próprio diretório.
 # Dependências entre módulos são resolvidas pelas saídas (outputs) de um módulo nas entradas do outro.
 

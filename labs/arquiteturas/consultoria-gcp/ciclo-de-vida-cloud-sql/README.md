@@ -1,16 +1,26 @@
 # Ciclo de vida de dados do Cloud SQL
 
+**Português** · [English](README.en.md)
+
 > Rede, gateways e dados no Google Cloud (2024)
 
-Separação de leitura e escrita no Cloud SQL, expurgo para Cloud Storage com classes por idade e consulta histórica no BigQuery.
+Leitura e escrita separadas, expurgo para Cloud Storage por idade e consulta histórica no BigQuery.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Ciclo de vida de dados do Cloud SQL
+
+![Ciclo de vida de dados do Cloud SQL](desenho-1.png)
+
+## Componentes identificados no desenho
+
+- Cloud SQL → módulo [`gcp/cloud-sql`](../../../../gcp/cloud-sql)
+- VPC do Google Cloud → módulo [`gcp/vpc-network`](../../../../gcp/vpc-network)
+- Cloud Storage → módulo [`gcp/static-site`](../../../../gcp/static-site)
 
 ## Automação pronta
 
@@ -20,8 +30,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`gcp/vpc-network`](../../../../gcp/vpc-network): VPC GCP com ranges secundários e PSA
 1. [`gcp/cloud-sql`](../../../../gcp/cloud-sql): Cloud SQL privado
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

@@ -1,5 +1,7 @@
 # Amazon Aurora (MySQL/PostgreSQL, provisionado ou Serverless v2)
 
+**Português** · [English](README.en.md)
+
 > `aws/rds-aurora` · categoria **dados** · origem: Plataforma de benefícios em AWS (2023-2024)
 
 > Idealizado em novembro de 2023. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Cluster Amazon Aurora (MySQL ou PostgreSQL), provisionado ou Serverless v2, em s
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Escritas no endpoint writer; leituras no reader endpoint.
 2. Réplicas escalam por CPU (Application Auto Scaling).

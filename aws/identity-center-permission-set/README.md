@@ -1,5 +1,7 @@
 # IAM Identity Center: permission sets e atribuições
 
+**Português** · [English](README.en.md)
+
 > `aws/identity-center-permission-set` · categoria **seguranca** · origem: CCoE e landing zone de telecom (2025)
 
 > Idealizado em setembro de 2025. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Permission sets do IAM Identity Center (acesso humano federado, sem usuários IA
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Grupos sincronizados do IdP.
 2. Permission sets versionados (inline JSON do time).

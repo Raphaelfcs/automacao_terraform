@@ -1,16 +1,18 @@
 # Desligamento agendado de node groups
 
+**Português** · [English](README.en.md)
+
 > `aws/autoscaling-schedule` · categoria **finops** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em agosto de 2026 e publicado agora.
 
-
+Desligamento agendado de node groups EKS: ações agendadas no Auto Scaling group zeram o node group à noite e restauram o dimensionamento de manhã, no fuso informado.
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. À noite o ASG vai a zero; de manhã volta ao dimensionamento.
 2. ignore_changes no nome do ASG evita o deadlock min > desired.

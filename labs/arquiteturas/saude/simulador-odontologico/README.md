@@ -1,22 +1,28 @@
 # Simulador de prévia de gastos
 
+**Português** · [English](README.en.md)
+
 > Plataforma AWS de uma operadora de saúde (2024)
 
-API de simulação de gastos odontológicos em EKS.
+Front-end estático com WAF e cálculo em EKS.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. EKS
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![EKS](desenho-1.png)
+### Simulador de prévia de gastos
+
+![Simulador de prévia de gastos](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
 - Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
+- API Gateway → módulo [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda)
 - Amazon CloudFront → módulo [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa)
+- Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 - Route 53 → módulo [`aws/route53-private-zone`](../../../../aws/route53-private-zone)
 - AWS WAF: o Web ACL é passado por ARN para o CloudFront (`web_acl_id`) ou associado ao ALB
 
@@ -30,8 +36,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa): SPA em S3 + CloudFront
 1. [`aws/route53-private-zone`](../../../../aws/route53-private-zone): Zona Route 53 privada multi-conta
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

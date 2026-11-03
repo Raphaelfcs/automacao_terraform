@@ -1,16 +1,18 @@
 # Projeto GCP com APIs e org policies
 
+**Português** · [English](README.en.md)
+
 > `gcp/project-foundation` · categoria **governanca** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
 
-
+Projeto no Google Cloud com conta de faturamento, labels de custo, somente as APIs necessárias e Org Policies booleanas aplicadas na pasta.
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Projeto com conta de faturamento e labels de custo.
 2. Somente as APIs necessárias.

@@ -1,5 +1,7 @@
 # Amazon MSK com SASL/IAM
 
+**Português** · [English](README.en.md)
+
 > `aws/msk-kafka` · categoria **integracao** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em setembro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Amazon MSK (Kafka gerenciado) com autenticação SASL/IAM, TLS em trânsito, KMS
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Clientes autenticam por IAM (sem usuário/senha Kafka).
 2. Tópicos não são criados automaticamente.

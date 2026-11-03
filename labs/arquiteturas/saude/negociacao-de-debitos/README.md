@@ -1,41 +1,37 @@
 # Portal de negociação de débitos
 
+**Português** · [English](README.en.md)
+
 > Plataforma AWS de uma operadora de saúde (2024)
 
-Portal de negociação de débitos com versões em EKS e ECS e pipeline de deploy.
+A mesma aplicação desenhada em EKS e em ECS para decidir com base em operação e custo.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. EKS
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![EKS](desenho-1.png)
+### Portal de negociação de débitos — EKS
 
-### 2. ECS
+![Portal de negociação de débitos — EKS](desenho-1.png)
 
-![ECS](desenho-2.png)
+### Portal de negociação de débitos — ECS
 
-### 3. Deploy
-
-![Deploy](desenho-3.png)
+![Portal de negociação de débitos — ECS](desenho-2.png)
 
 ## Componentes identificados no desenho
 
 - Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
 - Amazon ECS/Fargate: serviços em ECS/Fargate ficam no repositório da aplicação (task definition + service); a rede, o ECR e o banco vêm daqui
-- Amazon RDS → módulo [`aws/rds-instance`](../../../../aws/rds-instance)
+- Amazon Aurora → módulo [`aws/rds-aurora`](../../../../aws/rds-aurora)
 - Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
 - Amazon SQS → módulo [`aws/sqs-queue`](../../../../aws/sqs-queue)
-- Amazon SNS → módulo [`aws/sns-topic`](../../../../aws/sns-topic)
 - API Gateway → módulo [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda)
 - Amazon CloudFront → módulo [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
-- Route 53 → módulo [`aws/route53-private-zone`](../../../../aws/route53-private-zone)
 - Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
-- VPC Endpoints → módulo [`aws/vpc-endpoints`](../../../../aws/vpc-endpoints)
 - AWS WAF: o Web ACL é passado por ARN para o CloudFront (`web_acl_id`) ou associado ao ALB
-- IAM Identity Center → módulo [`aws/identity-center-permission-set`](../../../../aws/identity-center-permission-set)
 
 ## Automação pronta
 
@@ -49,8 +45,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/ecr`](../../../../aws/ecr): Repositórios ECR com scan, KMS e retenção
 1. [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa): SPA em S3 + CloudFront
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

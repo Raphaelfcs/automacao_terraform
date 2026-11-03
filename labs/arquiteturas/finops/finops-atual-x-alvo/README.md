@@ -1,20 +1,24 @@
 # FinOps: processo atual e alvo
 
+**Português** · [English](README.en.md)
+
 > Assessment e processo de FinOps (2024)
 
-Assessment do processo de FinOps atual e proposta V1 com automação de coleta, backlog de recomendações e aprovação por responsáveis.
+Assessment do fluxo manual e proposta V1 com coleta automatizada e decisão com os donos.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. FINOPS-AUTAL
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![FINOPS-AUTAL](desenho-1.png)
+### FinOps: processo atual (AS-IS)
 
-### 2. FINOPS-V1
+![FinOps: processo atual (AS-IS)](desenho-1.png)
 
-![FINOPS-V1](desenho-2.png)
+### FinOps: proposta V1
+
+![FinOps: proposta V1](desenho-2.png)
 
 ## Automação pronta
 
@@ -23,8 +27,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`azure/storage-account`](../../../../azure/storage-account): Storage Account seguro com CMK
 1. [`azure/monitor-alerts`](../../../../azure/monitor-alerts): Azure Monitor: action group e alertas de métrica
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

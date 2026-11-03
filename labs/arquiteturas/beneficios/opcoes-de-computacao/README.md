@@ -1,40 +1,39 @@
-# Opções de computação: ECS Fargate, EKS e Beanstalk
+# Opções de computação: ECS, EKS e Beanstalk
+
+**Português** · [English](README.en.md)
 
 > Plataforma de benefícios em AWS (2023)
 
-Mesma aplicação de benefícios desenhada em ECS Fargate, EKS e Elastic Beanstalk, com borda CDN/WAF, registry e backlog de atividades da migração.
+A mesma aplicação de benefícios desenhada nas três opções, com a mesma borda e o mesmo banco.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. ECS-FARGATE
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![ECS-FARGATE](desenho-1.png)
+### Mesma aplicação em ECS Fargate
 
-### 2. eks
+![Mesma aplicação em ECS Fargate](desenho-1.png)
 
-![eks](desenho-2.png)
+### Mesma aplicação em EKS
 
-### 3. Beanstalk
+![Mesma aplicação em EKS](desenho-2.png)
 
-![Beanstalk](desenho-3.png)
+### Mesma aplicação em Elastic Beanstalk
 
-### 4. COnVoult
-
-![COnVoult](desenho-4.png)
+![Mesma aplicação em Elastic Beanstalk](desenho-3.png)
 
 ## Componentes identificados no desenho
 
 - Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
 - Amazon ECS/Fargate: serviços em ECS/Fargate ficam no repositório da aplicação (task definition + service); a rede, o ECR e o banco vêm daqui
-- Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
-- Amazon SQS → módulo [`aws/sqs-queue`](../../../../aws/sqs-queue)
-- Amazon SNS → módulo [`aws/sns-topic`](../../../../aws/sns-topic)
+- Amazon RDS → módulo [`aws/rds-instance`](../../../../aws/rds-instance)
+- ElastiCache → módulo [`aws/elasticache-redis`](../../../../aws/elasticache-redis)
+- Amazon CloudFront → módulo [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
-- Transit Gateway → módulo [`aws/transit-gateway-attachment`](../../../../aws/transit-gateway-attachment)
-- VPN Site-to-Site → módulo [`aws/vpn-site-to-site`](../../../../aws/vpn-site-to-site)
 - Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
+- AWS WAF: o Web ACL é passado por ARN para o CloudFront (`web_acl_id`) ou associado ao ALB
 
 ## Automação pronta
 
@@ -48,8 +47,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/elasticache-redis`](../../../../aws/elasticache-redis): ElastiCache Valkey/Redis cifrado
 1. [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa): SPA em S3 + CloudFront
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

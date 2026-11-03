@@ -1,4 +1,4 @@
-# Automação do lab "Fundamentos de AWS para o time".
+# Automação do lab "Fundamentos de AWS: identidade e guardrails".
 # Compõe módulos do catálogo; cada módulo continua testado e versionado no próprio diretório.
 # Dependências entre módulos são resolvidas pelas saídas (outputs) de um módulo nas entradas do outro.
 

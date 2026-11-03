@@ -1,5 +1,7 @@
 # SPA em S3 + CloudFront
 
+**Português** · [English](README.en.md)
+
 > `aws/cloudfront-spa` · categoria **borda** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em agosto de 2026 e publicado agora.
@@ -10,7 +12,7 @@ SPA estática: S3 privado atrás de CloudFront com Origin Access Control (o buck
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. WAF filtra na borda.
 2. CloudFront serve a SPA do S3 privado via OAC.

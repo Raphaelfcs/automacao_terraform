@@ -1,5 +1,7 @@
 # Filas SQS com DLQ
 
+**Português** · [English](README.en.md)
+
 > `aws/sqs-queue` · categoria **integracao** · origem: Operadora de saúde em AWS (2024)
 
 > Idealizado em maio de 2024. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Filas SQS (standard ou FIFO) cifradas, com DLQ opcional por fila, long polling e
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Long polling e TLS obrigatório.
 2. DLQ por fila com redrive restrito.

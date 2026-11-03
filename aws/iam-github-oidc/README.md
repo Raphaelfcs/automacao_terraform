@@ -1,5 +1,7 @@
 # GitHub Actions -> AWS por OIDC
 
+**Português** · [English](README.en.md)
+
 > `aws/iam-github-oidc` · categoria **devops** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Confiança GitHub Actions -> AWS sem chaves fixas (OIDC). Duas roles por reposit
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. O job pede um token OIDC ao GitHub.
 2. A trust policy valida aud e sub (repo, branch ou environment).

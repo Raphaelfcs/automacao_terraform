@@ -1,5 +1,7 @@
 # Relatório diário de custos
 
+**Português** · [English](README.en.md)
+
 > `aws/finops-cost-report` · categoria **automacao** · origem: CCoE e landing zone de telecom (2025)
 
 > Idealizado em maio de 2025. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Relatório diário de custos: Lambda agendada consulta o Cost Explorer, grava CS
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Lambda diária consulta o Cost Explorer.
 2. CSV no S3 com link de 7 dias.

@@ -1,4 +1,4 @@
-<mxfile host="drawio" type="device"><diagram id="p0" name="Compartilhamento de rede (equivalente ao TGW + RAM)"><mxGraphModel dx="1274" dy="665" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1140" pageHeight="500" math="0" shadow="0">
+<mxfile host="drawio" type="device"><diagram id="p0" name="PT · Compartilhamento de rede (equivalente ao TGW + RAM)"><mxGraphModel dx="1274" dy="665" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1140" pageHeight="500" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -181,7 +181,7 @@
           <mxGeometry x="382" y="426" width="241.00000000000003" height="16" as="geometry" />
         </mxCell>
       </root>
-    </mxGraphModel></diagram><diagram id="p1" name="Network sharing (TGW + RAM equivalent)"><mxGraphModel dx="1582" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1140" pageHeight="500" math="0" shadow="0">
+    </mxGraphModel></diagram><diagram id="p1" name="EN · Network sharing (TGW + RAM equivalent)"><mxGraphModel dx="1582" dy="826" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1140" pageHeight="500" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />

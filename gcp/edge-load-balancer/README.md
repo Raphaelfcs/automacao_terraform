@@ -1,16 +1,18 @@
 # Load Balancer global + Cloud Armor
 
+**Português** · [English](README.en.md)
+
 > `gcp/edge-load-balancer` · categoria **borda** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
 
-
+Borda global no Google Cloud: IP global reservado e política do Cloud Armor com regras OWASP pré-configuradas, rate limit por IP e regra geográfica opcional.
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. IP global reservado.
 2. Regras OWASP pré-configuradas e rate limit.

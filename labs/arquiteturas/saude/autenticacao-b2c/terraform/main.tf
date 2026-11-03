@@ -1,4 +1,4 @@
-# Automação do lab "Serviço de autenticação B2C".
+# Automação do lab "Autenticação B2C em ECS Fargate".
 # Compõe módulos do catálogo; cada módulo continua testado e versionado no próprio diretório.
 # Dependências entre módulos são resolvidas pelas saídas (outputs) de um módulo nas entradas do outro.
 

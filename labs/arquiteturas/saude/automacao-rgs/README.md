@@ -1,16 +1,20 @@
-# Automação de rotina operacional
+# Automação de rotina operacional com IA
+
+**Português** · [English](README.en.md)
 
 > Plataforma AWS de uma operadora de saúde (2024)
 
-Automação serverless de uma rotina operacional agendada.
+Evento no S3 aciona Lambda, Textract, Rekognition e Comprehend; resultado no DynamoDB com API.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Automação de rotina operacional com IA
+
+![Automação de rotina operacional com IA](desenho-1.png)
 
 ## Componentes identificados no desenho
 
@@ -18,6 +22,7 @@ Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navega
 - AWS Lambda → módulo [`aws/lambda-function`](../../../../aws/lambda-function)
 - API Gateway → módulo [`aws/api-gateway-lambda`](../../../../aws/api-gateway-lambda)
 - Amazon Textract → módulo [`aws/textract-pipeline`](../../../../aws/textract-pipeline)
+- Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 - Amazon DynamoDB: tabelas de controle ficam junto do serviço que as usa
 - Amazon CloudWatch → módulo [`aws/cloudwatch-logs`](../../../../aws/cloudwatch-logs)
 
@@ -29,8 +34,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/lambda-function`](../../../../aws/lambda-function): Função Lambda empacotada
 1. [`aws/textract-pipeline`](../../../../aws/textract-pipeline): Pipeline de extração com Textract
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

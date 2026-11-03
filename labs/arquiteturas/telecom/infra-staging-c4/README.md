@@ -1,32 +1,24 @@
 # Infra de staging em C4
 
+**Português** · [English](README.en.md)
+
 > CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)
 
-C4 da infraestrutura de staging, fronteiras de state, rede e security groups, permissões e gates de IaC.
+Contexto C4 da plataforma e o modelo de permissões do IaC com quatro identidades separadas.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. 00 C4 Model aws
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![00 C4 Model aws](desenho-1.png)
+### Infra de staging — contexto (C4 nível 1)
 
-### 2. 01 Fronteiras de state
+![Infra de staging — contexto (C4 nível 1)](desenho-1.png)
 
-![01 Fronteiras de state](desenho-2.png)
+### Permissões do IaC: quatro identidades que não se cruzam
 
-### 3. 02 Rede e security groups
-
-![02 Rede e security groups](desenho-3.png)
-
-### 4. 03 Permissões do IaC
-
-![03 Permissões do IaC](desenho-4.png)
-
-### 5. 04 Gates de IaC
-
-![04 Gates de IaC](desenho-5.png)
+![Permissões do IaC: quatro identidades que não se cruzam](desenho-2.png)
 
 ## Componentes identificados no desenho
 
@@ -35,18 +27,13 @@ Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navega
 - ElastiCache → módulo [`aws/elasticache-redis`](../../../../aws/elasticache-redis)
 - Amazon S3 → módulo [`aws/s3-bucket`](../../../../aws/s3-bucket)
 - Amazon CloudFront → módulo [`aws/cloudfront-spa`](../../../../aws/cloudfront-spa)
-- AWS KMS → módulo [`aws/kms-key`](../../../../aws/kms-key)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
 - Transit Gateway → módulo [`aws/transit-gateway-attachment`](../../../../aws/transit-gateway-attachment)
-- Route 53 → módulo [`aws/route53-private-zone`](../../../../aws/route53-private-zone)
 - Amazon ECR → módulo [`aws/ecr`](../../../../aws/ecr)
 - Amazon MSK → módulo [`aws/msk-kafka`](../../../../aws/msk-kafka)
 - AWS Secrets Manager: a senha master do RDS já é gerenciada pelo próprio RDS no Secrets Manager; segredos de aplicação entram via External Secrets
-- AWS WAF: o Web ACL é passado por ARN para o CloudFront (`web_acl_id`) ou associado ao ALB
 - Amazon DynamoDB: tabelas de controle ficam junto do serviço que as usa
-- Amazon CloudWatch → módulo [`aws/cloudwatch-logs`](../../../../aws/cloudwatch-logs)
 - IAM Identity Center → módulo [`aws/identity-center-permission-set`](../../../../aws/identity-center-permission-set)
-- GuardDuty / Security Hub → módulo [`aws/security-baseline`](../../../../aws/security-baseline)
 
 ## Automação pronta
 
@@ -61,8 +48,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/elasticache-redis`](../../../../aws/elasticache-redis): ElastiCache Valkey/Redis cifrado
 1. [`aws/ecr`](../../../../aws/ecr): Repositórios ECR com scan, KMS e retenção
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

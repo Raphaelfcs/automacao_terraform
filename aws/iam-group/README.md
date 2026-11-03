@@ -1,5 +1,7 @@
 # Grupo IAM com MFA obrigatório
 
+**Português** · [English](README.en.md)
+
 > `aws/iam-group` · categoria **seguranca** · origem: Fintechs e Open Finance em AWS (2021)
 
 > Idealizado em junho de 2021. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ Grupo IAM com políticas gerenciadas e customizadas e membros declarados. Para p
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Grupo com políticas gerenciadas/customizadas.
 2. Política nega tudo sem MFA.

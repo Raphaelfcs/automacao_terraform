@@ -1,16 +1,20 @@
 # POC de Terraform com CI/CD no Google Cloud
 
+**Português** · [English](README.en.md)
+
 > Arquiteturas de referência no Google Cloud (2026)
 
-Prova de conceito de Terraform no Google Cloud com pipeline por ambiente e state remoto.
+GitHub Actions com Workload Identity Federation, uma service account por ambiente e state remoto.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. POC GCP Terraform CI/CD
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![POC GCP Terraform CI/CD](desenho-1.png)
+### POC de Terraform com CI/CD no Google Cloud
+
+![POC de Terraform com CI/CD no Google Cloud](desenho-1.png)
 
 ## Componentes identificados no desenho
 
@@ -23,8 +27,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`gcp/project-foundation`](../../../../gcp/project-foundation): Projeto GCP com APIs e org policies
 1. [`gcp/vpc-network`](../../../../gcp/vpc-network): VPC GCP com ranges secundários e PSA
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

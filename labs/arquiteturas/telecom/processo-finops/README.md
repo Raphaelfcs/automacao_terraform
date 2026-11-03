@@ -1,16 +1,25 @@
 # Processo de FinOps
 
+**Português** · [English](README.en.md)
+
 > CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)
 
-Ciclo de FinOps: informar, otimizar e operar, com responsáveis e cadência.
+Ciclo informar, otimizar e operar, com responsáveis, cadência e guardrails.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Processo de FinOps: informar, otimizar, operar
+
+![Processo de FinOps: informar, otimizar, operar](desenho-1.png)
+
+## Componentes identificados no desenho
+
+- Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
+- AWS Organizations / SCP → módulo [`aws/organizations-scp`](../../../../aws/organizations-scp)
 
 ## Automação pronta
 
@@ -21,8 +30,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/tag-compliance`](../../../../aws/tag-compliance): Conformidade de tags por evento
 1. [`aws/instance-scheduler`](../../../../aws/instance-scheduler): Agendador FinOps de EC2/RDS
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

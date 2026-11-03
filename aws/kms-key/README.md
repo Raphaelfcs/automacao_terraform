@@ -1,5 +1,7 @@
 # Chave KMS (CMK) da plataforma
 
+**Português** · [English](README.en.md)
+
 > `aws/kms-key` · categoria **seguranca** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em setembro de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Chave KMS gerenciada pelo cliente (CMK) para criptografia em repouso de vários 
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Serviços cifram dados em repouso com a CMK (grants/IAM).
 2. A política explícita libera o CloudWatch Logs pelo contexto de cifra.

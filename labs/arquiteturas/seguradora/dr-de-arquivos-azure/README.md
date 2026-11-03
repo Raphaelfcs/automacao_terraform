@@ -1,16 +1,20 @@
 # DR de file system no Azure
 
+**Português** · [English](README.en.md)
+
 > Governança e modernização em Azure para uma seguradora (2024-2025)
 
-Recuperação de desastre para compartilhamento de arquivos no Azure.
+Azure Files com File Sync, replicação GRS e failover entre regiões pelo F5.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Página-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Página-1](desenho-1.png)
+### DR de file system no Azure
+
+![DR de file system no Azure](desenho-1.png)
 
 ## Componentes identificados no desenho
 
@@ -22,8 +26,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 
 1. [`azure/storage-account`](../../../../azure/storage-account): Storage Account seguro com CMK
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

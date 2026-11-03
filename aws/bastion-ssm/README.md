@@ -1,5 +1,7 @@
 # Bastion SSM-only para EKS privado
 
+**Português** · [English](README.en.md)
+
 > `aws/bastion-ssm` · categoria **containers** · origem: Plataforma de microsserviços em telecom (2026)
 
 > Idealizado em agosto de 2026 e publicado agora.
@@ -10,7 +12,7 @@ Bastion "SSM-only" para administrar um cluster EKS privado: subnet privada, sem 
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Sem SSH, key pair ou ingress: só Session Manager.
 2. Sessões auditadas no CloudWatch.

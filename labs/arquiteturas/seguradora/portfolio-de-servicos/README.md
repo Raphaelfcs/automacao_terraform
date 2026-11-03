@@ -1,20 +1,20 @@
 # Portfólio de serviços de nuvem
 
+**Português** · [English](README.en.md)
+
 > Governança e modernização em Azure para uma seguradora (2024-2025)
 
-Mapa do portfólio de serviços de nuvem oferecido às áreas de negócio.
+Do pedido no catálogo ao recurso entregue por pipeline em ~15 minutos.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Página-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Página-1](desenho-1.png)
+### Portfólio de serviços de nuvem
 
-## Componentes identificados no desenho
-
-- Azure Storage → módulo [`azure/storage-account`](../../../../azure/storage-account)
+![Portfólio de serviços de nuvem](desenho-1.png)
 
 ## Automação
 

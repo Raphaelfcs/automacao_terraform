@@ -1,16 +1,18 @@
 # Cloud SQL privado
 
+**Português** · [English](README.en.md)
+
 > `gcp/cloud-sql` · categoria **dados** · origem: Estudos de caso de arquitetura (2026)
 
 > Idealizado em outubro de 2026 e publicado agora.
 
-
+Cloud SQL (PostgreSQL) só com IP privado via Private Service Access, senha gerada e guardada no Secret Manager, backups automáticos e Query Insights.
 
 ## Arquitetura
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. Somente IP privado via PSA.
 2. Senha gerada e guardada no Secret Manager.

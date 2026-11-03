@@ -1,22 +1,24 @@
 # GKE seguro de ponta a ponta
 
+**Português** · [English](README.en.md)
+
 > Arquiteturas de referência no Google Cloud (2026)
 
 Laboratório de GKE privado com Workload Identity, Cloud SQL privado, Pub/Sub e borda com Cloud Armor.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. 1 · Arquitetura e jornada
+### 1 · Arquitetura e jornada
 
 ![1 · Arquitetura e jornada](desenho-1.png)
 
-### 2. 2 · Fundação e IAM
+### 2 · Fundação e IAM
 
 ![2 · Fundação e IAM](desenho-2.png)
 
-### 3. 3 · Estrutura Terraform
+### 3 · Estrutura Terraform
 
 ![3 · Estrutura Terraform](desenho-3.png)
 
@@ -40,8 +42,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`gcp/pubsub`](../../../../gcp/pubsub): Pub/Sub + Cloud Function (notificação)
 1. [`gcp/edge-load-balancer`](../../../../gcp/edge-load-balancer): Load Balancer global + Cloud Armor
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

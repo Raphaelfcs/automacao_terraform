@@ -1,4 +1,4 @@
-# Automação do lab "Governança, IaC e DevOps".
+# Automação do lab "Governança de IaC e DevOps no Azure".
 # Compõe módulos do catálogo; cada módulo continua testado e versionado no próprio diretório.
 # Dependências entre módulos são resolvidas pelas saídas (outputs) de um módulo nas entradas do outro.
 

@@ -1,5 +1,7 @@
 # HTTP API -> Lambda
 
+**Português** · [English](README.en.md)
+
 > `aws/api-gateway-lambda` · categoria **integracao** · origem: Desafio técnico (2024)
 
 > Idealizado em junho de 2024. Por falta de tempo para manter o repositório em dia na época, está sendo publicado e atualizado agora.
@@ -10,7 +12,7 @@ API pública HTTP (API Gateway v2) com integração proxy para uma Lambda (pode 
 
 ![Diagrama](diagram.png)
 
-Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net).
+Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.net), com páginas em português e inglês.
 
 1. HTTP API com throttling por stage.
 2. Autorizador JWT opcional (ex.: Cognito).

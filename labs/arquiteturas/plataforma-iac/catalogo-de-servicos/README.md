@@ -1,20 +1,26 @@
 # Catálogo de serviços self-service
 
+**Português** · [English](README.en.md)
+
 > Portal do desenvolvedor e templates de infraestrutura (2024)
 
-Fluxo do desenvolvedor criando componentes a partir do catálogo até o provisionamento na nuvem.
+Do pedido no Backstage ao recurso criado na conta, com credencial no Secrets Manager.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### Catálogo de serviços self-service
+
+![Catálogo de serviços self-service](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon RDS → módulo [`aws/rds-instance`](../../../../aws/rds-instance)
+- Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
+- AWS Secrets Manager: a senha master do RDS já é gerenciada pelo próprio RDS no Secrets Manager; segredos de aplicação entram via External Secrets
 
 ## Automação pronta
 
@@ -24,8 +30,7 @@ A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem 
 1. [`aws/iam-github-oidc`](../../../../aws/iam-github-oidc): GitHub Actions -> AWS por OIDC
 1. [`aws/s3-bucket`](../../../../aws/s3-bucket): Bucket S3 seguro por padrão
 
-As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
-então não há IDs fixos entre camadas.
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`), então não há IDs fixos entre camadas.
 
 ### Como executar
 

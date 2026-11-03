@@ -2,7 +2,7 @@
 
 ## Arquiteturas
 
-[`arquiteturas/`](arquiteturas) reúne 47 desenhos de arquitetura de projetos reais, anonimizados, com README passo a passo e automação Terraform pronta (composta com os módulos do catálogo) em 40 deles.
+[`arquiteturas/`](arquiteturas) reúne 65 desenhos de arquitetura de projetos reais, anonimizados e redesenhados num padrão único, em português e inglês ([English](arquiteturas/README.en.md)), com README, seção de FinOps e automação Terraform pronta (composta com os módulos do catálogo) em 56 deles.
 
 ## Exercícios de cursos
 

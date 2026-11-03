@@ -1,22 +1,25 @@
-# EKS core 5G — detalhe do cluster
+# EKS core 5G — sub-redes por interface
+
+**Português** · [English](README.en.md)
 
 > CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)
 
-Detalhe de rede, nós e subnets do cluster.
+Uma sub-rede por plano de tráfego via Multus.
 
 ## Desenho
 
-Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português e em inglês. Abra no draw.io para navegar.
 
-### 1. Page-1
+O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-![Page-1](desenho-1.png)
+### EKS core 5G — sub-redes por interface
+
+![EKS core 5G — sub-redes por interface](desenho-1.png)
 
 ## Componentes identificados no desenho
 
 - Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
 - Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
-- Transit Gateway → módulo [`aws/transit-gateway-attachment`](../../../../aws/transit-gateway-attachment)
 
 ## Automação
 
