@@ -1,0 +1,79 @@
+# Pipeline de Terraform no GitHub Actions (copie para .github/workflows/terraform.yml).
+# OIDC com aws-actions/configure-aws-credentials; environments "dev" e "prd" com revisores obrigatórios em prd.
+name: terraform
+
+on:
+  pull_request:
+    paths: ["envs/**", "modules/**"]
+  push:
+    branches: [main]
+    paths: ["envs/**", "modules/**"]
+
+permissions:
+  id-token: write        # OIDC
+  contents: read
+  pull-requests: write   # comentário do plan
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: 1.10.5 }
+      - run: terraform fmt -check -recursive
+      - uses: terraform-linters/setup-tflint@v4
+      - run: tflint --recursive
+      - uses: bridgecrewio/checkov-action@v12
+        with: { directory: ., framework: terraform, quiet: true }
+
+  plan:
+    needs: validar
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ambiente: [dev, prd]
+    defaults:
+      run: { working-directory: "envs/${{ matrix.ambiente }}" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: 1.10.5 }
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars[format('ROLE_{0}', matrix.ambiente)] }}
+          aws-region: sa-east-1
+      - run: terraform init -input=false
+      - run: terraform test
+      - run: terraform plan -input=false -out=plan.tfplan -no-color | tee plan.txt
+      - uses: actions/upload-artifact@v4
+        with: { name: "plan-${{ matrix.ambiente }}", path: "envs/${{ matrix.ambiente }}/plan.tfplan" }
+      - if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: plan-${{ matrix.ambiente }}
+          path: envs/${{ matrix.ambiente }}/plan.txt
+
+  apply:
+    if: github.ref == 'refs/heads/main'
+    needs: plan
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        ambiente: [dev, prd]
+    environment: ${{ matrix.ambiente }}   # prd com required reviewers
+    defaults:
+      run: { working-directory: "envs/${{ matrix.ambiente }}" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_version: 1.10.5 }
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars[format('ROLE_{0}', matrix.ambiente)] }}
+          aws-region: sa-east-1
+      - uses: actions/download-artifact@v4
+        with: { name: "plan-${{ matrix.ambiente }}", path: "envs/${{ matrix.ambiente }}" }
+      - run: terraform init -input=false
+      - run: terraform apply -input=false plan.tfplan

@@ -1,0 +1,42 @@
+# Pipeline de aplicação (GitLab CI): testes, Sonar, build com Kaniko, Trivy, push no ECR e MR no GitOps.
+stages: [teste, build, scan, gitops]
+
+variables:
+  ECR: 123456789012.dkr.ecr.sa-east-1.amazonaws.com
+  IMAGEM: $ECR/plataforma/minha-api:$CI_COMMIT_SHORT_SHA
+
+teste:
+  stage: teste
+  image: python:3.12
+  script: [pip install -r requirements.txt, pytest -q]
+
+sonar:
+  stage: teste
+  image: sonarsource/sonar-scanner-cli:11
+  script: [sonar-scanner -Dsonar.qualitygate.wait=true]
+
+build:
+  stage: build
+  image: { name: gcr.io/kaniko-project/executor:v1.23.2-debug, entrypoint: [""] }
+  id_tokens: { AWS_TOKEN: { aud: sts.amazonaws.com } }
+  script:
+    - echo "$AWS_TOKEN" > /tmp/token
+    - export AWS_ROLE_ARN=$ROLE_ECR_PUSH AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/token
+    - /kaniko/executor --context . --destination "$IMAGEM"
+  rules: [{ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH }]
+
+trivy:
+  stage: scan
+  image: { name: aquasec/trivy:0.57.0, entrypoint: [""] }
+  script: [trivy image --exit-code 1 --severity CRITICAL,HIGH "$IMAGEM"]
+  rules: [{ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH }]
+
+gitops:
+  stage: gitops
+  image: alpine/git:2.45.2
+  script:
+    - git clone "https://oauth2:${GITOPS_TOKEN}@gitlab.example.com/plataforma/gitops.git" && cd gitops
+    - 'sed -i "s|tag: .*|tag: \"$CI_COMMIT_SHORT_SHA\"|" apps/minha-api/envs/dev/values.yaml'
+    - git commit -am "minha-api $CI_COMMIT_SHORT_SHA em dev"
+    - git push -o merge_request.create -o merge_request.merge_when_pipeline_succeeds origin HEAD:minha-api-$CI_COMMIT_SHORT_SHA
+  rules: [{ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH }]

@@ -1,0 +1,32 @@
+// Pipeline de aplicação (Jenkins): testes, Sonar, build com Kaniko, Trivy, push no ECR e PR no GitOps.
+pipeline {
+  agent { kubernetes { yaml '''
+spec:
+  serviceAccountName: jenkins-build        # IRSA com permissão só de push no ECR
+  containers:
+  - { name: app,    image: python:3.12, command: ["cat"], tty: true }
+  - { name: kaniko, image: gcr.io/kaniko-project/executor:v1.23.2-debug, command: ["/busybox/cat"], tty: true }
+  - { name: trivy,  image: aquasec/trivy:0.57.0, command: ["cat"], tty: true }
+''' } }
+
+  environment {
+    IMAGEM = "123456789012.dkr.ecr.sa-east-1.amazonaws.com/plataforma/minha-api:${env.GIT_COMMIT.take(12)}"
+  }
+
+  stages {
+    stage('Testes')  { steps { container('app') { sh 'pip install -r requirements.txt && pytest -q' } } }
+    stage('Sonar')   { steps { withSonarQubeEnv('sonar') { sh 'sonar-scanner' } }
+                       post  { success { timeout(time: 10, unit: 'MINUTES') { waitForQualityGate abortPipeline: true } } } }
+    stage('Build')   { when { branch 'main' }
+                       steps { container('kaniko') { sh '/kaniko/executor --context . --destination "$IMAGEM"' } } }
+    stage('Trivy')   { when { branch 'main' }
+                       steps { container('trivy') { sh 'trivy image --exit-code 1 --severity CRITICAL,HIGH "$IMAGEM"' } } }
+    stage('GitOps')  { when { branch 'main' }
+                       steps { withCredentials([string(credentialsId: 'gitops-token', variable: 'GH_TOKEN')]) { sh '''
+                         git clone https://x-access-token:$GH_TOKEN@github.com/minha-org/gitops.git && cd gitops
+                         TAG=${GIT_COMMIT:0:12}
+                         sed -i "s|tag: .*|tag: \\"$TAG\\"|" apps/minha-api/envs/dev/values.yaml
+                         git checkout -b minha-api-$TAG && git commit -am "minha-api $TAG em dev" && git push origin HEAD
+                       ''' } } }
+  }
+}

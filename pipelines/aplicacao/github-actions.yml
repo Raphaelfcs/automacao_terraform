@@ -1,0 +1,57 @@
+# Pipeline de aplicação (GitHub Actions): testes, build, scan, push no ECR e PR no repositório GitOps.
+# O CI nunca fala com o cluster: quem entrega é o Argo CD, a partir do Git.
+name: app
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: sa-east-1
+  ECR_REPO: plataforma/minha-api
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: make test                       # testes unitários e de contrato
+      - uses: SonarSource/sonarqube-scan-action@v4
+        env: { SONAR_TOKEN: "${{ secrets.SONAR_TOKEN }}", SONAR_HOST_URL: "${{ vars.SONAR_HOST_URL }}" }
+      - id: meta
+        run: echo "tag=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - uses: aws-actions/configure-aws-credentials@v4
+        with: { role-to-assume: "${{ vars.ROLE_ECR_PUSH }}", aws-region: "${{ env.AWS_REGION }}" }
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - run: docker build -t "$REG/$ECR_REPO:${{ steps.meta.outputs.tag }}" .
+        env: { REG: "${{ steps.ecr.outputs.registry }}" }
+      - uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPO }}:${{ steps.meta.outputs.tag }}
+          severity: CRITICAL,HIGH
+          exit-code: "1"                      # vulnerabilidade crítica barra a imagem
+      - if: github.ref == 'refs/heads/main'
+        run: docker push "${{ steps.ecr.outputs.registry }}/$ECR_REPO:${{ steps.meta.outputs.tag }}"
+
+  gitops:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { repository: minha-org/gitops, token: "${{ secrets.GITOPS_TOKEN }}" }
+      - run: |
+          yq -i '.image.tag = "${{ needs.build.outputs.tag }}"' apps/minha-api/envs/dev/values.yaml
+          git checkout -b "minha-api-${{ needs.build.outputs.tag }}"
+          git commit -am "minha-api: ${{ needs.build.outputs.tag }} em dev"
+          git push origin HEAD
+          gh pr create --fill --label auto-merge-dev
+        env: { GH_TOKEN: "${{ secrets.GITOPS_TOKEN }}" }

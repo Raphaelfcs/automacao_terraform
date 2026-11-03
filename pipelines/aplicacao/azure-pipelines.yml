@@ -1,0 +1,38 @@
+# Pipeline de aplicação (Azure DevOps): testes, build, scan e push no ACR/ECR; entrega por GitOps (Argo CD).
+trigger: { branches: { include: [main] } }
+
+variables:
+  tag: $(Build.SourceVersion)
+
+stages:
+  - stage: build
+    jobs:
+      - job: build
+        pool: { vmImage: ubuntu-latest }
+        steps:
+          - script: make test
+          - task: SonarQubePrepare@6
+            inputs: { SonarQube: sonar-sc, scannerMode: CLI }
+          - task: SonarQubeAnalyze@6
+          - task: Docker@2
+            inputs: { containerRegistry: acr-wif, repository: minha-api, command: build, tags: $(tag) }
+          - script: |
+              docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.57.0 \
+                image --exit-code 1 --severity CRITICAL,HIGH minha-api:$(tag)
+          - task: Docker@2
+            inputs: { containerRegistry: acr-wif, repository: minha-api, command: push, tags: $(tag) }
+
+  - stage: gitops
+    dependsOn: build
+    jobs:
+      - job: bump
+        pool: { vmImage: ubuntu-latest }
+        steps:
+          - checkout: git://Plataforma/gitops
+            persistCredentials: true
+          - script: |
+              sed -i "s|tag: .*|tag: \"$(tag)\"|" apps/minha-api/envs/dev/values.yaml
+              git checkout -b minha-api-$(tag)
+              git commit -am "minha-api $(tag) em dev" && git push origin HEAD
+              az repos pr create --auto-complete --source-branch minha-api-$(tag) --target-branch main
+            env: { AZURE_DEVOPS_EXT_PAT: $(System.AccessToken) }

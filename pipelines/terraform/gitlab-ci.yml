@@ -1,0 +1,74 @@
+# Pipeline de Terraform no GitLab CI (copie para .gitlab-ci.yml do repositório root).
+# Credencial AWS por OIDC (id_tokens) — nenhuma chave fixa em variável de CI.
+# Um job de plan/apply por ambiente; produção exige aprovação manual no environment protegido.
+
+default:
+  image: hashicorp/terraform:1.10
+  before_script:
+    - cd "$TF_DIR"
+
+variables:
+  TF_DIR: envs/${AMBIENTE}
+  TF_IN_AUTOMATION: "true"
+  AWS_REGION: sa-east-1
+
+stages: [validar, plan, apply]
+
+.oidc:
+  id_tokens:
+    AWS_TOKEN:
+      aud: sts.amazonaws.com
+  before_script:
+    - cd "$TF_DIR"
+    - echo "$AWS_TOKEN" > /tmp/token
+    - export AWS_ROLE_ARN="$ROLE_ARN" AWS_WEB_IDENTITY_TOKEN_FILE=/tmp/token
+
+validar:
+  stage: validar
+  variables: { AMBIENTE: dev }
+  script:
+    - terraform fmt -check -recursive "$CI_PROJECT_DIR"
+    - terraform init -backend=false
+    - terraform validate
+    - terraform test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+checkov:
+  stage: validar
+  image: { name: bridgecrew/checkov:3, entrypoint: [""] }
+  before_script: []
+  script:
+    - checkov -d . --framework terraform --quiet --compact
+  allow_failure: false
+
+.plan:
+  extends: .oidc
+  stage: plan
+  script:
+    - terraform init -input=false
+    - terraform plan -input=false -var-file=terraform.tfvars -out=plan.tfplan
+    - terraform show -no-color plan.tfplan > plan.txt
+  artifacts:
+    paths: ["$TF_DIR/plan.tfplan", "$TF_DIR/plan.txt"]
+    expire_in: 7 days
+
+.apply:
+  extends: .oidc
+  stage: apply
+  script:
+    - terraform init -input=false
+    - terraform apply -input=false plan.tfplan   # aplica exatamente o plano revisado
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+plan:dev:   { extends: .plan,  variables: { AMBIENTE: dev, ROLE_ARN: $ROLE_DEV } }
+plan:prd:   { extends: .plan,  variables: { AMBIENTE: prd, ROLE_ARN: $ROLE_PRD } }
+apply:dev:  { extends: .apply, variables: { AMBIENTE: dev, ROLE_ARN: $ROLE_DEV }, needs: ["plan:dev"], environment: dev }
+apply:prd:
+  extends: .apply
+  variables: { AMBIENTE: prd, ROLE_ARN: $ROLE_PRD }
+  needs: ["plan:prd", "apply:dev"]
+  environment: { name: prd }   # environment protegido = aprovação obrigatória
+  when: manual

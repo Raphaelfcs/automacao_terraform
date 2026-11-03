@@ -1,0 +1,52 @@
+// Pipeline de Terraform no Jenkins (declarativo).
+// Agente com IAM role (EC2/EKS IRSA) assume a role do ambiente: nenhuma access key em credentials.
+pipeline {
+  agent { kubernetes { yaml '''
+spec:
+  serviceAccountName: jenkins-terraform   # IRSA
+  containers:
+  - name: tf
+    image: hashicorp/terraform:1.10
+    command: ["cat"]
+    tty: true
+''' } }
+
+  parameters {
+    choice(name: 'AMBIENTE', choices: ['dev', 'prd'], description: 'Ambiente alvo')
+  }
+
+  options { timestamps(); disableConcurrentBuilds(); timeout(time: 60, unit: 'MINUTES') }
+
+  environment {
+    TF_IN_AUTOMATION = 'true'
+    TF_DIR = "envs/${params.AMBIENTE}"
+  }
+
+  stages {
+    stage('Validar') {
+      steps { container('tf') { dir(env.TF_DIR) {
+        sh 'terraform fmt -check -recursive ../..'
+        sh 'terraform init -backend=false && terraform validate && terraform test'
+      } } }
+    }
+    stage('Plan') {
+      steps { container('tf') { dir(env.TF_DIR) {
+        sh 'terraform init -input=false'
+        sh 'terraform plan -input=false -out=plan.tfplan | tee plan.txt'
+        archiveArtifacts artifacts: 'plan.txt,plan.tfplan', fingerprint: true
+      } } }
+    }
+    stage('Aprovação') {
+      when { allOf { branch 'main'; expression { params.AMBIENTE == 'prd' } } }
+      steps { input message: 'Aplicar o plano em produção?', submitter: 'plataforma-aprovadores' }
+    }
+    stage('Apply') {
+      when { branch 'main' }
+      steps { container('tf') { dir(env.TF_DIR) {
+        sh 'terraform apply -input=false plan.tfplan'
+      } } }
+    }
+  }
+
+  post { always { cleanWs() } }
+}

@@ -1,0 +1,72 @@
+# Pipeline de Terraform no Azure DevOps (multi-stage YAML).
+# Service connection por Workload Identity Federation (sem secret); environment "prd" com aprovação.
+trigger:
+  branches: { include: [main] }
+  paths: { include: [envs/*, modules/*] }
+pr:
+  paths: { include: [envs/*, modules/*] }
+
+variables:
+  tfVersion: 1.10.5
+
+stages:
+  - stage: validar
+    jobs:
+      - job: estatico
+        pool: { vmImage: ubuntu-latest }
+        steps:
+          - task: TerraformInstaller@1
+            inputs: { terraformVersion: $(tfVersion) }
+          - script: terraform fmt -check -recursive
+          - script: pip install checkov && checkov -d . --framework terraform --quiet --compact
+
+  - ${{ each amb in split('dev,prd', ',') }}:
+    - stage: plan_${{ amb }}
+      dependsOn: validar
+      jobs:
+        - job: plan
+          pool: { vmImage: ubuntu-latest }
+          steps:
+            - task: TerraformInstaller@1
+              inputs: { terraformVersion: $(tfVersion) }
+            - task: AzureCLI@2        # ou AWSShellScript@1 para AWS
+              inputs:
+                azureSubscription: sc-${{ amb }}-wif
+                scriptType: bash
+                scriptLocation: inlineScript
+                addSpnToEnvironment: true
+                inlineScript: |
+                  cd envs/${{ amb }}
+                  export ARM_USE_OIDC=true ARM_OIDC_TOKEN=$idToken ARM_CLIENT_ID=$servicePrincipalId ARM_TENANT_ID=$tenantId
+                  terraform init -input=false
+                  terraform plan -input=false -out=plan.tfplan
+            - publish: envs/${{ amb }}/plan.tfplan
+              artifact: plan-${{ amb }}
+
+    - stage: apply_${{ amb }}
+      dependsOn: plan_${{ amb }}
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+      jobs:
+        - deployment: apply
+          environment: ${{ amb }}     # aprovação e checks configurados no environment
+          pool: { vmImage: ubuntu-latest }
+          strategy:
+            runOnce:
+              deploy:
+                steps:
+                  - checkout: self
+                  - download: current
+                    artifact: plan-${{ amb }}
+                  - task: TerraformInstaller@1
+                    inputs: { terraformVersion: $(tfVersion) }
+                  - task: AzureCLI@2
+                    inputs:
+                      azureSubscription: sc-${{ amb }}-wif
+                      scriptType: bash
+                      scriptLocation: inlineScript
+                      addSpnToEnvironment: true
+                      inlineScript: |
+                        cd envs/${{ amb }}
+                        export ARM_USE_OIDC=true ARM_OIDC_TOKEN=$idToken ARM_CLIENT_ID=$servicePrincipalId ARM_TENANT_ID=$tenantId
+                        terraform init -input=false
+                        terraform apply -input=false $(Pipeline.Workspace)/plan-${{ amb }}/plan.tfplan
