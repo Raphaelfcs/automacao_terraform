@@ -39,3 +39,13 @@ terraform apply tfplan
 ```
 
 Valores de exemplo (contas, IDs, domínios) são fictícios; troque pelos do seu ambiente antes do apply.
+
+## FinOps desta arquitetura
+
+O que mais pesa na conta desta solução e a alavanca para cada item:
+
+| Componente | O que pesa | Alavanca |
+|---|---|---|
+| [`gcp/project-foundation`](../../../../gcp/project-foundation) | custo nasce em projetos sem dono | labels em todo projeto (o módulo já aplica) e orçamento com alerta no Billing |
+
+O ciclo de FinOps (informar, otimizar, operar) está no lab [Processo de FinOps](../../telecom/processo-finops).

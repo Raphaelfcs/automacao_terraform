@@ -49,3 +49,14 @@ terraform apply tfplan
 ```
 
 Valores de exemplo (contas, IDs, domínios) são fictícios; troque pelos do seu ambiente antes do apply.
+
+## FinOps desta arquitetura
+
+O que mais pesa na conta desta solução e a alavanca para cada item:
+
+| Componente | O que pesa | Alavanca |
+|---|---|---|
+| [`azure/sql-database`](../../../../azure/sql-database) | vCores ou DTUs do banco | serverless para cargas intermitentes e reserva para PRD |
+| [`azure/monitor-alerts`](../../../../azure/monitor-alerts) | alertas e ingestão no Log Analytics | retenção por tabela e alertas de orçamento (Cost Management) |
+
+O ciclo de FinOps (informar, otimizar, operar) está no lab [Processo de FinOps](../../telecom/processo-finops).
