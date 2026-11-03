@@ -1,0 +1,56 @@
+# Esteira BOILERPLATE no Azure DevOps. PR: checagens. Main: demo na sandbox (apply + destroy) e tag.
+trigger:
+  branches: { include: [main] }
+  paths: { include: [boilerplates/*] }
+pr:
+  branches: { include: [main] }
+  paths: { include: [boilerplates/*] }
+
+variables:
+  CONEXAO: sc-iac-sandbox     # service connection com workload identity federation (sem secret)
+
+pool: { vmImage: ubuntu-latest }
+
+stages:
+  - stage: checks
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+    jobs:
+      - job: checks
+        container: registry.example.com/plataforma/iac-toolbox:1.0
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          - bash: for p in $(.pipelines/scripts/alterados.sh boilerplates origin/main); do .pipelines/scripts/checks.sh "$p"; done
+
+  - stage: demo
+    condition: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
+    jobs:
+      - deployment: sandbox
+        environment: sandbox
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                  fetchDepth: 0
+                  persistCredentials: true
+                - task: AzureCLI@2
+                  displayName: Apply e destroy na sandbox
+                  inputs:
+                    azureSubscription: $(CONEXAO)
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    addSpnToEnvironment: true
+                    inlineScript: |
+                      set -e
+                      export ARM_USE_OIDC=true ARM_OIDC_TOKEN="$idToken" ARM_CLIENT_ID="$servicePrincipalId" ARM_TENANT_ID="$tenantId"
+                      export ARM_SUBSCRIPTION_ID="$(az account show --query id -o tsv)"
+                      for p in $(.pipelines/scripts/alterados.sh boilerplates HEAD~1); do
+                        terraform -chdir="$p" init -input=false -backend-config=envs/sandbox/backend.hcl
+                        terraform -chdir="$p" apply -input=false -auto-approve -var-file=envs/sandbox/terraform.tfvars
+                        terraform -chdir="$p" destroy -input=false -auto-approve -var-file=envs/sandbox/terraform.tfvars
+                      done
+                - bash: |
+                    git config user.name "iac-release"; git config user.email "iac-release@example.com"
+                    .pipelines/scripts/tag.sh boilerplates HEAD~1
+                  displayName: Publicar tags

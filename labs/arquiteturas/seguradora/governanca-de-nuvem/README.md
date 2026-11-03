@@ -16,6 +16,14 @@ O desenho original, anonimizado, está em [`original/`](original) como referênc
 
 ![Governança de nuvem e cálculo de migração](desenho-1.png)
 
+### IaC no Azure com as três esteiras
+
+![IaC no Azure com as três esteiras](desenho-2.png)
+
+## Componentes identificados no desenho
+
+- Azure Storage → módulo [`azure/storage-account`](../../../../azure/storage-account)
+
 ## Automação pronta
 
 A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem de dependência:

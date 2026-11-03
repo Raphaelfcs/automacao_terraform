@@ -1,0 +1,33 @@
+# Esteira ENGINE no Azure DevOps (pipeline apontando para .pipelines/engine.yml).
+# PR: checagens e versão nova obrigatória (configure como Build Validation na branch policy da main).
+# Main: tag engines/<nuvem>/<nome>/vX.Y.Z. A identidade do build precisa de "Contribute" e "Create tag".
+trigger:
+  branches: { include: [main] }
+  paths: { include: [engines/*] }
+pr:
+  branches: { include: [main] }
+  paths: { include: [engines/*] }
+
+pool: { vmImage: ubuntu-latest }
+container: registry.example.com/plataforma/iac-toolbox:1.0
+
+steps:
+  - checkout: self
+    fetchDepth: 0
+    persistCredentials: true
+
+  - bash: |
+      set -e
+      for p in $(.pipelines/scripts/alterados.sh engines "origin/main"); do
+        echo "== $p"; .pipelines/scripts/checks.sh "$p"
+        v="$(tr -d '[:space:]' < "$p/VERSION")"
+        if git rev-parse -q --verify "refs/tags/$p/v$v" >/dev/null; then echo "##vso[task.logissue type=error]suba o VERSION de $p"; exit 1; fi
+      done
+    displayName: Checagens e versão
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+
+  - bash: |
+      git config user.name "iac-release"; git config user.email "iac-release@example.com"
+      .pipelines/scripts/tag.sh engines HEAD~1
+    displayName: Publicar tags
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))

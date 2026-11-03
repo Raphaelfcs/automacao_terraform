@@ -1,0 +1,32 @@
+# Esteira BOILERPLATE (templates). MR: checagens. Main: deploy de demonstração na sandbox (apply + destroy) e tag.
+boilerplate:checks:
+  stage: checks
+  script:
+    - for p in $(.pipelines/scripts/alterados.sh boilerplates "$BASE_REF"); do .pipelines/scripts/checks.sh "$p"; done
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+boilerplate:demo:
+  stage: demo
+  extends: .oidc
+  resource_group: sandbox      # uma demo por vez na sandbox
+  script:
+    - |
+      for p in $(.pipelines/scripts/alterados.sh boilerplates "$CI_COMMIT_BEFORE_SHA"); do
+        cd "$p"
+        terraform init -input=false -backend-config=envs/sandbox/backend.hcl
+        terraform apply -input=false -auto-approve -var-file=envs/sandbox/terraform.tfvars
+        terraform destroy -input=false -auto-approve -var-file=envs/sandbox/terraform.tfvars
+        cd "$CI_PROJECT_DIR"
+      done
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+boilerplate:release:
+  stage: release
+  needs: [boilerplate:demo]
+  script:
+    - git remote set-url origin "https://oauth2:${RELEASE_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+    - .pipelines/scripts/tag.sh boilerplates "$CI_COMMIT_BEFORE_SHA"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

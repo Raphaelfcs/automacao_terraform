@@ -1,0 +1,84 @@
+# Esteira WORKLOAD no GitHub Actions (salve em .github/workflows/workload.yml).
+# PR: checagens e plan de dev comentado no PR. Main: dev → hml → prd → dr.
+# Os environments hml, prd e dr têm "required reviewers": o job espera aprovação antes do apply.
+name: workload
+on:
+  pull_request:
+    paths: ["workloads/**"]
+  push:
+    branches: [main]
+    paths: ["workloads/**"]
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write   # comentário do plan
+
+env:
+  ARM_USE_OIDC: "true"
+  ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+  ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+  TF_IN_AUTOMATION: "true"
+
+jobs:
+  projetos:
+    runs-on: ubuntu-latest
+    outputs:
+      lista: ${{ steps.p.outputs.lista }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - id: p
+        run: echo "lista=$(.pipelines/scripts/alterados.sh workloads "${{ github.event.pull_request.base.sha || github.event.before }}" | xargs)" >> "$GITHUB_OUTPUT"
+
+  checks:
+    needs: projetos
+    if: github.event_name == 'pull_request' && needs.projetos.outputs.lista != ''
+    runs-on: ubuntu-latest
+    container: registry.example.com/plataforma/iac-toolbox:1.0
+    steps:
+      - uses: actions/checkout@v4
+      - run: for p in ${{ needs.projetos.outputs.lista }}; do .pipelines/scripts/checks.sh "$p"; done
+
+  plan-pr:
+    needs: [projetos, checks]
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    environment: dev-plan
+    env: { ARM_SUBSCRIPTION_ID: "${{ vars.AZURE_SUBSCRIPTION_ID }}" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_wrapper: false }
+      - name: Plan de dev
+        run: |
+          : > plan.md
+          for p in ${{ needs.projetos.outputs.lista }}; do
+            terraform -chdir="$p" init -input=false -backend-config=envs/dev/backend.hcl
+            terraform -chdir="$p" plan -input=false -lock=false -no-color -var-file=envs/dev/terraform.tfvars > "$p/plan.txt"
+            { echo "### $p (dev)"; echo '```'; tail -c 60000 "$p/plan.txt"; echo '```'; } >> plan.md
+          done
+      - run: gh pr comment ${{ github.event.pull_request.number }} --body-file plan.md --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body-file plan.md
+        env: { GH_TOKEN: "${{ github.token }}" }
+
+  deploy:
+    needs: projetos
+    if: github.event_name == 'push' && needs.projetos.outputs.lista != ''
+    strategy:
+      max-parallel: 1     # um ambiente por vez, na ordem da lista
+      matrix:
+        ambiente: [dev, hml, prd, dr]
+    runs-on: ubuntu-latest
+    environment: ${{ matrix.ambiente }}
+    env: { ARM_SUBSCRIPTION_ID: "${{ vars.AZURE_SUBSCRIPTION_ID }}" }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_wrapper: false }
+      - name: Plan e apply do mesmo plano
+        run: |
+          for p in ${{ needs.projetos.outputs.lista }}; do
+            terraform -chdir="$p" init -input=false -reconfigure -backend-config="envs/${{ matrix.ambiente }}/backend.hcl"
+            terraform -chdir="$p" plan -input=false -lock-timeout=5m -var-file="envs/${{ matrix.ambiente }}/terraform.tfvars" -out=tfplan
+            terraform -chdir="$p" apply -input=false tfplan
+          done

@@ -1,0 +1,2 @@
+ambiente = "prd"
+location = "brazilsouth"

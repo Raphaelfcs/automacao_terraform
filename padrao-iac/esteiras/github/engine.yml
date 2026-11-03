@@ -1,0 +1,41 @@
+# Esteira ENGINE no GitHub Actions (salve em .github/workflows/engine.yml).
+# PR: checagens e versão nova obrigatória. Main: tag engines/<nuvem>/<nome>/vX.Y.Z.
+name: engine
+on:
+  pull_request:
+    paths: ["engines/**"]
+  push:
+    branches: [main]
+    paths: ["engines/**"]
+
+permissions:
+  contents: write        # criar tags
+  pull-requests: read
+
+jobs:
+  checks:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    container: registry.example.com/plataforma/iac-toolbox:1.0
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Checagens e versão
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          for p in $(.pipelines/scripts/alterados.sh engines "origin/${{ github.base_ref }}"); do
+            echo "== $p"; .pipelines/scripts/checks.sh "$p"
+            v="$(tr -d '[:space:]' < "$p/VERSION")"
+            if git rev-parse -q --verify "refs/tags/$p/v$v" >/dev/null; then echo "suba o VERSION de $p ($v já publicada)"; exit 1; fi
+          done
+
+  release:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Publicar tags
+        run: |
+          git config user.name "iac-release"; git config user.email "iac-release@users.noreply.github.com"
+          .pipelines/scripts/tag.sh engines "${{ github.event.before }}"

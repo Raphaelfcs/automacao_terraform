@@ -103,6 +103,7 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 ## Labs e arquiteturas
 
 - [`labs/arquiteturas/`](labs/arquiteturas): 65 desenhos de arquitetura de projetos reais (AWS, Google Cloud, Azure e OCI), anonimizados e redesenhados num padrão único, em português e inglês, com README, seção de FinOps e automação Terraform pronta composta com estes módulos.
+- [`padrao-iac/`](padrao-iac): padrão de IaC em monorepo com três esteiras (engine, boilerplate, workload) em GitLab CI, GitHub Actions e Azure DevOps, com esqueleto de exemplo.
 - [`pipelines/`](pipelines): pipelines de Terraform e de aplicação em GitLab CI, GitHub Actions, Azure DevOps e Jenkins, com OIDC e GitOps.
 - [`kubernetes/`](kubernetes): design de cluster multi-time, estratégias de deploy (rolling, blue-green, canary), Argo CD hub-spoke e DR com Velero.
 - [`labs/monitoria-de-guia/`](labs/monitoria-de-guia): Lambda Python agendada que monitora o guia de programação, com alarme e relatório por e-mail.

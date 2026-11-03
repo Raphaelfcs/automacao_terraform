@@ -1,0 +1,31 @@
+# Esteira ENGINE (módulos filhos). MR: checagens em cada engine alterada. Main: tag engines/<nuvem>/<nome>/vX.Y.Z.
+engine:checks:
+  stage: checks
+  script:
+    - |
+      for p in $(.pipelines/scripts/alterados.sh engines "$BASE_REF"); do
+        echo "== $p"; .pipelines/scripts/checks.sh "$p"
+        test -f "$p/VERSION" || { echo "falta $p/VERSION"; exit 1; }
+      done
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+engine:versao:
+  stage: checks
+  script:
+    # A versão precisa subir em todo MR que altera uma engine (tag existente é imutável).
+    - |
+      for p in $(.pipelines/scripts/alterados.sh engines "$BASE_REF"); do
+        v="$(tr -d '[:space:]' < "$p/VERSION")"
+        if git rev-parse -q --verify "refs/tags/$p/v$v" >/dev/null; then echo "suba o VERSION de $p ($v já publicada)"; exit 1; fi
+      done
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+engine:release:
+  stage: release
+  script:
+    - git remote set-url origin "https://oauth2:${RELEASE_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+    - .pipelines/scripts/tag.sh engines "$CI_COMMIT_BEFORE_SHA"
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

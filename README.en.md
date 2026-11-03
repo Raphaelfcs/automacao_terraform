@@ -103,6 +103,7 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 ## Labs and architectures
 
 - [`labs/arquiteturas/`](labs/arquiteturas/README.en.md): 65 architecture drawings from real projects (AWS, Google Cloud, Azure and OCI), anonymized and redrawn in a single style, in Portuguese and English, with README, a FinOps section and ready-made Terraform automation built from these modules.
+- [`padrao-iac/`](padrao-iac/README.en.md): IaC monorepo pattern with three pipelines (engine, boilerplate, workload) in GitLab CI, GitHub Actions and Azure DevOps, with an example skeleton.
 - [`pipelines/`](pipelines): Terraform and application pipelines in GitLab CI, GitHub Actions, Azure DevOps and Jenkins, with OIDC and GitOps.
 - [`kubernetes/`](kubernetes): multi-team cluster design, deployment strategies (rolling, blue-green, canary), hub-spoke Argo CD and DR with Velero.
 - [`labs/monitoria-de-guia/`](labs/monitoria-de-guia/README.en.md): scheduled Python Lambda that monitors the TV program guide, with alarm and email report.

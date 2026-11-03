@@ -1,0 +1,93 @@
+# Esteira WORKLOAD no Azure DevOps: um stage por ambiente (dev → hml → prd → dr).
+# As aprovações ficam nos Environments do Azure DevOps (hml, prd e dr com "Approvals and checks").
+# Cada stage tem um job de plan (artefato) e um deployment que aplica exatamente aquele plano.
+trigger:
+  branches: { include: [main] }
+  paths: { include: [workloads/*] }
+pr:
+  branches: { include: [main] }
+  paths: { include: [workloads/*] }
+
+pool: { vmImage: ubuntu-latest }
+
+parameters:
+  - name: ambientes
+    type: object
+    default:
+      - { nome: dev, anterior: '',  conexao: sc-iac-dev }
+      - { nome: hml, anterior: dev, conexao: sc-iac-hml }
+      - { nome: prd, anterior: hml, conexao: sc-iac-prd }
+      - { nome: dr,  anterior: prd, conexao: sc-iac-dr }
+
+stages:
+  - stage: checks
+    jobs:
+      - job: checks
+        container: registry.example.com/plataforma/iac-toolbox:1.0
+        steps:
+          - checkout: self
+            fetchDepth: 0
+          - bash: |
+              base=$([ "$(Build.Reason)" = "PullRequest" ] && echo origin/main || echo HEAD~1)
+              lista="$(.pipelines/scripts/alterados.sh workloads "$base" | xargs)"
+              echo "##vso[task.setvariable variable=lista;isOutput=true]$lista"
+              for p in $lista; do .pipelines/scripts/checks.sh "$p"; done
+            name: projetos
+
+  - ${{ each amb in parameters.ambientes }}:
+    - stage: ${{ amb.nome }}
+      ${{ if eq(amb.anterior, '') }}:
+        dependsOn: [checks]
+      ${{ else }}:
+        dependsOn: [checks, '${{ amb.anterior }}']
+      # PR: só o plan de dev. Main: todos os ambientes, um depois do outro.
+      condition: and(succeeded(), ne(dependencies.checks.outputs['checks.projetos.lista'], ''), or(eq('${{ amb.nome }}', 'dev'), ne(variables['Build.Reason'], 'PullRequest')))
+      variables:
+        lista: $[ stageDependencies.checks.checks.outputs['projetos.lista'] ]
+      jobs:
+        - job: plan
+          steps:
+            - task: AzureCLI@2
+              displayName: terraform plan (${{ amb.nome }})
+              inputs:
+                azureSubscription: ${{ amb.conexao }}
+                scriptType: bash
+                scriptLocation: inlineScript
+                addSpnToEnvironment: true
+                inlineScript: |
+                  set -e
+                  export ARM_USE_OIDC=true ARM_OIDC_TOKEN="$idToken" ARM_CLIENT_ID="$servicePrincipalId" ARM_TENANT_ID="$tenantId"
+                  export ARM_SUBSCRIPTION_ID="$(az account show --query id -o tsv)"
+                  for p in $(lista); do
+                    terraform -chdir="$p" init -input=false -backend-config="envs/${{ amb.nome }}/backend.hcl"
+                    terraform -chdir="$p" plan -input=false -lock-timeout=5m -var-file="envs/${{ amb.nome }}/terraform.tfvars" -out=tfplan
+                  done
+            - publish: workloads
+              artifact: plano-${{ amb.nome }}
+        - deployment: apply
+          dependsOn: plan
+          condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+          environment: ${{ amb.nome }}      # aprovação configurada no Environment
+          strategy:
+            runOnce:
+              deploy:
+                steps:
+                  - checkout: self
+                  - download: current
+                    artifact: plano-${{ amb.nome }}
+                  - task: AzureCLI@2
+                    displayName: terraform apply (${{ amb.nome }})
+                    inputs:
+                      azureSubscription: ${{ amb.conexao }}
+                      scriptType: bash
+                      scriptLocation: inlineScript
+                      addSpnToEnvironment: true
+                      inlineScript: |
+                        set -e
+                        export ARM_USE_OIDC=true ARM_OIDC_TOKEN="$idToken" ARM_CLIENT_ID="$servicePrincipalId" ARM_TENANT_ID="$tenantId"
+                        export ARM_SUBSCRIPTION_ID="$(az account show --query id -o tsv)"
+                        for p in $(lista); do
+                          cp "$(Pipeline.Workspace)/plano-${{ amb.nome }}/${p#workloads/}/tfplan" "$p/tfplan"
+                          terraform -chdir="$p" init -input=false -backend-config="envs/${{ amb.nome }}/backend.hcl"
+                          terraform -chdir="$p" apply -input=false tfplan
+                        done

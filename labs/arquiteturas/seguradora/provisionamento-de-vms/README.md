@@ -12,9 +12,13 @@ Fonte editável: [`desenho.drawio`](desenho.drawio), com páginas em português 
 
 O desenho original, anonimizado, está em [`original/`](original) como referência.
 
-### Provisionamento de VMs: processo atual x proposto
+### Provisionamento de VMs: processo atual
 
-![Provisionamento de VMs: processo atual x proposto](desenho-1.png)
+![Provisionamento de VMs: processo atual](desenho-1.png)
+
+### Provisionamento de VMs: processo proposto
+
+![Provisionamento de VMs: processo proposto](desenho-2.png)
 
 ## Automação pronta
 

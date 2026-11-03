@@ -1,0 +1,53 @@
+# Esteira BOILERPLATE no GitHub Actions (salve em .github/workflows/boilerplate.yml).
+# PR: checagens. Main: deploy de demonstração na sandbox (apply + destroy) e tag do template.
+name: boilerplate
+on:
+  pull_request:
+    paths: ["boilerplates/**"]
+  push:
+    branches: [main]
+    paths: ["boilerplates/**"]
+
+permissions:
+  id-token: write        # OIDC para o Azure
+  contents: write
+
+concurrency: { group: sandbox, cancel-in-progress: false }
+
+jobs:
+  checks:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    container: registry.example.com/plataforma/iac-toolbox:1.0
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          for p in $(.pipelines/scripts/alterados.sh boilerplates "origin/${{ github.base_ref }}"); do .pipelines/scripts/checks.sh "$p"; done
+
+  demo:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: sandbox
+    env:
+      ARM_USE_OIDC: "true"
+      ARM_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: hashicorp/setup-terraform@v3
+        with: { terraform_wrapper: false }
+      - name: Apply e destroy na sandbox
+        run: |
+          for p in $(.pipelines/scripts/alterados.sh boilerplates "${{ github.event.before }}"); do
+            terraform -chdir="$p" init -input=false -backend-config=envs/sandbox/backend.hcl
+            terraform -chdir="$p" apply -input=false -auto-approve -var-file=envs/sandbox/terraform.tfvars
+            terraform -chdir="$p" destroy -input=false -auto-approve -var-file=envs/sandbox/terraform.tfvars
+          done
+      - name: Publicar tags
+        run: |
+          git config user.name "iac-release"; git config user.email "iac-release@users.noreply.github.com"
+          .pipelines/scripts/tag.sh boilerplates "${{ github.event.before }}"

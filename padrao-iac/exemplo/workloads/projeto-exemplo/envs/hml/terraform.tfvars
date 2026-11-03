@@ -1,0 +1,2 @@
+ambiente = "hml"
+location = "brazilsouth"

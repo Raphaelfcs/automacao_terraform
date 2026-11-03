@@ -1,0 +1,28 @@
+# Raiz do monorepo de IaC no GitLab: cada esteira só entra no pipeline quando a pasta dela muda.
+# Imagem com terraform, tflint, checkov e az CLI mantida pela plataforma (troque pelo seu registry).
+default:
+  image: registry.example.com/plataforma/iac-toolbox:1.0
+
+stages: [checks, plan, apply, demo, release]
+
+include:
+  - local: .pipelines/engine.gitlab-ci.yml
+    rules: [{ changes: ["engines/**/*"] }]
+  - local: .pipelines/boilerplate.gitlab-ci.yml
+    rules: [{ changes: ["boilerplates/**/*"] }]
+  - local: .pipelines/workload.gitlab-ci.yml
+    rules: [{ changes: ["workloads/**/*"] }]
+
+variables:
+  BASE_REF: origin/$CI_DEFAULT_BRANCH
+  TF_IN_AUTOMATION: "true"
+  GIT_DEPTH: 0            # histórico completo para comparar com a main e criar tags
+
+# Credencial temporária: o GitLab emite um token OIDC e o provider azurerm troca por acesso
+# (federated credential na App Registration). Nenhum client secret em variável de CI.
+.oidc:
+  id_tokens:
+    ARM_OIDC_TOKEN:
+      aud: api://AzureADTokenExchange
+  variables:
+    ARM_USE_OIDC: "true"

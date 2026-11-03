@@ -14,15 +14,23 @@ The original drawing, anonymized, is kept in [`original/`](original) for referen
 
 ### Cloud governance and migration sizing
 
-![Cloud governance and migration sizing](desenho-2.png)
+![Cloud governance and migration sizing](desenho-3.png)
+
+### IaC on Azure with the three pipelines
+
+![IaC on Azure with the three pipelines](desenho-4.png)
+
+## Components found in the diagram
+
+- Azure Storage → module [`azure/storage-account`](../../../../azure/storage-account)
 
 ## Ready-made automation
 
 The [`terraform/`](terraform) folder composes these catalog modules, in dependency order:
 
-1. [`azure/storage-account`](../../../../azure/storage-account): Storage Account seguro com CMK
-1. [`azure/monitor-alerts`](../../../../azure/monitor-alerts): Azure Monitor: action group e alertas de métrica
-1. [`azure/monitor-diagnostic-setting`](../../../../azure/monitor-diagnostic-setting): Diagnostic settings em lote
+1. [`azure/storage-account`](../../../../azure/storage-account): Secure Storage Account with CMK
+1. [`azure/monitor-alerts`](../../../../azure/monitor-alerts): Azure Monitor: action group and metric alerts
+1. [`azure/monitor-diagnostic-setting`](../../../../azure/monitor-diagnostic-setting): Diagnostic settings in bulk
 
 One module's outputs feed the next (for example `module.vpc.private_subnet_ids` and `module.kms_key.key_arn`), so there are no hard-coded IDs between layers.
 

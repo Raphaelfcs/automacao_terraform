@@ -12,16 +12,20 @@ Editable source: [`desenho.drawio`](desenho.drawio), with pages in Portuguese an
 
 The original drawing, anonymized, is kept in [`original/`](original) for reference.
 
-### VM provisioning: current vs proposed process
+### VM provisioning: current process
 
-![VM provisioning: current vs proposed process](desenho-2.png)
+![VM provisioning: current process](desenho-3.png)
+
+### VM provisioning: proposed process
+
+![VM provisioning: proposed process](desenho-4.png)
 
 ## Ready-made automation
 
 The [`terraform/`](terraform) folder composes these catalog modules, in dependency order:
 
-1. [`azure/sql-database`](../../../../azure/sql-database): Azure SQL com Entra ID e auditoria
-1. [`azure/monitor-alerts`](../../../../azure/monitor-alerts): Azure Monitor: action group e alertas de métrica
+1. [`azure/sql-database`](../../../../azure/sql-database): Azure SQL with Entra ID and auditing
+1. [`azure/monitor-alerts`](../../../../azure/monitor-alerts): Azure Monitor: action group and metric alerts
 
 One module's outputs feed the next (for example `module.vpc.private_subnet_ids` and `module.kms_key.key_arn`), so there are no hard-coded IDs between layers.
 

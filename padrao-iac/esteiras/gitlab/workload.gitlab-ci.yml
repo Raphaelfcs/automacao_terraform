@@ -1,0 +1,84 @@
+# Esteira WORKLOAD (módulos root). Um job de plan e um de apply por ambiente.
+# MR: checagens + plan de dev (comentário no MR via relatório). Main: plan/apply em dev, hml, prd e dr.
+# hml, prd e dr ficam em environments protegidos: o apply espera aprovação no GitLab.
+
+.workload:
+  extends: .oidc
+  before_script:
+    - export PROJETOS="$(.pipelines/scripts/alterados.sh workloads "${CI_MERGE_REQUEST_DIFF_BASE_SHA:-$CI_COMMIT_BEFORE_SHA}")"
+    - echo "projetos alterados:" $PROJETOS
+
+workload:checks:
+  stage: checks
+  script:
+    - for p in $(.pipelines/scripts/alterados.sh workloads "$BASE_REF"); do .pipelines/scripts/checks.sh "$p"; done
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+.plan:
+  extends: .workload
+  stage: plan
+  script:
+    - |
+      for p in $PROJETOS; do
+        terraform -chdir="$p" init -input=false -reconfigure -backend-config="envs/$AMBIENTE/backend.hcl"
+        terraform -chdir="$p" plan -input=false -lock-timeout=5m -var-file="envs/$AMBIENTE/terraform.tfvars" -out="$AMBIENTE.tfplan"
+        terraform -chdir="$p" show -no-color "$AMBIENTE.tfplan" > "$p/$AMBIENTE.plan.txt"
+      done
+  artifacts:
+    paths: ["workloads/*/*.tfplan", "workloads/*/*.plan.txt"]
+    expire_in: 7 days
+
+.apply:
+  extends: .workload
+  stage: apply
+  script:
+    # Aplica exatamente o plano revisado (artefato do job de plan do mesmo ambiente).
+    - for p in $PROJETOS; do terraform -chdir="$p" init -input=false -reconfigure -backend-config="envs/$AMBIENTE/backend.hcl" && terraform -chdir="$p" apply -input=false "$AMBIENTE.tfplan"; done
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+plan:dev:
+  extends: .plan
+  variables: { AMBIENTE: dev }
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+apply:dev:
+  extends: .apply
+  variables: { AMBIENTE: dev }
+  needs: [plan:dev]
+  environment: { name: dev }
+
+plan:hml:
+  extends: .plan
+  variables: { AMBIENTE: hml }
+  needs: [apply:dev]
+  rules: [{ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH }]
+apply:hml:
+  extends: .apply
+  variables: { AMBIENTE: hml }
+  needs: [plan:hml]
+  environment: { name: hml }
+
+plan:prd:
+  extends: .plan
+  variables: { AMBIENTE: prd }
+  needs: [apply:hml]
+  rules: [{ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH }]
+apply:prd:
+  extends: .apply
+  variables: { AMBIENTE: prd }
+  needs: [plan:prd]
+  environment: { name: prd }      # environment protegido: exige aprovação
+
+plan:dr:
+  extends: .plan
+  variables: { AMBIENTE: dr }
+  needs: [apply:prd]
+  rules: [{ if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH }]
+apply:dr:
+  extends: .apply
+  variables: { AMBIENTE: dr }
+  needs: [plan:dr]
+  environment: { name: dr }       # environment protegido: exige aprovação
