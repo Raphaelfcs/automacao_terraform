@@ -8,6 +8,11 @@ output "function_arn" {
   value       = aws_lambda_function.this.arn
 }
 
+output "invoke_arn" {
+  description = "ARN de invocação, usado em integrações do API Gateway."
+  value       = aws_lambda_function.this.invoke_arn
+}
+
 output "role_name" {
   description = "Role de execução (para anexar políticas adicionais)."
   value       = aws_iam_role.this.name

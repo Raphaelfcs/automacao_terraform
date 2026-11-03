@@ -71,6 +71,7 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 |---|---|
 | `function_name` | Nome da função. |
 | `function_arn` | ARN da função. |
+| `invoke_arn` | ARN de invocação, usado em integrações do API Gateway. |
 | `role_name` | Role de execução (para anexar políticas adicionais). |
 | `role_arn` | ARN da role de execução. |
 | `log_group_name` | Log group da função. |
