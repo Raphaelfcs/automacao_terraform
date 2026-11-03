@@ -9,7 +9,7 @@ resource "aws_instance" "creating_ec2" {
 }
 
 output "instance_ips" {
-  value = [aws_instance.creating_ec2.*.public_ip,
-    aws_instance.creating_ec2.*.private_ip
+  value = [aws_instance.creating_ec2[*].public_ip,
+    aws_instance.creating_ec2[*].private_ip
   ]
 }

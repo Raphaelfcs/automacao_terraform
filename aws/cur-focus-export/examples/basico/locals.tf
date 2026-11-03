@@ -1,6 +1,5 @@
 locals {
-  name_prefix = "demo-dev"
-  region      = "us-east-1"
+  region = "us-east-1"
 
   tags = {
     Projeto    = "demo"

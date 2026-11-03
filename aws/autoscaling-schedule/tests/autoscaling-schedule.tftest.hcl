@@ -2,6 +2,14 @@
 # Valida que cada exemplo documentado é aceito pelas variáveis e validações do módulo.
 
 mock_provider "aws" {
+  mock_data "aws_eks_node_group" {
+    defaults = {
+      resources = [{
+        autoscaling_groups              = [{ name = "eks-demo-dev-apps-0ac6f0c1-1234-5678-9abc-def012345678" }]
+        remote_access_security_group_id = ""
+      }]
+    }
+  }
   mock_data "aws_caller_identity" {
     defaults = {
       account_id = "123456789012"

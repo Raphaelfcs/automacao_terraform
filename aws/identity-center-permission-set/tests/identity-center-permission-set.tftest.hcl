@@ -2,6 +2,11 @@
 # Valida que cada exemplo documentado é aceito pelas variáveis e validações do módulo.
 
 mock_provider "aws" {
+  mock_data "aws_identitystore_group" {
+    defaults = {
+      group_id = "9067a1b2c3-1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"
+    }
+  }
   mock_resource "aws_iam_role" {
     defaults = {
       arn = "arn:aws:iam::123456789012:role/mock-role"

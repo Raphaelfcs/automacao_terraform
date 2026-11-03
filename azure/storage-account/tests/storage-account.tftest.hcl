@@ -2,6 +2,12 @@
 # Valida que cada exemplo documentado é aceito pelas variáveis e validações do módulo.
 
 mock_provider "azurerm" {
+  mock_resource "azurerm_storage_account" {
+    defaults = {
+      id                    = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-demo/providers/Microsoft.Storage/storageAccounts/stdemodev"
+      primary_blob_endpoint = "https://stdemodev.blob.core.windows.net/"
+    }
+  }
   mock_resource "azurerm_monitor_action_group" {
     defaults = {
       id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-mock/providers/Microsoft.Insights/actionGroups/ag-mock"

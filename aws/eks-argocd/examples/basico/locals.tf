@@ -1,5 +1,4 @@
 locals {
-  name_prefix  = "demo-dev"
   region       = "sa-east-1"
   cluster_name = "demo-dev"
 

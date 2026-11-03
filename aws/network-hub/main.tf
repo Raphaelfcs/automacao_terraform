@@ -2,8 +2,6 @@
 # workload, tabelas de rota segmentadas (prod, nonprod, shared), Direct Connect (transit
 # VIFs), VPN de backup e DNS híbrido (Route 53 Resolver). As VPCs spoke se anexam ao TGW
 # e são associadas a um domínio de roteamento.
-data "aws_region" "current" {}
-
 # ----------------------------------------------------------------------------- Transit Gateway
 resource "aws_ec2_transit_gateway" "this" {
   description                     = "${local.name} - hub da organização"

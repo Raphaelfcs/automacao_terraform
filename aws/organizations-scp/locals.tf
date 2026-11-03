@@ -11,7 +11,9 @@ locals {
     { for k, ou in aws_organizations_organizational_unit.level2 : k => ou.id },
   )
 
-  attach_ids = [for t in var.attach_target : t == "root" ? local.root_id : local.ou_ids[t]]
+  # Chaveado pelo NOME do alvo (conhecido no plan), não pelo ID da OU, que só existe depois
+  # do apply: chaves de for_each precisam ser conhecidas no plano.
+  attach_ids = { for t in var.attach_target : t => t == "root" ? local.root_id : local.ou_ids[t] }
 
   # ------------------------------------------------------------ SCPs (guardrails preventivos)
   scps = merge(local.base_scps, length(var.create_tag_enforcement) > 0 ? { "exigir-tags-na-criacao" = local.tag_enforcement_scp } : {})

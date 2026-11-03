@@ -4,6 +4,5 @@ provider "aws" {
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   s3_force_path_style         = true
-  version                     = "~> 2.0"
 }
 

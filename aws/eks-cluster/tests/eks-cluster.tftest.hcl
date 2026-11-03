@@ -2,6 +2,16 @@
 # Valida que cada exemplo documentado é aceito pelas variáveis e validações do módulo.
 
 mock_provider "aws" {
+  mock_resource "aws_eks_cluster" {
+    defaults = {
+      arn      = "arn:aws:eks:sa-east-1:123456789012:cluster/demo-dev"
+      endpoint = "https://EXAMPLE0123456789ABCDEF.gr7.sa-east-1.eks.amazonaws.com"
+      identity = [{
+        oidc = [{ issuer = "https://oidc.eks.sa-east-1.amazonaws.com/id/EXAMPLE0123456789ABCDEF" }]
+      }]
+      certificate_authority = [{ data = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCg==" }]
+    }
+  }
   mock_resource "aws_iam_role" {
     defaults = {
       arn = "arn:aws:iam::123456789012:role/mock-role"
@@ -145,7 +155,13 @@ mock_provider "aws" {
   }
 }
 
-mock_provider "tls" {}
+mock_provider "tls" {
+  mock_data "tls_certificate" {
+    defaults = {
+      certificates = [{ sha1_fingerprint = "9e99a48a9960b14926bb7f3b02e22da2b0ab7280" }]
+    }
+  }
+}
 
 run "exemplo_basico" {
   command = apply

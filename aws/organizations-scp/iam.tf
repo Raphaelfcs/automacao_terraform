@@ -9,7 +9,7 @@ resource "aws_organizations_policy" "scp" {
 
 resource "aws_organizations_policy_attachment" "scp" {
   for_each = {
-    for pair in setproduct(keys(local.scps), local.attach_ids) : "${pair[0]}|${pair[1]}" => { policy = pair[0], target = pair[1] }
+    for pair in setproduct(keys(local.scps), keys(local.attach_ids)) : "${pair[0]}|${pair[1]}" => { policy = pair[0], target = local.attach_ids[pair[1]] }
   }
   policy_id = aws_organizations_policy.scp[each.value.policy].id
   target_id = each.value.target

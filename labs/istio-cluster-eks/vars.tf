@@ -77,47 +77,9 @@ variable "TYPE_VOLUME" {
 
 #VARIAVEIS ALB
 
-variable "AWS_ALB_NAME" {
-  type        = string
-  default     = "istio"
-  description = "nome do alb"
-}
 
 
-variable "ENVSUBNET" {
-  type        = list(any)
-  default     = ["subnet-0aaa1111bbbb2222c"]
-  description = "lista de subnets"
 
-}
-
-
-variable "TYPEALB" {
-  type = string
-
-  default     = "application"
-  description = " tipo do load balancer"
-}
-
-
-variable "PATHALBCHECK" {
-  type        = list(any)
-  default     = ["/static/*"]
-  description = "path para checar ouvir serviço "
-}
-
-variable "TARGET_ALB_NAME" {
-  type = string
-
-  default     = "itio"
-  description = " alvo de maquinas"
-}
-
-
-variable "TARGET_GROUP_CHECK" {
-  default     = "/health-check"
-  description = "Caminho para checar aplicação"
-}
 
 
 variable "services_ports" {
