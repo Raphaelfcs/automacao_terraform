@@ -1,5 +1,11 @@
 # Labs
 
+## Arquiteturas
+
+[`arquiteturas/`](arquiteturas) reúne 47 desenhos de arquitetura de projetos reais, anonimizados, com README passo a passo e automação Terraform pronta (composta com os módulos do catálogo) em 40 deles.
+
+## Exercícios de cursos
+
 Exercícios de cursos e estudos (2019-2021), mantidos como registro histórico de aprendizado.
 O código está no estado em que foi escrito na época (sintaxe Terraform 0.12, provider AWS 2.x)
 e **não segue** o padrão dos módulos do catálogo. IDs, buckets e IPs foram trocados por valores fictícios.

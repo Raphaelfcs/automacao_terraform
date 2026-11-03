@@ -3,10 +3,10 @@ MODULES := $(sort $(dir $(wildcard aws/*/main.tf gcp/*/main.tf azure/*/main.tf))
 .PHONY: fmt fmt-check validate test lint
 
 fmt:
-	terraform fmt -recursive
+	terraform fmt -recursive aws gcp azure labs/arquiteturas
 
 fmt-check:
-	terraform fmt -recursive -check -diff
+	terraform fmt -recursive -check -diff aws gcp azure labs/arquiteturas
 
 validate:
 	@for m in $(MODULES); do \

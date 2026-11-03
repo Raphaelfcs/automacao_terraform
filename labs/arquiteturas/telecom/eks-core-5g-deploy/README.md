@@ -1,0 +1,23 @@
+# EKS core 5G — fluxo de deploy
+
+> CCoE, landing zone e plataforma de uma operadora de telecom (2025-2026)
+
+Fluxo de deploy da infraestrutura e das funções de rede.
+
+## Desenho
+
+Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+
+### 1. Page-1
+
+![Page-1](desenho-1.png)
+
+## Componentes identificados no desenho
+
+- Amazon EKS → módulo [`aws/eks-cluster`](../../../../aws/eks-cluster)
+- Amazon VPC → módulo [`aws/vpc`](../../../../aws/vpc)
+- Transit Gateway → módulo [`aws/transit-gateway-attachment`](../../../../aws/transit-gateway-attachment)
+
+## Automação
+
+Este desenho detalha o lab [`eks-core-5g`](../eks-core-5g), onde está a automação Terraform.

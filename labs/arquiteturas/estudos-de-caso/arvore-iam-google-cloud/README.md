@@ -1,0 +1,41 @@
+# Árvore de recursos e permissões no Google Cloud
+
+> Estudos de caso de arquitetura (2026)
+
+Organização, pastas por ambiente, projetos e grupos com papéis atribuídos no nível certo da hierarquia.
+
+## Desenho
+
+Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+
+### 1. Google Cloud — árvore de recursos e permissões
+
+![Google Cloud — árvore de recursos e permissões](desenho-1.png)
+
+## Componentes identificados no desenho
+
+- GKE → módulo [`gcp/gke-private`](../../../../gcp/gke-private)
+- Cloud SQL → módulo [`gcp/cloud-sql`](../../../../gcp/cloud-sql)
+- VPC do Google Cloud → módulo [`gcp/vpc-network`](../../../../gcp/vpc-network)
+- Projetos e org policies → módulo [`gcp/project-foundation`](../../../../gcp/project-foundation)
+
+## Automação pronta
+
+A pasta [`terraform/`](terraform) compõe estes módulos do catálogo, na ordem de dependência:
+
+1. [`gcp/project-foundation`](../../../../gcp/project-foundation): Projeto GCP com APIs e org policies
+
+As saídas de um módulo alimentam o próximo (por exemplo, `module.vpc.private_subnet_ids` e `module.kms_key.key_arn`),
+então não há IDs fixos entre camadas.
+
+### Como executar
+
+```bash
+cd labs/arquiteturas/estudos-de-caso/arvore-iam-google-cloud/terraform
+# ajuste locals.tf (prefixo, região, tags) e backend.tf (bucket/conta de state)
+terraform init
+terraform plan -out tfplan
+terraform apply tfplan
+```
+
+Valores de exemplo (contas, IDs, domínios) são fictícios; troque pelos do seu ambiente antes do apply.

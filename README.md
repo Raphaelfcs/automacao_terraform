@@ -98,9 +98,10 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 | [`static-site`](gcp/static-site) | borda | Site estático em Cloud Storage |
 | [`vpc-network`](gcp/vpc-network) | rede | VPC GCP com ranges secundários e PSA |
 
-## Labs
+## Labs e arquiteturas
 
-Exercícios históricos de cursos ficam em [`labs/`](labs), fora do padrão do catálogo.
+- [`labs/arquiteturas/`](labs/arquiteturas): 47 desenhos de arquitetura de projetos reais (AWS, Google Cloud, Azure e OCI), anonimizados, com README passo a passo e automação Terraform pronta composta com estes módulos.
+- [`labs/`](labs): exercícios históricos de cursos, fora do padrão do catálogo.
 
 ## Como usar um módulo
 

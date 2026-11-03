@@ -1,0 +1,21 @@
+# Portfólio de serviços de nuvem
+
+> Governança e modernização em Azure para uma seguradora (2024-2025)
+
+Mapa do portfólio de serviços de nuvem oferecido às áreas de negócio.
+
+## Desenho
+
+Fonte editável: [`desenho.drawio`](desenho.drawio). Abra no draw.io para navegar pelas páginas.
+
+### 1. Página-1
+
+![Página-1](desenho-1.png)
+
+## Componentes identificados no desenho
+
+- Azure Storage → módulo [`azure/storage-account`](../../../../azure/storage-account)
+
+## Automação
+
+Este desenho descreve processo, governança ou rede fora do escopo dos módulos do catálogo; serve de referência para as decisões e não tem automação própria.
