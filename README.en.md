@@ -130,7 +130,12 @@ make test       # terraform test in every module
 make lint       # tflint
 ```
 
-The same flow runs on GitHub Actions for every pull request ([`terraform-ci.yml`](.github/workflows/terraform-ci.yml)).
+The same flow runs on GitHub Actions ([`terraform-ci.yml`](.github/workflows/terraform-ci.yml)), split by cloud provider and shown on a single panel:
+
+- each provider (AWS, Google Cloud, Azure) runs its own pipeline, with fmt, tflint, checkov and the module matrix with `validate` and `test`. All three come from one reusable engine ([`_terraform-provedor.yml`](.github/workflows/_terraform-provedor.yml));
+- on pull requests, only the provider whose folder changed runs. On `main`, all of them run;
+- a single provider can be triggered manually (Actions → terraform-ci → Run workflow);
+- the `resultado` job consolidates all three and is the check to require in branch protection.
 
 ## References
 

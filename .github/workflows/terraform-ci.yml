@@ -1,66 +1,122 @@
+# Painel único com os três provedores: cada um roda a sua esteira (_terraform-provedor.yml)
+# em paralelo e aparece como um bloco próprio no grafo do run (AWS, Google Cloud, Azure).
+#
+# - pull_request: só roda o provedor cuja pasta mudou (os outros aparecem como "skipped").
+#   Mudança em arquivo compartilhado (.github/, .tflint.hcl, Makefile) roda todos.
+# - push na main: roda todos, para a main estar sempre verificada de ponta a ponta.
+# - manual (workflow_dispatch): escolhe um provedor ou todos.
+# - O job "resultado" consolida tudo e é o check a exigir na proteção de branch.
 name: terraform-ci
 
 on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      provedor:
+        description: "Provedor a verificar"
+        type: choice
+        options: [todos, aws, gcp, azure]
+        default: todos
 
 permissions:
   contents: read
 
+concurrency:
+  group: terraform-ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  descobrir:
+  mudancas:
+    name: o que mudou
     runs-on: ubuntu-latest
     outputs:
-      modulos: ${{ steps.lista.outputs.modulos }}
+      aws: ${{ steps.filtro.outputs.aws }}
+      gcp: ${{ steps.filtro.outputs.gcp }}
+      azure: ${{ steps.filtro.outputs.azure }}
+      repositorio: ${{ steps.filtro.outputs.repositorio }}
     steps:
       - uses: actions/checkout@v4
-      - id: lista
-        run: echo "modulos=$(ls -d aws/*/ gcp/*/ azure/*/ | sed 's#/$##' | jq -R . | jq -sc .)" >> "$GITHUB_OUTPUT"
+        with:
+          fetch-depth: 0
+      - id: filtro
+        env:
+          EVENTO: ${{ github.event_name }}
+          ESCOLHA: ${{ inputs.provedor }}
+          BASE: ${{ github.base_ref }}
+        run: |
+          todos() { for p in aws gcp azure repositorio; do echo "$p=$1" >> "$GITHUB_OUTPUT"; done; }
 
-  fmt:
+          if [ "$EVENTO" = "workflow_dispatch" ] && [ "$ESCOLHA" != "todos" ]; then
+            todos false; echo "$ESCOLHA=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          if [ "$EVENTO" != "pull_request" ]; then todos true; exit 0; fi
+
+          arquivos=$(git diff --name-only "origin/$BASE...HEAD")
+          echo "$arquivos"
+          if echo "$arquivos" | grep -qE '^(\.github/|\.tflint\.hcl$|Makefile$)'; then todos true; exit 0; fi
+          for p in aws gcp azure; do
+            echo "$p=$(echo "$arquivos" | grep -q "^$p/" && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          done
+          echo "repositorio=$(echo "$arquivos" | grep -qE '^(labs|padrao-iac)/' && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+  aws:
+    name: AWS
+    needs: mudancas
+    if: needs.mudancas.outputs.aws == 'true'
+    uses: ./.github/workflows/_terraform-provedor.yml
+    with:
+      provedor: aws
+
+  gcp:
+    name: Google Cloud
+    needs: mudancas
+    if: needs.mudancas.outputs.gcp == 'true'
+    uses: ./.github/workflows/_terraform-provedor.yml
+    with:
+      provedor: gcp
+
+  azure:
+    name: Azure
+    needs: mudancas
+    if: needs.mudancas.outputs.azure == 'true'
+    uses: ./.github/workflows/_terraform-provedor.yml
+    with:
+      provedor: azure
+
+  # Labs e o padrão de IaC não são módulos publicados: entram só em fmt e lint.
+  repositorio:
+    name: labs e padrao-iac
+    needs: mudancas
+    if: needs.mudancas.outputs.repositorio == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.12.2
-      - run: terraform fmt -recursive -check -diff aws gcp azure labs/arquiteturas
-
-  modulo:
-    needs: descobrir
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        modulo: ${{ fromJson(needs.descobrir.outputs.modulos) }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.12.2
-      - name: init
-        run: terraform -chdir=${{ matrix.modulo }} init -backend=false -input=false
-      - name: validate
-        run: terraform -chdir=${{ matrix.modulo }} validate
-      - name: test
-        run: terraform -chdir=${{ matrix.modulo }} test
-
-  tflint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+      - run: terraform fmt -recursive -check -diff labs padrao-iac
       - uses: terraform-linters/setup-tflint@v4
-      - run: tflint --init && tflint --recursive --config="$GITHUB_WORKSPACE/.tflint.hcl"
+      - run: |
+          tflint --init --config="$GITHUB_WORKSPACE/.tflint.hcl"
+          tflint --recursive --chdir=labs --config="$GITHUB_WORKSPACE/.tflint.hcl"
+          tflint --recursive --chdir=padrao-iac --config="$GITHUB_WORKSPACE/.tflint.hcl"
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-  checkov:
+  resultado:
+    name: resultado
+    needs: [mudancas, aws, gcp, azure, repositorio]
+    if: always()
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: bridgecrewio/checkov-action@v12
-        with:
-          directory: .
-          skip_path: labs
-          soft_fail: true
+      - env:
+          RESULTADOS: ${{ toJson(needs) }}
+        run: |
+          echo "| contexto | resultado |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          echo "$RESULTADOS" | jq -r 'to_entries[] | "| \(.key) | \(.value.result) |"' >> "$GITHUB_STEP_SUMMARY"
+          if echo "$RESULTADOS" | jq -e 'to_entries | any(.value.result == "failure" or .value.result == "cancelled")' >/dev/null; then
+            echo "::error::Pelo menos um provedor falhou."; exit 1
+          fi

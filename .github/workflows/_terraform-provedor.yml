@@ -1,0 +1,83 @@
+# Motor reutilizável: a esteira completa de UM provedor de nuvem (pasta aws/, gcp/ ou azure/).
+# Não dispara sozinho; é chamado pelo terraform-ci.yml, que roda os três provedores lado a lado
+# no mesmo painel. Cada provedor tem fmt, lint, segurança e a matriz de módulos isolados, então
+# uma falha no Azure não esconde o resultado da AWS e vice-versa.
+name: terraform-provedor
+
+on:
+  workflow_call:
+    inputs:
+      provedor:
+        description: "Pasta do provedor: aws, gcp ou azure."
+        type: string
+        required: true
+      terraform_version:
+        description: "Versão do Terraform (>= 1.11 por causa do override_during nos testes)."
+        type: string
+        default: "1.12.2"
+
+permissions:
+  contents: read
+
+jobs:
+  descobrir:
+    name: descobrir módulos
+    runs-on: ubuntu-latest
+    outputs:
+      modulos: ${{ steps.lista.outputs.modulos }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: lista
+        run: |
+          modulos=$(ls -d "${{ inputs.provedor }}"/*/ | sed 's#/$##' | jq -R . | jq -sc .)
+          echo "modulos=$modulos" >> "$GITHUB_OUTPUT"
+          echo "$(echo "$modulos" | jq length) módulos em ${{ inputs.provedor }}/" >> "$GITHUB_STEP_SUMMARY"
+
+  fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+      - run: terraform fmt -recursive -check -diff ${{ inputs.provedor }}
+
+  tflint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: terraform-linters/setup-tflint@v4
+      - run: |
+          tflint --init --config="$GITHUB_WORKSPACE/.tflint.hcl"
+          tflint --recursive --chdir=${{ inputs.provedor }} --config="$GITHUB_WORKSPACE/.tflint.hcl"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+  checkov:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: ${{ inputs.provedor }}
+          soft_fail: true
+
+  modulo:
+    name: ${{ matrix.modulo }}
+    needs: descobrir
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        modulo: ${{ fromJson(needs.descobrir.outputs.modulos) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ inputs.terraform_version }}
+      - name: init
+        run: terraform -chdir=${{ matrix.modulo }} init -backend=false -input=false
+      - name: validate
+        run: terraform -chdir=${{ matrix.modulo }} validate
+      - name: test
+        run: terraform -chdir=${{ matrix.modulo }} test

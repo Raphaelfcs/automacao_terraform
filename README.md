@@ -130,7 +130,12 @@ make test       # terraform test em cada módulo
 make lint       # tflint
 ```
 
-O mesmo fluxo roda no GitHub Actions a cada pull request ([`terraform-ci.yml`](.github/workflows/terraform-ci.yml)).
+O mesmo fluxo roda no GitHub Actions ([`terraform-ci.yml`](.github/workflows/terraform-ci.yml)), dividido por provedor e visto num painel só:
+
+- cada provedor (AWS, Google Cloud, Azure) roda a sua esteira, com fmt, tflint, checkov e a matriz de módulos com `validate` e `test`. As três vêm do mesmo motor reutilizável ([`_terraform-provedor.yml`](.github/workflows/_terraform-provedor.yml));
+- no pull request, só roda o provedor cuja pasta mudou. Na `main`, rodam todos;
+- dá para disparar manualmente um provedor só (Actions → terraform-ci → Run workflow);
+- o job `resultado` consolida os três e é o check a exigir na proteção de branch.
 
 ## Referências
 
