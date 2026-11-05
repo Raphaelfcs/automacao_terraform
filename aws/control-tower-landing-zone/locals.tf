@@ -16,7 +16,7 @@ locals {
     for k, v in local.shared_accounts : k => coalesce(v.id, try(aws_organizations_account.shared[k].id, null))
   }
 
-  kms = var.kms_key_arn == null ? {} : { kmsKeyArn = var.kms_key_arn }
+  kms = { for k, v in { kmsKeyArn = var.kms_key_arn } : k => v if v != null }
 
   retention = {
     loggingBucket       = { retentionDays = var.log_retention_days }
@@ -41,13 +41,14 @@ locals {
       accountId      = local.account_ids["audit"]
       configurations = merge(local.retention, local.kms)
     }
-    backup = var.backup == null ? { enabled = false } : {
+    # Os dois ramos têm formatos diferentes; passar por JSON mantém o tipo do conditional estável.
+    backup = jsondecode(var.backup == null ? jsonencode({ enabled = false }) : jsonencode({
       enabled = true
       configurations = {
-        backupAdmin   = { accountId = var.backup.admin_account_id }
-        centralBackup = { accountId = var.backup.central_account_id }
-        kmsKeyArn     = var.backup.kms_key_arn
+        backupAdmin   = { accountId = try(var.backup.admin_account_id, null) }
+        centralBackup = { accountId = try(var.backup.central_account_id, null) }
+        kmsKeyArn     = try(var.backup.kms_key_arn, null)
       }
-    }
+    }))
   }
 }

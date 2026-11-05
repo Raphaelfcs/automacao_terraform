@@ -36,13 +36,13 @@ resource "aws_acm_certificate" "wildcard" {
 }
 
 resource "aws_route53_record" "validation" {
-  for_each = local.validation_records
+  for_each = local.validation_keys
 
   zone_id         = aws_route53_zone.this.zone_id
-  name            = each.value.name
-  type            = each.value.type
+  name            = local.validation_option.resource_record_name
+  type            = local.validation_option.resource_record_type
   ttl             = 300
-  records         = [each.value.record]
+  records         = [local.validation_option.resource_record_value]
   allow_overwrite = true
 }
 
