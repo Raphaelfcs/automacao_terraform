@@ -9,7 +9,7 @@ Cada módulo é uma *engine* reutilizável, com exemplos prontos, testes e diagr
 > Projeto idealizado em setembro de 2017. Com a correria dos projetos, o repositório não foi mantido em dia;
 > o conteúdo está sendo publicado e atualizado agora. Cada módulo informa no README quando foi idealizado.
 
-**55 módulos** · AWS: 44 · Microsoft Azure: 4 · Google Cloud: 7
+**63 módulos** · AWS: 52 · Microsoft Azure: 4 · Google Cloud: 7
 
 ## Estrutura
 
@@ -39,9 +39,14 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 | [`autoscaling-schedule`](aws/autoscaling-schedule) | finops | Desligamento agendado de node groups |
 | [`backup-plan`](aws/backup-plan) | automacao | AWS Backup centralizado |
 | [`bastion-ssm`](aws/bastion-ssm) | containers | Bastion SSM-only para EKS privado |
+| [`budget-guardrail`](aws/budget-guardrail) | finops | Teto de custo com congelamento por SCP |
 | [`cloudfront-spa`](aws/cloudfront-spa) | borda | SPA em S3 + CloudFront |
 | [`cloudwatch-logs`](aws/cloudwatch-logs) | observabilidade | Log group de aplicação + IRSA do coletor |
 | [`cognito-user-pool`](aws/cognito-user-pool) | seguranca | Cognito como IdP OAuth2/OIDC |
+| [`control-tower-account-vending`](aws/control-tower-account-vending) | governanca | Conta pela Account Factory do Control Tower |
+| [`control-tower-aft`](aws/control-tower-aft) | governanca | Account Factory for Terraform (AFT) sem VPC |
+| [`control-tower-landing-zone`](aws/control-tower-landing-zone) | governanca | Control Tower: landing zone 4.0 |
+| [`control-tower-ou-registration`](aws/control-tower-ou-registration) | governanca | Registro de OUs no Control Tower |
 | [`cur-focus-export`](aws/cur-focus-export) | finops | Exportação de custos FOCUS 1.0 |
 | [`ecr`](aws/ecr) | containers | Repositórios ECR com scan, KMS e retenção |
 | [`eks-addons`](aws/eks-addons) | containers | Addons de plataforma EKS |
@@ -56,6 +61,7 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 | [`iam-group`](aws/iam-group) | seguranca | Grupo IAM com MFA obrigatório |
 | [`iam-inventory-export`](aws/iam-inventory-export) | automacao | Inventário IAM semanal |
 | [`iam-mfa-audit`](aws/iam-mfa-audit) | automacao | Auditoria de MFA |
+| [`identity-center-groups`](aws/identity-center-groups) | seguranca | IAM Identity Center: grupos e usuários |
 | [`identity-center-permission-set`](aws/identity-center-permission-set) | seguranca | IAM Identity Center: permission sets e atribuições |
 | [`instance-scheduler`](aws/instance-scheduler) | automacao | Agendador FinOps de EC2/RDS |
 | [`kms-key`](aws/kms-key) | seguranca | Chave KMS (CMK) da plataforma |
@@ -66,6 +72,8 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 | [`rds-aurora`](aws/rds-aurora) | dados | Amazon Aurora (MySQL/PostgreSQL, provisionado ou Serverless v2) |
 | [`rds-instance`](aws/rds-instance) | dados | RDS MySQL/PostgreSQL privado |
 | [`route53-private-zone`](aws/route53-private-zone) | rede | Zona Route 53 privada multi-conta |
+| [`route53-public-zone`](aws/route53-public-zone) | rede | Zona Route 53 pública com certificado curinga |
+| [`route53-zone-delegation`](aws/route53-zone-delegation) | rede | Delegação de subdomínio entre contas |
 | [`s3-bucket`](aws/s3-bucket) | armazenamento | Bucket S3 seguro por padrão |
 | [`security-baseline`](aws/security-baseline) | seguranca | Baseline de segurança da organização |
 | [`security-group`](aws/security-group) | rede | Security group declarativo |

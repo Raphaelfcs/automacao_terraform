@@ -117,3 +117,15 @@ resource "aws_iam_role_policy" "state" {
   role   = each.value
   policy = data.aws_iam_policy_document.state_access[0].json
 }
+
+# Plano multi-conta: a role de plan (ReadOnly) pode assumir roles de leitura em outras contas.
+resource "aws_iam_role_policy" "plan_assume" {
+  count = length(var.plan_assume_role_arns) > 0 ? 1 : 0
+
+  name = "assumir-roles-de-leitura"
+  role = aws_iam_role.plan.id
+  policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [{ Effect = "Allow", Action = "sts:AssumeRole", Resource = var.plan_assume_role_arns }]
+  })
+}

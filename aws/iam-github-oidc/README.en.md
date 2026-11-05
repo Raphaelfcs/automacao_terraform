@@ -55,6 +55,7 @@ Each example has its own backend (state isolated per module and example). Differ
 | `managed_role_prefix` | `string` | `null` | no | Prefix of the IAM roles the deploy may create/change (e.g. "app-"). null = none. |
 | `permissions_boundary_arn` | `string` | `null` | no | Permissions boundary applied to the deploy role. |
 | `state_bucket_arn` | `string` | `null` | no | Terraform state bucket ARN. null = no state policy. |
+| `plan_assume_role_arns` | `list(string)` | `[]` | no | Roles (in other accounts) the plan role may assume, e.g. arn:aws:iam::*:role/infra-reader. Empty = none. |
 | `create_oidc_provider` | `bool` | `true` | no | Creates the GitHub OIDC provider (only one per account). |
 | `tags` | `map(string)` | `{}` | no | Additional tags. |
 

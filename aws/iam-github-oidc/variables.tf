@@ -50,6 +50,12 @@ variable "state_bucket_arn" {
   default     = null
 }
 
+variable "plan_assume_role_arns" {
+  description = "Roles (em outras contas) que a role de plan pode assumir, ex.: arn:aws:iam::*:role/infra-reader. Vazio = nenhuma."
+  type        = list(string)
+  default     = []
+}
+
 variable "create_oidc_provider" {
   description = "Cria o OIDC provider do GitHub (apenas um por conta)."
   type        = bool

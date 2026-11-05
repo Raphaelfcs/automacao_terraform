@@ -9,7 +9,7 @@ Each module is a reusable *engine*, with ready-made examples, tests and an archi
 > Project designed in September 2017. With the rush of projects, the repository was not kept up to date;
 > the content is being published and updated now. Each module README says when it was designed.
 
-**55 modules** · AWS: 44 · Microsoft Azure: 4 · Google Cloud: 7
+**63 modules** · AWS: 52 · Microsoft Azure: 4 · Google Cloud: 7
 
 ## Structure
 
@@ -39,9 +39,14 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 | [`autoscaling-schedule`](aws/autoscaling-schedule/README.en.md) | finops | Scheduled node group shutdown |
 | [`backup-plan`](aws/backup-plan/README.en.md) | automacao | Centralized AWS Backup |
 | [`bastion-ssm`](aws/bastion-ssm/README.en.md) | containers | SSM-only bastion for private EKS |
+| [`budget-guardrail`](aws/budget-guardrail/README.en.md) | finops | Cost cap with SCP freeze |
 | [`cloudfront-spa`](aws/cloudfront-spa/README.en.md) | borda | SPA on S3 + CloudFront |
 | [`cloudwatch-logs`](aws/cloudwatch-logs/README.en.md) | observabilidade | Application log group + collector IRSA |
 | [`cognito-user-pool`](aws/cognito-user-pool/README.en.md) | seguranca | Cognito as OAuth2/OIDC IdP |
+| [`control-tower-account-vending`](aws/control-tower-account-vending/README.en.md) | governanca | Account via Control Tower Account Factory |
+| [`control-tower-aft`](aws/control-tower-aft/README.en.md) | governanca | Account Factory for Terraform (AFT) without VPC |
+| [`control-tower-landing-zone`](aws/control-tower-landing-zone/README.en.md) | governanca | Control Tower: landing zone 4.0 |
+| [`control-tower-ou-registration`](aws/control-tower-ou-registration/README.en.md) | governanca | OU registration in Control Tower |
 | [`cur-focus-export`](aws/cur-focus-export/README.en.md) | finops | FOCUS 1.0 cost export |
 | [`ecr`](aws/ecr/README.en.md) | containers | ECR repositories with scan, KMS and retention |
 | [`eks-addons`](aws/eks-addons/README.en.md) | containers | EKS platform add-ons |
@@ -56,6 +61,7 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 | [`iam-group`](aws/iam-group/README.en.md) | seguranca | IAM group with mandatory MFA |
 | [`iam-inventory-export`](aws/iam-inventory-export/README.en.md) | automacao | Weekly IAM inventory |
 | [`iam-mfa-audit`](aws/iam-mfa-audit/README.en.md) | automacao | MFA audit |
+| [`identity-center-groups`](aws/identity-center-groups/README.en.md) | seguranca | IAM Identity Center: groups and users |
 | [`identity-center-permission-set`](aws/identity-center-permission-set/README.en.md) | seguranca | IAM Identity Center: permission sets and assignments |
 | [`instance-scheduler`](aws/instance-scheduler/README.en.md) | automacao | FinOps scheduler for EC2/RDS |
 | [`kms-key`](aws/kms-key/README.en.md) | seguranca | Platform KMS key (CMK) |
@@ -66,6 +72,8 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 | [`rds-aurora`](aws/rds-aurora/README.en.md) | dados | Amazon Aurora (MySQL/PostgreSQL, provisioned or Serverless v2) |
 | [`rds-instance`](aws/rds-instance/README.en.md) | dados | Private RDS MySQL/PostgreSQL |
 | [`route53-private-zone`](aws/route53-private-zone/README.en.md) | rede | Multi-account private Route 53 zone |
+| [`route53-public-zone`](aws/route53-public-zone/README.en.md) | rede | Public Route 53 zone with wildcard certificate |
+| [`route53-zone-delegation`](aws/route53-zone-delegation/README.en.md) | rede | Cross-account subdomain delegation |
 | [`s3-bucket`](aws/s3-bucket/README.en.md) | armazenamento | Secure-by-default S3 bucket |
 | [`security-baseline`](aws/security-baseline/README.en.md) | seguranca | Organization security baseline |
 | [`security-group`](aws/security-group/README.en.md) | rede | Declarative security group |
