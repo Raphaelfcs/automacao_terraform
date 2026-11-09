@@ -15,6 +15,30 @@ resource "aws_organizations_policy_attachment" "scp" {
   target_id = each.value.target
 }
 
+resource "aws_organizations_policy" "rcp" {
+  for_each    = local.rcps
+  name        = each.key
+  description = each.value.description
+  type        = "RESOURCE_CONTROL_POLICY"
+  content     = each.value.content
+  tags        = local.tags
+
+  lifecycle {
+    precondition {
+      condition     = contains(local.policy_types_enabled, "RESOURCE_CONTROL_POLICY")
+      error_message = "O tipo RESOURCE_CONTROL_POLICY não está habilitado na raiz da organização. Habilite em Organizations > Policies > Resource control policies (ou enabled_policy_types do aws_organizations_organization) antes de enable_rcp = true."
+    }
+  }
+}
+
+resource "aws_organizations_policy_attachment" "rcp" {
+  for_each = {
+    for pair in setproduct(keys(local.rcps), keys(local.attach_ids)) : "${pair[0]}|${pair[1]}" => { policy = pair[0], target = local.attach_ids[pair[1]] }
+  }
+  policy_id = aws_organizations_policy.rcp[each.value.policy].id
+  target_id = each.value.target
+}
+
 # contas suspensas: nada é permitido
 resource "aws_organizations_policy" "suspended" {
   count       = contains(keys(var.organizational_units), "Suspended") ? 1 : 0

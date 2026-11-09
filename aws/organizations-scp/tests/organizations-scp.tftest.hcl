@@ -121,9 +121,13 @@ mock_provider "aws" {
   }
   mock_data "aws_organizations_organization" {
     defaults = {
-      id    = "o-abcd123456"
-      arn   = "arn:aws:organizations::123456789012:organization/o-abcd123456"
-      roots = [{ id = "r-ab12", arn = "arn:aws:organizations::123456789012:root/o-abcd123456/r-ab12", name = "Root", policy_types = [] }]
+      id  = "o-abcd123456"
+      arn = "arn:aws:organizations::123456789012:organization/o-abcd123456"
+      roots = [{ id = "r-ab12", arn = "arn:aws:organizations::123456789012:root/o-abcd123456/r-ab12", name = "Root", policy_types = [
+        { type = "SERVICE_CONTROL_POLICY", status = "ENABLED" },
+        { type = "RESOURCE_CONTROL_POLICY", status = "ENABLED" },
+        { type = "TAG_POLICY", status = "ENABLED" },
+      ] }]
     }
   }
 
@@ -165,6 +169,81 @@ run "exemplo_landing_zone" {
     required_tags          = ["CentroCusto", "Ambiente", "Dono"]
     create_tag_enforcement = ["CentroCusto"]
     attach_target          = ["Workloads", "Sandbox"]
+    enable_rcp             = true
     tags                   = { Projeto = "demo", Ambiente = "teste" }
   }
+}
+
+run "rcp_perimetro_de_dados" {
+  command = plan
+
+  variables {
+    attach_target        = ["root"]
+    enable_rcp           = true
+    rcp_trusted_accounts = ["210987654321"]
+  }
+
+  assert {
+    condition     = length(aws_organizations_policy.rcp) == 2
+    error_message = "Esperadas duas RCPs: perímetro de identidade e TLS obrigatório."
+  }
+
+  assert {
+    condition     = alltrue([for p in aws_organizations_policy.rcp : p.type == "RESOURCE_CONTROL_POLICY"])
+    error_message = "As RCPs precisam ser do tipo RESOURCE_CONTROL_POLICY."
+  }
+
+  assert {
+    condition     = jsondecode(aws_organizations_policy.rcp["rcp-perimetro-de-identidade"].content).Statement[0].Condition.StringNotEqualsIfExists["aws:PrincipalOrgID"] == "o-abcd123456"
+    error_message = "O perímetro de identidade precisa usar o ID da própria organização."
+  }
+
+  assert {
+    condition     = contains(jsondecode(aws_organizations_policy.rcp["rcp-perimetro-de-identidade"].content).Statement[0].Condition.StringNotEqualsIfExists["aws:PrincipalAccount"], "210987654321")
+    error_message = "A conta confiável declarada precisa entrar na exceção da RCP."
+  }
+
+  assert {
+    condition     = length(aws_organizations_policy_attachment.rcp) == 2
+    error_message = "Cada RCP deve ser anexada uma vez à raiz."
+  }
+}
+
+run "rcp_desligada_por_padrao" {
+  command = plan
+
+  assert {
+    condition     = length(aws_organizations_policy.rcp) == 0
+    error_message = "Sem enable_rcp, nenhuma RCP pode ser criada."
+  }
+}
+
+run "rcp_exige_tipo_habilitado_na_raiz" {
+  command = plan
+
+  variables {
+    enable_rcp = true
+  }
+
+  override_data {
+    target = data.aws_organizations_organization.this
+    values = {
+      id    = "o-abcd123456"
+      arn   = "arn:aws:organizations::123456789012:organization/o-abcd123456"
+      roots = [{ id = "r-ab12", arn = "arn:aws:organizations::123456789012:root/o-abcd123456/r-ab12", name = "Root", policy_types = [{ type = "SERVICE_CONTROL_POLICY", status = "ENABLED" }] }]
+    }
+  }
+
+  expect_failures = [aws_organizations_policy.rcp]
+}
+
+run "rcp_rejeita_conta_invalida" {
+  command = plan
+
+  variables {
+    enable_rcp           = true
+    rcp_trusted_accounts = ["parceiro"]
+  }
+
+  expect_failures = [var.rcp_trusted_accounts]
 }

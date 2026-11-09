@@ -15,6 +15,48 @@ locals {
   # do apply: chaves de for_each precisam ser conhecidas no plano.
   attach_ids = { for t in var.attach_target : t => t == "root" ? local.root_id : local.ou_ids[t] }
 
+  # ------------------------------------------------------------ RCPs (perímetro de dados)
+  # SCP limita o que as IDENTIDADES da organização podem fazer. RCP limita quem pode chegar
+  # aos RECURSOS da organização, inclusive identidades de fora: uma bucket policy aberta por
+  # engano continua barrada pela RCP. As duas juntas formam o perímetro de dados.
+  org_id = data.aws_organizations_organization.this.id
+
+  policy_types_enabled = [for p in data.aws_organizations_organization.this.roots[0].policy_types : p.type if p.status == "ENABLED"]
+
+  # Conteúdo já serializado: valores homogêneos permitem filtrar com for sem conflito de tipos.
+  rcp_catalogo = {
+    "rcp-perimetro-de-identidade" = {
+      description = "Recursos só aceitam identidades da organização, serviços AWS e contas confiáveis declaradas"
+      statements = [{
+        Sid       = "SomenteIdentidadesDaOrganizacao"
+        Effect    = "Deny"
+        Principal = "*"
+        Action    = var.rcp_services
+        Resource  = "*"
+        Condition = {
+          StringNotEqualsIfExists = merge(
+            { "aws:PrincipalOrgID" = local.org_id },
+            { for k, v in { "aws:PrincipalAccount" = var.rcp_trusted_accounts } : k => v if length(v) > 0 },
+          )
+          BoolIfExists = { "aws:PrincipalIsAWSService" = "false" }
+        }
+      }]
+    }
+    "rcp-exigir-tls" = {
+      description = "Nega acesso aos recursos sem TLS, venha de onde vier"
+      statements = [{
+        Sid       = "ExigirTransporteSeguro"
+        Effect    = "Deny"
+        Principal = "*"
+        Action    = var.rcp_services
+        Resource  = "*"
+        Condition = { BoolIfExists = { "aws:SecureTransport" = "false" } }
+      }]
+    }
+  }
+
+  rcps = { for k, v in local.rcp_catalogo : k => { description = v.description, content = jsonencode({ Version = "2012-10-17", Statement = v.statements }) } if var.enable_rcp }
+
   # ------------------------------------------------------------ SCPs (guardrails preventivos)
   scps = merge(local.base_scps, length(var.create_tag_enforcement) > 0 ? { "exigir-tags-na-criacao" = local.tag_enforcement_scp } : {})
 

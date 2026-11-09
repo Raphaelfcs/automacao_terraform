@@ -79,3 +79,26 @@ variable "tag_enforced_actions" {
     "elasticloadbalancing:CreateLoadBalancer",
   ]
 }
+
+variable "enable_rcp" {
+  description = "Cria as RCPs (Resource Control Policies) de perímetro de dados. O tipo RESOURCE_CONTROL_POLICY precisa estar habilitado na raiz da organização; o plano falha com aviso se não estiver."
+  type        = bool
+  default     = false
+}
+
+variable "rcp_services" {
+  description = "Ações cobertas pelas RCPs. Só serviços que aceitam RCP entram aqui (S3, STS, KMS, SQS, Secrets Manager, entre outros)."
+  type        = list(string)
+  default     = ["s3:*", "sts:AssumeRole", "kms:*", "sqs:*", "secretsmanager:*"]
+}
+
+variable "rcp_trusted_accounts" {
+  description = "Contas fora da organização que podem acessar os recursos (parceiro, fornecedor de backup). Vazio = só a própria organização."
+  type        = list(string)
+  default     = []
+
+  validation {
+    condition     = alltrue([for a in var.rcp_trusted_accounts : can(regex("^[0-9]{12}$", a))])
+    error_message = "rcp_trusted_accounts aceita apenas IDs de conta com 12 dígitos."
+  }
+}

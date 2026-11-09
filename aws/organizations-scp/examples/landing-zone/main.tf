@@ -16,5 +16,6 @@ module "organizations_scp" {
   required_tags          = ["CentroCusto", "Ambiente", "Dono"]
   create_tag_enforcement = ["CentroCusto"]
   attach_target          = ["Workloads", "Sandbox"]
+  enable_rcp             = true
   tags                   = local.tags
 }

@@ -11,6 +11,23 @@ Cada módulo é uma *engine* reutilizável, com exemplos prontos, testes e diagr
 
 **63 módulos** · AWS: 52 · Microsoft Azure: 4 · Google Cloud: 7
 
+## Experiência prática na AWS: onde está no código
+
+Estes módulos vêm de ambientes multi-conta que montei e operei: landing zones com Control Tower e AWS Organizations,
+acesso humano centralizado no IAM Identity Center, rede hub-and-spoke com conectividade híbrida e automações
+de governança orientadas a eventos. Cada linha aponta para o código, os testes e o diagrama.
+
+| Competência | O que foi feito na prática | Código |
+|---|---|---|
+| **SCP e RCP** (AWS Organizations) | OUs em dois níveis; SCPs preventivas (região permitida, proteção de CloudTrail/GuardDuty/Config/Security Hub, root negado, criptografia obrigatória, tags na criação, conta suspensa); **RCPs de perímetro de dados**: recursos só aceitam identidades da organização e contas confiáveis declaradas, com TLS obrigatório; SCP de congelamento acionada pelo budget | [`organizations-scp`](aws/organizations-scp) · [`budget-guardrail`](aws/budget-guardrail) · [`control-tower-ou-registration`](aws/control-tower-ou-registration) |
+| **Control Tower e contas** | Landing zone 4.0 como código, Log Archive e Audit, registro de OUs, Account Factory e AFT sem VPC (menor custo fixo) | [`control-tower-landing-zone`](aws/control-tower-landing-zone) · [`control-tower-aft`](aws/control-tower-aft) · [`control-tower-account-vending`](aws/control-tower-account-vending) |
+| **IAM Identity Center** | Acesso humano federado sem usuários IAM: grupos no diretório, permission sets com políticas gerenciadas, inline, customer managed e permissions boundary, atribuições grupo → conta; break-glass e OIDC para pipelines sem chave fixa | [`identity-center-groups`](aws/identity-center-groups) · [`identity-center-permission-set`](aws/identity-center-permission-set) · [`iam-group`](aws/iam-group) · [`iam-github-oidc`](aws/iam-github-oidc) |
+| **VPC** | Três camadas por AZ (pública, privada, dados sem rota para a internet), flow logs, VPC endpoints Interface/Gateway para tráfego privado sem NAT, security groups por referência | [`vpc`](aws/vpc) · [`vpc-endpoints`](aws/vpc-endpoints) · [`security-group`](aws/security-group) |
+| **Conectividade** | Conta Network hub-and-spoke: Transit Gateway compartilhado por RAM, tabelas de rota segmentadas (prod, nonprod, shared), Direct Connect com transit VIF, VPN Site-to-Site de backup com BGP, anexos de VPC com rotas para CIDRs remotos | [`network-hub`](aws/network-hub) · [`transit-gateway-attachment`](aws/transit-gateway-attachment) · [`vpn-site-to-site`](aws/vpn-site-to-site) |
+| **Route 53** | Zonas privadas com nomes estáveis e autorização cross-account, DNS híbrido com Resolver, zonas públicas por conta com ACM curinga e CAA, delegação de subdomínio entre contas em estado próprio | [`route53-private-zone`](aws/route53-private-zone) · [`route53-public-zone`](aws/route53-public-zone) · [`route53-zone-delegation`](aws/route53-zone-delegation) · [`network-hub`](aws/network-hub) |
+| **EventBridge e Lambda** | Barramento entre contas com SQS, DLQ, archive e replay; Lambda com menor privilégio, DLQ, X-Ray e gatilhos por agenda, padrão de evento ou fila; EventBridge Scheduler com fuso horário | [`eventbridge-bus-sqs`](aws/eventbridge-bus-sqs) · [`lambda-function`](aws/lambda-function) · [`api-gateway-lambda`](aws/api-gateway-lambda) |
+| **Automações de governança** | CloudTrail → EventBridge → Lambda para conformidade de tags; auditoria de MFA (Config + Lambda); inventário IAM semanal; alerta de expiração de certificados sem código; achados de segurança por EventBridge → SNS; liga/desliga de EC2/RDS por tag; relatório diário de custos; monitoria de guia em Python | [`tag-compliance`](aws/tag-compliance) · [`iam-mfa-audit`](aws/iam-mfa-audit) · [`iam-inventory-export`](aws/iam-inventory-export) · [`acm-expiry-alert`](aws/acm-expiry-alert) · [`security-baseline`](aws/security-baseline) · [`instance-scheduler`](aws/instance-scheduler) · [`finops-cost-report`](aws/finops-cost-report) · [`labs/monitoria-de-guia`](labs/monitoria-de-guia) |
+
 ## Estrutura
 
 ```text
@@ -68,7 +85,7 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 | [`lambda-function`](aws/lambda-function) | computacao | Função Lambda empacotada |
 | [`msk-kafka`](aws/msk-kafka) | integracao | Amazon MSK com SASL/IAM |
 | [`network-hub`](aws/network-hub) | rede | Conta Network hub-and-spoke |
-| [`organizations-scp`](aws/organizations-scp) | governanca | Organizations: OUs, SCPs e Tag Policy |
+| [`organizations-scp`](aws/organizations-scp) | governanca | Organizations: OUs, SCPs, RCPs e Tag Policy |
 | [`rds-aurora`](aws/rds-aurora) | dados | Amazon Aurora (MySQL/PostgreSQL, provisionado ou Serverless v2) |
 | [`rds-instance`](aws/rds-instance) | dados | RDS MySQL/PostgreSQL privado |
 | [`route53-private-zone`](aws/route53-private-zone) | rede | Zona Route 53 privada multi-conta |

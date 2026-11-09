@@ -25,3 +25,8 @@ output "scp_ids" {
   description = "IDs das SCPs criadas."
   value       = { for k, p in aws_organizations_policy.scp : k => p.id }
 }
+
+output "rcp_ids" {
+  description = "IDs das RCPs criadas (vazio se enable_rcp = false)."
+  value       = { for k, p in aws_organizations_policy.rcp : k => p.id }
+}
