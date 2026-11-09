@@ -16,9 +16,9 @@ Fonte editável: [`diagram.drawio`](diagram.drawio) (abra no draw.io / diagrams.
 
 1. OUs em dois níveis.
 2. SCP de região, proteção de segurança, root negado, criptografia.
-3. Tags obrigatórias na criação (opcional).
-4. Tag Policy padroniza chaves de FinOps.
-5. RCPs de perímetro de dados (opcional, `enable_rcp = true`).
+3. RCP: só identidades da organização e TLS (opcional, `enable_rcp = true`).
+4. Tags obrigatórias na criação (opcional).
+5. Tag Policy padroniza chaves de FinOps.
 
 ## SCP e RCP: o perímetro de dados
 

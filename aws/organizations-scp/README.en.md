@@ -16,9 +16,9 @@ Editable source: [`diagram.drawio`](diagram.drawio) (open it in draw.io / diagra
 
 1. Two-level OUs.
 2. Region SCP, security protection, root denied, encryption.
-3. Mandatory tags at creation (optional).
-4. Tag Policy standardizes FinOps keys.
-5. Data-perimeter RCPs (optional, `enable_rcp = true`).
+3. RCP: organization identities only, over TLS (optional, `enable_rcp = true`).
+4. Mandatory tags at creation (optional).
+5. Tag Policy standardizes FinOps keys.
 
 ## SCP and RCP: the data perimeter
 
