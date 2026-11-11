@@ -2,8 +2,9 @@
 # cifra KMS (ou SSE-S3), TLS obrigatório, versionamento e regras de ciclo de vida opcionais.
 
 resource "aws_s3_bucket" "this" {
-  bucket        = var.bucket_name
-  force_destroy = var.force_destroy
+  bucket              = var.bucket_name
+  force_destroy       = var.force_destroy
+  object_lock_enabled = var.object_lock != null
 
   tags = merge(var.tags, { Name = var.bucket_name })
 }
@@ -90,6 +91,13 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
     }
   }
 
+  lifecycle {
+    precondition {
+      condition     = var.versioning
+      error_message = "object_lock exige versioning = true."
+    }
+  }
+
   depends_on = [aws_s3_bucket_versioning.this]
 }
 
@@ -99,4 +107,45 @@ resource "aws_s3_bucket_logging" "this" {
   bucket        = aws_s3_bucket.this.id
   target_bucket = var.access_log_bucket
   target_prefix = "${var.bucket_name}/"
+}
+
+resource "aws_s3_bucket_cors_configuration" "this" {
+  count  = length(var.cors_allowed_origins) > 0 ? 1 : 0
+  bucket = aws_s3_bucket.this.id
+
+  cors_rule {
+    allowed_origins = var.cors_allowed_origins
+    allowed_methods = ["GET", "PUT", "POST"]
+    allowed_headers = ["*"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
+}
+
+resource "aws_s3_bucket_notification" "eventbridge" {
+  count       = var.eventbridge_notifications ? 1 : 0
+  bucket      = aws_s3_bucket.this.id
+  eventbridge = true
+}
+
+# Object Lock exige versionamento: a regra só é aplicada depois dele.
+resource "aws_s3_bucket_object_lock_configuration" "this" {
+  count  = var.object_lock == null ? 0 : 1
+  bucket = aws_s3_bucket.this.id
+
+  rule {
+    default_retention {
+      mode = var.object_lock.mode
+      days = var.object_lock.days
+    }
+  }
+
+  lifecycle {
+    precondition {
+      condition     = var.versioning
+      error_message = "object_lock exige versioning = true."
+    }
+  }
+
+  depends_on = [aws_s3_bucket_versioning.this]
 }

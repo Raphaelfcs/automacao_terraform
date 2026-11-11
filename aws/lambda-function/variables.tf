@@ -130,3 +130,15 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "dynamodb_stream_arn" {
+  description = "Stream do DynamoDB que dispara a função (lotes com falha parcial e bisseção). null = sem gatilho."
+  type        = string
+  default     = null
+}
+
+variable "stream_failure_destination_arn" {
+  description = "Fila SQS que recebe a referência dos lotes do stream que esgotaram as retentativas."
+  type        = string
+  default     = null
+}

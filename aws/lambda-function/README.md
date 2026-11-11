@@ -67,6 +67,8 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `event_patterns` | `map(any)` | `{}` | não | Regras do EventBridge por nome -> event pattern (objeto). |
 | `sqs_trigger_arn` | `string` | `null` | não | Fila SQS que dispara a função. null = sem gatilho SQS. |
 | `tags` | `map(string)` | `{}` | não | Tags aplicadas. |
+| `dynamodb_stream_arn` | `string` | `null` | não | Stream do DynamoDB que dispara a função (lotes com falha parcial e bisseção). null = sem gatilho. |
+| `stream_failure_destination_arn` | `string` | `null` | não | Fila SQS que recebe a referência dos lotes do stream que esgotaram as retentativas. |
 
 ## Saídas
 

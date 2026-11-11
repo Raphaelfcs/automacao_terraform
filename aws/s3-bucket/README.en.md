@@ -51,6 +51,9 @@ Each example has its own backend (state isolated per module and example). Differ
 | `access_log_bucket` | `string` | `null` | no | Server access logging target bucket. null = off. |
 | `force_destroy` | `bool` | `false` | no | Allows destroying with objects (true only in sandbox). |
 | `tags` | `map(string)` | `{}` | no | Tags applied to all resources. |
+| `cors_allowed_origins` | `list(string)` | `[]` | no | Origins (https://...) allowed to upload/read straight from the browser with a signed URL. Empty = no CORS. |
+| `eventbridge_notifications` | `bool` | `false` | no | Publishes bucket events (Object Created etc.) to the account default EventBridge bus. |
+| `object_lock` | `object(...)` | `null` | no | Default Object Lock retention (WORM). It can only be turned on when the bucket is created. mode: GOVERNANCE or COMPLIANCE. |
 
 ## Outputs
 

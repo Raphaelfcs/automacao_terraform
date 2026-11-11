@@ -50,3 +50,34 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "cors_allowed_origins" {
+  description = "Origens (https://...) que podem enviar/ler direto do navegador com URL assinada. Vazio = sem CORS."
+  type        = list(string)
+  default     = []
+
+  validation {
+    condition     = alltrue([for o in var.cors_allowed_origins : can(regex("^https://", o))])
+    error_message = "cors_allowed_origins aceita apenas origens https://."
+  }
+}
+
+variable "eventbridge_notifications" {
+  description = "Publica eventos do bucket (Object Created etc.) no EventBridge padrão da conta."
+  type        = bool
+  default     = false
+}
+
+variable "object_lock" {
+  description = "Retenção padrão com Object Lock (WORM). Só pode ser ligado na criação do bucket. mode: GOVERNANCE ou COMPLIANCE."
+  type = object({
+    mode = string
+    days = number
+  })
+  default = null
+
+  validation {
+    condition     = var.object_lock == null || try(contains(["GOVERNANCE", "COMPLIANCE"], var.object_lock.mode) && var.object_lock.days > 0, false)
+    error_message = "object_lock.mode deve ser GOVERNANCE ou COMPLIANCE e days > 0."
+  }
+}

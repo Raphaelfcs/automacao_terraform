@@ -41,3 +41,25 @@ resource "aws_lambda_event_source_mapping" "sqs" {
   maximum_batching_window_in_seconds = 5
   function_response_types            = ["ReportBatchItemFailures"]
 }
+
+resource "aws_lambda_event_source_mapping" "dynamodb" {
+  count = var.dynamodb_stream_arn == null ? 0 : 1
+
+  event_source_arn               = var.dynamodb_stream_arn
+  function_name                  = aws_lambda_function.this.arn
+  starting_position              = "LATEST"
+  batch_size                     = 25
+  maximum_retry_attempts         = 10
+  maximum_record_age_in_seconds  = 86400
+  bisect_batch_on_function_error = true
+  function_response_types        = ["ReportBatchItemFailures"]
+
+  dynamic "destination_config" {
+    for_each = var.stream_failure_destination_arn == null ? [] : [1]
+    content {
+      on_failure {
+        destination_arn = var.stream_failure_destination_arn
+      }
+    }
+  }
+}

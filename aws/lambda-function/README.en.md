@@ -67,6 +67,8 @@ Each example has its own backend (state isolated per module and example). Differ
 | `event_patterns` | `map(any)` | `{}` | no | EventBridge rules by name -> event pattern (object). |
 | `sqs_trigger_arn` | `string` | `null` | no | SQS queue that triggers the function. null = no SQS trigger. |
 | `tags` | `map(string)` | `{}` | no | Tags applied. |
+| `dynamodb_stream_arn` | `string` | `null` | no | DynamoDB stream that triggers the function (batches with partial failure and bisection). null = no trigger. |
+| `stream_failure_destination_arn` | `string` | `null` | no | SQS queue that receives the reference of stream batches that ran out of retries. |
 
 ## Outputs
 

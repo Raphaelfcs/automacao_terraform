@@ -79,3 +79,28 @@ resource "aws_lambda_permission" "pattern" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.pattern[each.key].arn
 }
+
+data "aws_iam_policy_document" "dynamodb_stream" {
+  count = var.dynamodb_stream_arn == null ? 0 : 1
+
+  statement {
+    actions   = ["dynamodb:DescribeStream", "dynamodb:GetRecords", "dynamodb:GetShardIterator", "dynamodb:ListStreams"]
+    resources = [var.dynamodb_stream_arn]
+  }
+
+  dynamic "statement" {
+    for_each = var.stream_failure_destination_arn == null ? [] : [1]
+    content {
+      actions   = ["sqs:SendMessage"]
+      resources = [var.stream_failure_destination_arn]
+    }
+  }
+}
+
+resource "aws_iam_role_policy" "dynamodb_stream" {
+  count = var.dynamodb_stream_arn == null ? 0 : 1
+
+  name   = "${var.function_name}-stream"
+  role   = aws_iam_role.this.id
+  policy = data.aws_iam_policy_document.dynamodb_stream[0].json
+}

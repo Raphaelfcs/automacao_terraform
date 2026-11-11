@@ -51,6 +51,9 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `access_log_bucket` | `string` | `null` | não | Bucket de destino do server access logging. null = desligado. |
 | `force_destroy` | `bool` | `false` | não | Permite destruir com objetos (true só em sandbox). |
 | `tags` | `map(string)` | `{}` | não | Tags aplicadas a todos os recursos. |
+| `cors_allowed_origins` | `list(string)` | `[]` | não | Origens (https://...) que podem enviar/ler direto do navegador com URL assinada. Vazio = sem CORS. |
+| `eventbridge_notifications` | `bool` | `false` | não | Publica eventos do bucket (Object Created etc.) no EventBridge padrão da conta. |
+| `object_lock` | `object(...)` | `null` | não | Retenção padrão com Object Lock (WORM). Só pode ser ligado na criação do bucket. mode: GOVERNANCE ou COMPLIANCE. |
 
 ## Saídas
 

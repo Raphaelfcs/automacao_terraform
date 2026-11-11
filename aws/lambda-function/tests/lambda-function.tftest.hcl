@@ -176,3 +176,24 @@ run "exemplo_vpc_sqs" {
     tags            = { Projeto = "demo", Ambiente = "teste" }
   }
 }
+
+run "gatilho_stream_dynamodb" {
+  command = plan
+
+  variables {
+    function_name                  = "demo-dev-replicador"
+    source_dir                     = "tests/fixtures/src"
+    dynamodb_stream_arn            = "arn:aws:dynamodb:sa-east-1:123456789012:table/demo-dev-itens/stream/2026-11-11T00:00:00.000"
+    stream_failure_destination_arn = "arn:aws:sqs:sa-east-1:123456789012:demo-dev-replicador-dlq"
+  }
+
+  assert {
+    condition     = aws_lambda_event_source_mapping.dynamodb[0].bisect_batch_on_function_error && contains(aws_lambda_event_source_mapping.dynamodb[0].function_response_types, "ReportBatchItemFailures")
+    error_message = "Stream precisa de bisseção e falha parcial de lote."
+  }
+
+  assert {
+    condition     = aws_lambda_event_source_mapping.dynamodb[0].destination_config[0].on_failure[0].destination_arn == "arn:aws:sqs:sa-east-1:123456789012:demo-dev-replicador-dlq"
+    error_message = "Lotes esgotados precisam ir para a fila de falhas."
+  }
+}
