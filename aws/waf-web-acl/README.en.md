@@ -54,6 +54,7 @@ Each example has its own backend (state isolated per module and example). Differ
 | `log_retention_days` | `number` | `90` | no | WAF log retention in CloudWatch. null = no logs. |
 | `kms_key_arn` | `string` | `null` | no | KMS key for the logs (in the same region as the Web ACL). |
 | `tags` | `map(string)` | `{}` | no | Tags applied. |
+| `geo_exempt_paths` | `list(string)` | `[]` | no | Exact paths exempted from the geographic rule and the per-IP limit (e.g. ["/api/health"] for the Route 53 health check, which comes from outside the country). Managed rules evaluate first and still apply. Use only for paths with no data. |
 
 ## Outputs
 

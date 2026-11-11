@@ -28,11 +28,10 @@ AWS = dict(
     apigw_http_m=1.90,
     egress_gb=0.15,
     kms_key=1.0, kms_10k=0.03,
-    cognito_free_mau=10_000, cognito_lite_mau=0.0055,
+    cognito_free_mau=10_000, cognito_essentials_mau=0.015,   # Essentials: login gerenciado em português
     r53_zone=0.50, r53_hc=4.25,          # 2 health checks HTTPS (CloudFront + IP do GCP)
     waf_acl=5.0, waf_rule=1.0, waf_rules=4, waf_req_m=0.60,
     cw_logs_gb=0.75, cw_alarm=0.10, alarmes=10,
-    cloudtrail_data_100k=0.10,
 )
 # ---------------------------------------------------------------- preços GCP (southamerica-east1)
 GCP = dict(
@@ -69,10 +68,10 @@ def custo(clinicas):
     a['API Gateway HTTP'] = req * fa / 1e6 * AWS['apigw_http_m']
     a['Saída de dados (downloads + réplica p/ GCP)'] = (gb_download * fa + gb_mes * fa) * AWS['egress_gb']
     a['KMS (2 chaves + uso)'] = 2 * AWS['kms_key'] + (docs * 6 + req * fa) / 1e4 * AWS['kms_10k']
-    a['Cognito Lite (2 pools)'] = max(0, mau - AWS['cognito_free_mau']) * AWS['cognito_lite_mau']
+    a['Cognito Essentials (2 pools)'] = max(0, mau - AWS['cognito_free_mau']) * AWS['cognito_essentials_mau']
     a['Route 53 (zona + health checks)'] = AWS['r53_zone'] + AWS['r53_hc']
     a['WAF na CloudFront'] = AWS['waf_acl'] + AWS['waf_rule'] * AWS['waf_rules'] + req * fa / 1e6 * AWS['waf_req_m']
-    a['CloudWatch (logs + alarmes) e CloudTrail de dados'] = max(1.0, req * fa * 2e-6) * AWS['cw_logs_gb'] + AWS['alarmes'] * AWS['cw_alarm'] + (docs + downloads) / 1e5 * AWS['cloudtrail_data_100k']
+    a['CloudWatch (logs + 10 alarmes)'] = max(1.0, req * fa * 2e-6) * AWS['cw_logs_gb'] + AWS['alarmes'] * AWS['cw_alarm']
     # ------------------------------------------------ GCP
     g['Cloud Storage (2 classes + operações)'] = gb_quente * GCP['gcs_std_gb'] + gb_frio * GCP['gcs_nearline_gb'] + docs * 2 / 1000 * GCP['gcs_a_1k'] + downloads / 1000 * GCP['gcs_b_1k']
     g['Firestore + PITR'] = max(0, itens_gravados - GCP['fs_free_writes_mes']) / 1e5 * GCP['fs_write_100k'] + max(0, itens_lidos * fg - GCP['fs_free_reads_mes']) / 1e5 * GCP['fs_read_100k'] + (docs * MESES_ACUMULADOS * 2 / 1e6) * GCP['fs_gb'] * 2

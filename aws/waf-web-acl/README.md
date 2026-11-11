@@ -54,6 +54,7 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `log_retention_days` | `number` | `90` | não | Retenção dos logs do WAF no CloudWatch. null = sem logs. |
 | `kms_key_arn` | `string` | `null` | não | Chave KMS dos logs (na mesma região da Web ACL). |
 | `tags` | `map(string)` | `{}` | não | Tags aplicadas. |
+| `geo_exempt_paths` | `list(string)` | `[]` | não | Caminhos exatos liberados da regra geográfica e do limite por IP (ex.: ["/api/health"] para o health check do Route 53, que sai de fora do país). As regras gerenciadas avaliam antes e continuam valendo. Use só para caminhos sem dado. |
 
 ## Saídas
 

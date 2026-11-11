@@ -149,9 +149,8 @@ class Servico:
         """LGPD art. 18: o paciente vê quem acessou seus documentos."""
         if not p.eh_paciente:
             raise az.Proibido("só pacientes")
-        itens = self.repo.listar_prefixo(f"AUDITORIA#{p.sub}", "", limite=100)
-        return [{k: v for k, v in i.items() if k not in ("pk", "sk", "ip", "origem", "atualizado_em")}
-                for i in sorted(itens, key=lambda i: i["sk"], reverse=True)]
+        itens = self.repo.listar_prefixo(f"AUDITORIA#{p.sub}", "", limite=100, decrescente=True)  # 100 mais recentes
+        return [{k: v for k, v in i.items() if k not in ("pk", "sk", "ip", "origem", "atualizado_em", "versao")} for i in itens]
 
     # ------------------------------------------------------------------ eventos
     def validar_objeto(self, chave: str) -> str:

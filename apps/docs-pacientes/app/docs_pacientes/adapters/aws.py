@@ -63,9 +63,9 @@ class RepoDynamo:
                 return False
             raise
 
-    def listar_prefixo(self, pk, prefixo_sk, limite=200):
+    def listar_prefixo(self, pk, prefixo_sk, limite=200, decrescente=False):
         cond = Key("pk").eq(pk) & Key("sk").begins_with(prefixo_sk) if prefixo_sk else Key("pk").eq(pk)
-        r = self.t.query(KeyConditionExpression=cond, Limit=limite)
+        r = self.t.query(KeyConditionExpression=cond, Limit=limite, ScanIndexForward=not decrescente)
         return [_limpar(i) for i in r.get("Items", [])]
 
     def documentos_do_paciente(self, paciente_sub, limite=200):

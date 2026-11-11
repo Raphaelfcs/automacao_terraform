@@ -75,6 +75,38 @@ resource "aws_wafv2_web_acl" "this" {
     }
   }
 
+  # Caminhos isentos da regra geográfica (ex.: health check do Route 53, que sai dos EUA).
+  dynamic "rule" {
+    for_each = length(var.allowed_countries) > 0 && length(var.geo_exempt_paths) > 0 ? [1] : []
+    content {
+      name     = "isentos-da-geografia"
+      priority = 80
+
+      action {
+        allow {}
+      }
+
+      statement {
+        regex_match_statement {
+          regex_string = "^(${join("|", var.geo_exempt_paths)})$"
+          field_to_match {
+            uri_path {}
+          }
+          text_transformation {
+            priority = 0
+            type     = "NONE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        metric_name                = "${var.name}-isentos"
+        sampled_requests_enabled   = true
+      }
+    }
+  }
+
   dynamic "rule" {
     for_each = length(var.allowed_countries) > 0 ? [1] : []
     content {

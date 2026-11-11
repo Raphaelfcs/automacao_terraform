@@ -69,3 +69,14 @@ variable "log_sample_rate" {
   type        = number
   default     = 1
 }
+
+variable "geo_exempt_paths" {
+  description = "Caminhos exatos liberados da regra geográfica (ex.: [\"/api/health\"] para health checks que saem de fora do país)."
+  type        = list(string)
+  default     = []
+
+  validation {
+    condition     = alltrue([for p in var.geo_exempt_paths : can(regex("^/[A-Za-z0-9/_-]*$", p))])
+    error_message = "geo_exempt_paths aceita caminhos simples (letras, números, /, _ e -)."
+  }
+}

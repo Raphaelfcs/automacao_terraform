@@ -112,6 +112,7 @@ module "borda" {
   serverless_neg_id       = module.api.neg_id
   web_bucket_name         = module.web.site_bucket_name
   allowed_countries       = var.paises_permitidos
+  geo_exempt_paths        = ["/api/health"] # health check do Route 53 sai dos EUA
   content_security_policy = local.csp
 }
 

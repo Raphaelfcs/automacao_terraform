@@ -1,8 +1,8 @@
-"""Trilha de auditoria: um item por acesso, só inserção (a role da aplicação não pode alterar nem apagar).
+"""Trilha de auditoria: um item por acesso, gravado só com inserção condicional (nenhuma role tem DeleteItem).
 
 Gravada no mesmo banco (chave AUDITORIA#<sub do paciente>) para o paciente consultar quem viu
-seus documentos, e replicada como qualquer item. Também sai em log estruturado (tipo=auditoria),
-que o CloudWatch/Cloud Logging retêm e exportam para o bucket com retenção travada.
+seus documentos, e replicada como qualquer item. Também sai em log estruturado (tipo=auditoria)
+no CloudWatch Logs (retenção de 1 ano) e no Cloud Logging.
 """
 from __future__ import annotations
 

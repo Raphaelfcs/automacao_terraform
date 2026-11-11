@@ -47,3 +47,23 @@ run "escopo_invalido" {
 
   expect_failures = [var.scope]
 }
+
+run "health_check_isento_da_geografia" {
+  command = plan
+
+  variables {
+    name              = "demo-dev-borda"
+    allowed_countries = ["BR"]
+    geo_exempt_paths  = ["/api/health"]
+  }
+
+  assert {
+    condition     = one([for r in aws_wafv2_web_acl.this.rule : r.statement[0].regex_match_statement[0].regex_string if r.name == "isentos-da-geografia"]) == "^(/api/health)$"
+    error_message = "Health check liberado só no caminho exato."
+  }
+
+  assert {
+    condition     = one([for r in aws_wafv2_web_acl.this.rule : r.priority if r.name == "isentos-da-geografia"]) < one([for r in aws_wafv2_web_acl.this.rule : r.priority if r.name == "somente-paises-permitidos"])
+    error_message = "A isenção avalia antes da regra geográfica."
+  }
+}

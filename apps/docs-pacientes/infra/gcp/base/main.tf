@@ -26,8 +26,9 @@ module "firestore" {
   kms_key_id        = module.kms.key_id
   delete_protection = var.protecao_exclusao
   composite_indexes = {
-    clinica  = { collection = "itens", fields = [{ path = "pk" }, { path = "sk" }] }
-    paciente = { collection = "itens", fields = [{ path = "paciente_sub" }, { path = "sk" }] }
+    clinica   = { collection = "itens", fields = [{ path = "pk" }, { path = "sk" }] }
+    auditoria = { collection = "itens", fields = [{ path = "pk" }, { path = "sk", order = "DESCENDING" }] }
+    paciente  = { collection = "itens", fields = [{ path = "paciente_sub" }, { path = "sk" }] }
   }
 }
 

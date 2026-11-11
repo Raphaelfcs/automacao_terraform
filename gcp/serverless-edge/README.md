@@ -58,6 +58,7 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `allowed_countries` | `list(string)` | `[]` | não | Códigos ISO de países permitidos na API (ex.: ["BR"]). Vazio = sem restrição. |
 | `content_security_policy` | `string` | `"default-src 'self'; frame-ancestors ...` | não | CSP enviada com o front. Precisa permitir o domínio do login e os buckets de upload. |
 | `log_sample_rate` | `number` | `1` | não | Fração das requisições da API registradas no log do LB (0 a 1). |
+| `geo_exempt_paths` | `list(string)` | `[]` | não | Caminhos exatos liberados da regra geográfica (ex.: ["/api/health"] para health checks que saem de fora do país). |
 
 ## Saídas
 

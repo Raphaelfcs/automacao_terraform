@@ -3,7 +3,7 @@
 Não substitui antivírus: barra o que não é PDF e os recursos que transformam um PDF em vetor de
 ataque (JavaScript, ações de execução, arquivos embutidos, formulários XFA, mídia rica). Laudos,
 receitas e exames legítimos não usam nada disso. Para varredura de malware, ligue o GuardDuty
-Malware Protection for S3 (variável do root aws/base).
+Malware Protection for S3 no bucket de documentos (ainda não ligado no root aws/base: ver README).
 """
 from __future__ import annotations
 

@@ -66,3 +66,14 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "geo_exempt_paths" {
+  description = "Caminhos exatos liberados da regra geográfica e do limite por IP (ex.: [\"/api/health\"] para o health check do Route 53, que sai de fora do país). As regras gerenciadas avaliam antes e continuam valendo. Use só para caminhos sem dado."
+  type        = list(string)
+  default     = []
+
+  validation {
+    condition     = alltrue([for p in var.geo_exempt_paths : can(regex("^/[A-Za-z0-9/_-]*$", p))])
+    error_message = "geo_exempt_paths aceita caminhos simples (letras, números, /, _ e -)."
+  }
+}

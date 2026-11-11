@@ -106,10 +106,11 @@ class RepoFirestore:
                 r.raise_for_status()
         return False
 
-    def _consulta(self, filtros, limite):
+    def _consulta(self, filtros, limite, decrescente=False):
+        ordem = {"field": {"fieldPath": "sk"}, "direction": "DESCENDING" if decrescente else "ASCENDING"}
         q = {"structuredQuery": {"from": [{"collectionId": COLECAO}],
                                  "where": {"compositeFilter": {"op": "AND", "filters": filtros}},
-                                 "orderBy": [{"field": {"fieldPath": "sk"}}], "limit": limite}}
+                                 "orderBy": [ordem], "limit": limite}}
         r = self.s.post(f"{FS}/{self.raiz}:runQuery", json=q, timeout=10)
         r.raise_for_status()
         return [doc_para_item(x["document"]) for x in r.json() if "document" in x]
@@ -118,15 +119,15 @@ class RepoFirestore:
     def _f(campo, op, valor):
         return {"fieldFilter": {"field": {"fieldPath": campo}, "op": op, "value": para_firestore(valor)}}
 
-    def listar_prefixo(self, pk, prefixo_sk, limite=200):
+    def listar_prefixo(self, pk, prefixo_sk, limite=200, decrescente=False):
         filtros = [self._f("pk", "EQUAL", pk)]
         if prefixo_sk:
-            filtros += [self._f("sk", "GREATER_THAN_OR_EQUAL", prefixo_sk), self._f("sk", "LESS_THAN", prefixo_sk + "￿")]
-        return self._consulta(filtros, limite)
+            filtros += [self._f("sk", "GREATER_THAN_OR_EQUAL", prefixo_sk), self._f("sk", "LESS_THAN", prefixo_sk + "\uffff")]
+        return self._consulta(filtros, limite, decrescente)
 
     def documentos_do_paciente(self, paciente_sub, limite=200):
         return self._consulta([self._f("paciente_sub", "EQUAL", paciente_sub),
-                               self._f("sk", "GREATER_THAN_OR_EQUAL", "DOC#"), self._f("sk", "LESS_THAN", "DOC#￿")], limite)
+                               self._f("sk", "GREATER_THAN_OR_EQUAL", "DOC#"), self._f("sk", "LESS_THAN", "DOC#\uffff")], limite)
 
 
 # --------------------------------------------------------------------------- URL assinada V4

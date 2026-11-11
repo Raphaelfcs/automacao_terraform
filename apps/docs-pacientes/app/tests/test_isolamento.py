@@ -100,3 +100,12 @@ def test_auditoria_e_so_insercao():
     item = next(v for (pk, _), v in m.repo.itens.items() if pk.startswith("AUDITORIA#"))
     with pytest.raises(Exception):
         m.repo.inserir(item)
+
+
+def test_acessos_mostram_os_mais_recentes_primeiro():
+    m, ca, adm_a, *_ , did, maria = preparar()
+    for _ in range(3):
+        m.s.link_download(maria, ca, did)
+    acessos = m.s.meus_acessos(maria)
+    assert [a["em"] for a in acessos] == sorted((a["em"] for a in acessos), reverse=True)
+    assert "versao" not in acessos[0]

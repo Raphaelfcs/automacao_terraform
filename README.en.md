@@ -9,7 +9,7 @@ Each module is a reusable *engine*, with ready-made examples, tests and an archi
 > Project designed in September 2017. With the rush of projects, the repository was not kept up to date;
 > the content is being published and updated now. Each module README says when it was designed.
 
-**63 modules** · AWS: 52 · Microsoft Azure: 4 · Google Cloud: 7
+**77 modules** · AWS: 58 · Microsoft Azure: 4 · Google Cloud: 15
 
 ## Hands-on AWS experience: where it lives in the code
 
@@ -51,6 +51,7 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 
 | Module | Category | Description |
 |---|---|---|
+| [`acm-certificate`](aws/acm-certificate/README.en.md) | borda | DNS-validated ACM certificate |
 | [`acm-expiry-alert`](aws/acm-expiry-alert/README.en.md) | automacao | Certificate expiration alerts |
 | [`api-gateway-lambda`](aws/api-gateway-lambda/README.en.md) | integracao | HTTP API -> Lambda |
 | [`autoscaling-schedule`](aws/autoscaling-schedule/README.en.md) | finops | Scheduled node group shutdown |
@@ -65,6 +66,7 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 | [`control-tower-landing-zone`](aws/control-tower-landing-zone/README.en.md) | governanca | Control Tower: landing zone 4.0 |
 | [`control-tower-ou-registration`](aws/control-tower-ou-registration/README.en.md) | governanca | OU registration in Control Tower |
 | [`cur-focus-export`](aws/cur-focus-export/README.en.md) | finops | FOCUS 1.0 cost export |
+| [`dynamodb-table`](aws/dynamodb-table/README.en.md) | dados | On-demand DynamoDB with stream, PITR and KMS |
 | [`ecr`](aws/ecr/README.en.md) | containers | ECR repositories with scan, KMS and retention |
 | [`eks-addons`](aws/eks-addons/README.en.md) | containers | EKS platform add-ons |
 | [`eks-argocd`](aws/eks-argocd/README.en.md) | devops | Argo CD bootstrap (GitOps) |
@@ -78,6 +80,7 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 | [`iam-group`](aws/iam-group/README.en.md) | seguranca | IAM group with mandatory MFA |
 | [`iam-inventory-export`](aws/iam-inventory-export/README.en.md) | automacao | Weekly IAM inventory |
 | [`iam-mfa-audit`](aws/iam-mfa-audit/README.en.md) | automacao | MFA audit |
+| [`iam-role-gcp-federation`](aws/iam-role-gcp-federation/README.en.md) | seguranca | Keyless IAM role for Google Cloud workloads |
 | [`identity-center-groups`](aws/identity-center-groups/README.en.md) | seguranca | IAM Identity Center: groups and users |
 | [`identity-center-permission-set`](aws/identity-center-permission-set/README.en.md) | seguranca | IAM Identity Center: permission sets and assignments |
 | [`instance-scheduler`](aws/instance-scheduler/README.en.md) | automacao | FinOps scheduler for EC2/RDS |
@@ -88,8 +91,10 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 | [`organizations-scp`](aws/organizations-scp/README.en.md) | governanca | Organizations: OUs, SCPs, RCPs and Tag Policy |
 | [`rds-aurora`](aws/rds-aurora/README.en.md) | dados | Amazon Aurora (MySQL/PostgreSQL, provisioned or Serverless v2) |
 | [`rds-instance`](aws/rds-instance/README.en.md) | dados | Private RDS MySQL/PostgreSQL |
+| [`route53-health-routing`](aws/route53-health-routing/README.en.md) | rede | Active-active cross-cloud DNS with health checks |
 | [`route53-private-zone`](aws/route53-private-zone/README.en.md) | rede | Multi-account private Route 53 zone |
 | [`route53-public-zone`](aws/route53-public-zone/README.en.md) | rede | Public Route 53 zone with wildcard certificate |
+| [`route53-records`](aws/route53-records/README.en.md) | rede | Standalone Route 53 DNS records |
 | [`route53-zone-delegation`](aws/route53-zone-delegation/README.en.md) | rede | Cross-account subdomain delegation |
 | [`s3-bucket`](aws/s3-bucket/README.en.md) | armazenamento | Secure-by-default S3 bucket |
 | [`security-baseline`](aws/security-baseline/README.en.md) | seguranca | Organization security baseline |
@@ -103,6 +108,7 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 | [`vpc`](aws/vpc/README.en.md) | rede | Three-tier VPC |
 | [`vpc-endpoints`](aws/vpc-endpoints/README.en.md) | rede | VPC Endpoints Interface/Gateway |
 | [`vpn-site-to-site`](aws/vpn-site-to-site/README.en.md) | rede | Declarative Site-to-Site VPN (TGW/VGW) |
+| [`waf-web-acl`](aws/waf-web-acl/README.en.md) | borda | AWS WAF with managed rules and per-IP limit |
 
 ## Microsoft Azure
 
@@ -117,13 +123,25 @@ Standards and conventions (Portuguese): [`docs/padrao-de-modulos.md`](docs/padra
 
 | Module | Category | Description |
 |---|---|---|
+| [`cloud-run-service`](gcp/cloud-run-service/README.en.md) | computacao | Cloud Run with its own service account and NEG |
 | [`cloud-sql`](gcp/cloud-sql/README.en.md) | dados | Private Cloud SQL |
 | [`edge-load-balancer`](gcp/edge-load-balancer/README.en.md) | borda | Global Load Balancer + Cloud Armor |
+| [`eventarc-trigger`](gcp/eventarc-trigger/README.en.md) | integracao | Eventarc to a private Cloud Run |
+| [`firestore-database`](gcp/firestore-database/README.en.md) | dados | Native Firestore with CMEK, PITR and backups |
+| [`gcs-bucket`](gcp/gcs-bucket/README.en.md) | armazenamento | Private Cloud Storage for sensitive data |
 | [`gke-private`](gcp/gke-private/README.en.md) | containers | Private GKE with Workload Identity |
+| [`kms-key`](gcp/kms-key/README.en.md) | seguranca | Cloud KMS: CMEK key with rotation |
 | [`project-foundation`](gcp/project-foundation/README.en.md) | governanca | GCP project with APIs and org policies |
 | [`pubsub`](gcp/pubsub/README.en.md) | integracao | Pub/Sub + Cloud Function (notification) |
+| [`serverless-edge`](gcp/serverless-edge/README.en.md) | borda | Global edge: HTTPS LB, Cloud Armor and CDN |
+| [`service-accounts`](gcp/service-accounts/README.en.md) | seguranca | Service accounts with minimum roles |
 | [`static-site`](gcp/static-site/README.en.md) | borda | Static site on Cloud Storage |
 | [`vpc-network`](gcp/vpc-network/README.en.md) | rede | GCP VPC with secondary ranges and PSA |
+| [`workload-identity-aws`](gcp/workload-identity-aws/README.en.md) | seguranca | Workload Identity Federation AWS -> Google Cloud |
+
+## Complete apps
+
+- [`apps/docs-pacientes/`](apps/docs-pacientes/README.en.md): patient records (exams, diagnoses, prescriptions) as an active-active serverless app on AWS and Google Cloud, event-driven, with per-clinic and per-patient isolation, PWA, Terraform roots per resource and environment, 57 app tests and a cost model (US$ 48/month with 20 clinics, US$ 75 with 100).
 
 ## Labs and architectures
 

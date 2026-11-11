@@ -37,8 +37,8 @@ class RepoMemoria:
         self.gravar(item)
         return True
 
-    def listar_prefixo(self, pk, prefixo_sk, limite=200):
-        r = [copy.deepcopy(v) for (p, s), v in sorted(self.itens.items()) if p == pk and s.startswith(prefixo_sk)]
+    def listar_prefixo(self, pk, prefixo_sk, limite=200, decrescente=False):
+        r = [copy.deepcopy(v) for (p, s), v in sorted(self.itens.items(), reverse=decrescente) if p == pk and s.startswith(prefixo_sk)]
         return r[:limite]
 
     def documentos_do_paciente(self, paciente_sub, limite=200):

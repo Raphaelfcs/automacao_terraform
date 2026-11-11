@@ -58,6 +58,7 @@ Each example has its own backend (state isolated per module and example). Differ
 | `allowed_countries` | `list(string)` | `[]` | no | ISO codes of countries allowed on the API (e.g. ["BR"]). Empty = no restriction. |
 | `content_security_policy` | `string` | `"default-src 'self'; frame-ancestors ...` | no | CSP sent with the front end. It must allow the login domain and the upload buckets. |
 | `log_sample_rate` | `number` | `1` | no | Fraction of API requests recorded in the LB log (0 to 1). |
+| `geo_exempt_paths` | `list(string)` | `[]` | no | Exact paths exempted from the geographic rule (e.g. ["/api/health"] for health checks that come from outside the country). |
 
 ## Outputs
 

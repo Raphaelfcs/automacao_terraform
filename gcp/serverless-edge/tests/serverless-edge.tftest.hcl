@@ -26,6 +26,12 @@ run "borda_api_e_front" {
     serverless_neg_id = "projects/demo-dev/regions/southamerica-east1/networkEndpointGroups/demo-dev-api-neg"
     web_bucket_name   = "demo-dev-web"
     allowed_countries = ["BR"]
+    geo_exempt_paths  = ["/api/health"]
+  }
+
+  assert {
+    condition     = one([for r in google_compute_security_policy.api.rule : r.match[0].expr[0].expression if r.priority == 800]) == "!(origin.region_code == 'BR') && request.path != '/api/health'"
+    error_message = "Geografia com exceção só para o health check."
   }
 
   assert {

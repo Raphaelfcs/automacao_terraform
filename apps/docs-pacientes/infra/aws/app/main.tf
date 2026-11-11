@@ -113,6 +113,7 @@ module "waf" {
   providers           = { aws = aws.us_east_1 }
   name                = "${local.nome}-borda"
   allowed_countries   = var.paises_permitidos
+  geo_exempt_paths    = ["/api/health"] # health check do Route 53 sai dos EUA
   rate_limit_per_5min = 1000
   tags                = local.tags
 }

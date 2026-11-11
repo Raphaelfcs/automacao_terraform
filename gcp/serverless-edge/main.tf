@@ -67,7 +67,7 @@ resource "google_compute_security_policy" "api" {
       description = "Somente ${join(", ", var.allowed_countries)}"
       match {
         expr {
-          expression = "!(${join(" || ", [for c in var.allowed_countries : "origin.region_code == '${c}'"])})"
+          expression = "!(${join(" || ", [for c in var.allowed_countries : "origin.region_code == '${c}'"])})${join("", [for p in var.geo_exempt_paths : " && request.path != '${p}'"])}"
         }
       }
     }

@@ -9,7 +9,7 @@ Cada módulo é uma *engine* reutilizável, com exemplos prontos, testes e diagr
 > Projeto idealizado em setembro de 2017. Com a correria dos projetos, o repositório não foi mantido em dia;
 > o conteúdo está sendo publicado e atualizado agora. Cada módulo informa no README quando foi idealizado.
 
-**63 módulos** · AWS: 52 · Microsoft Azure: 4 · Google Cloud: 7
+**77 módulos** · AWS: 58 · Microsoft Azure: 4 · Google Cloud: 15
 
 ## Experiência prática na AWS: onde está no código
 
@@ -51,6 +51,7 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 
 | Módulo | Categoria | Descrição |
 |---|---|---|
+| [`acm-certificate`](aws/acm-certificate) | borda | Certificado ACM validado por DNS |
 | [`acm-expiry-alert`](aws/acm-expiry-alert) | automacao | Alerta de expiração de certificados |
 | [`api-gateway-lambda`](aws/api-gateway-lambda) | integracao | HTTP API -> Lambda |
 | [`autoscaling-schedule`](aws/autoscaling-schedule) | finops | Desligamento agendado de node groups |
@@ -65,6 +66,7 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 | [`control-tower-landing-zone`](aws/control-tower-landing-zone) | governanca | Control Tower: landing zone 4.0 |
 | [`control-tower-ou-registration`](aws/control-tower-ou-registration) | governanca | Registro de OUs no Control Tower |
 | [`cur-focus-export`](aws/cur-focus-export) | finops | Exportação de custos FOCUS 1.0 |
+| [`dynamodb-table`](aws/dynamodb-table) | dados | DynamoDB on-demand com stream, PITR e KMS |
 | [`ecr`](aws/ecr) | containers | Repositórios ECR com scan, KMS e retenção |
 | [`eks-addons`](aws/eks-addons) | containers | Addons de plataforma EKS |
 | [`eks-argocd`](aws/eks-argocd) | devops | Argo CD bootstrap (GitOps) |
@@ -78,6 +80,7 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 | [`iam-group`](aws/iam-group) | seguranca | Grupo IAM com MFA obrigatório |
 | [`iam-inventory-export`](aws/iam-inventory-export) | automacao | Inventário IAM semanal |
 | [`iam-mfa-audit`](aws/iam-mfa-audit) | automacao | Auditoria de MFA |
+| [`iam-role-gcp-federation`](aws/iam-role-gcp-federation) | seguranca | Role IAM para workloads do Google Cloud sem chave |
 | [`identity-center-groups`](aws/identity-center-groups) | seguranca | IAM Identity Center: grupos e usuários |
 | [`identity-center-permission-set`](aws/identity-center-permission-set) | seguranca | IAM Identity Center: permission sets e atribuições |
 | [`instance-scheduler`](aws/instance-scheduler) | automacao | Agendador FinOps de EC2/RDS |
@@ -88,8 +91,10 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 | [`organizations-scp`](aws/organizations-scp) | governanca | Organizations: OUs, SCPs, RCPs e Tag Policy |
 | [`rds-aurora`](aws/rds-aurora) | dados | Amazon Aurora (MySQL/PostgreSQL, provisionado ou Serverless v2) |
 | [`rds-instance`](aws/rds-instance) | dados | RDS MySQL/PostgreSQL privado |
+| [`route53-health-routing`](aws/route53-health-routing) | rede | DNS ativo-ativo entre nuvens com health check |
 | [`route53-private-zone`](aws/route53-private-zone) | rede | Zona Route 53 privada multi-conta |
 | [`route53-public-zone`](aws/route53-public-zone) | rede | Zona Route 53 pública com certificado curinga |
+| [`route53-records`](aws/route53-records) | rede | Registros DNS avulsos no Route 53 |
 | [`route53-zone-delegation`](aws/route53-zone-delegation) | rede | Delegação de subdomínio entre contas |
 | [`s3-bucket`](aws/s3-bucket) | armazenamento | Bucket S3 seguro por padrão |
 | [`security-baseline`](aws/security-baseline) | seguranca | Baseline de segurança da organização |
@@ -103,6 +108,7 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 | [`vpc`](aws/vpc) | rede | VPC em três camadas |
 | [`vpc-endpoints`](aws/vpc-endpoints) | rede | VPC Endpoints Interface/Gateway |
 | [`vpn-site-to-site`](aws/vpn-site-to-site) | rede | VPN Site-to-Site (TGW/VGW) declarativa |
+| [`waf-web-acl`](aws/waf-web-acl) | borda | AWS WAF com regras gerenciadas e limite por IP |
 
 ## Microsoft Azure
 
@@ -117,13 +123,25 @@ Padrões e convenções: [`docs/padrao-de-modulos.md`](docs/padrao-de-modulos.md
 
 | Módulo | Categoria | Descrição |
 |---|---|---|
+| [`cloud-run-service`](gcp/cloud-run-service) | computacao | Cloud Run com conta de serviço própria e NEG |
 | [`cloud-sql`](gcp/cloud-sql) | dados | Cloud SQL privado |
 | [`edge-load-balancer`](gcp/edge-load-balancer) | borda | Load Balancer global + Cloud Armor |
+| [`eventarc-trigger`](gcp/eventarc-trigger) | integracao | Eventarc para Cloud Run privado |
+| [`firestore-database`](gcp/firestore-database) | dados | Firestore nativo com CMEK, PITR e backups |
+| [`gcs-bucket`](gcp/gcs-bucket) | armazenamento | Cloud Storage privado para dados sensíveis |
 | [`gke-private`](gcp/gke-private) | containers | GKE privado com Workload Identity |
+| [`kms-key`](gcp/kms-key) | seguranca | Cloud KMS: chave CMEK com rotação |
 | [`project-foundation`](gcp/project-foundation) | governanca | Projeto GCP com APIs e org policies |
 | [`pubsub`](gcp/pubsub) | integracao | Pub/Sub + Cloud Function (notificação) |
+| [`serverless-edge`](gcp/serverless-edge) | borda | Borda global: LB HTTPS, Cloud Armor e CDN |
+| [`service-accounts`](gcp/service-accounts) | seguranca | Contas de serviço com papéis mínimos |
 | [`static-site`](gcp/static-site) | borda | Site estático em Cloud Storage |
 | [`vpc-network`](gcp/vpc-network) | rede | VPC GCP com ranges secundários e PSA |
+| [`workload-identity-aws`](gcp/workload-identity-aws) | seguranca | Workload Identity Federation AWS -> Google Cloud |
+
+## Apps completos
+
+- [`apps/docs-pacientes/`](apps/docs-pacientes): documentos de pacientes (exames, diagnósticos, receitas) em app serverless ativo-ativo na AWS e no Google Cloud, orientado a eventos, com isolamento por clínica e por paciente, PWA, roots Terraform por recurso e ambiente, 57 testes do app e modelo de custo (US$ 48/mês com 20 clínicas, US$ 75 com 100).
 
 ## Labs e arquiteturas
 
