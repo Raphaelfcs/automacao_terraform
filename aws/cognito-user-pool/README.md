@@ -63,6 +63,7 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `machine_scopes` | `map(string)` | `{}` | não | Escopos de máquina: nome -> descrição. |
 | `service_clients` | `map(list(string))` | `{}` | não | Identidades de máquina: serviço -> lista de escopos de machine_scopes. |
 | `tags` | `map(string)` | `{}` | não | Tags aplicadas a todos os recursos. |
+| `user_pool_tier` | `string` | `null` | não | LITE, ESSENTIALS ou PLUS. Managed login (versão 2) exige ESSENTIALS; advanced_security_mode diferente de OFF exige PLUS. null = padrão da AWS. |
 
 ## Saídas
 

@@ -121,3 +121,15 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "assets_cache_control" {
+  description = "Cache-Control dos arquivos que não são o index.html. O padrão (1 ano, immutable) exige nomes com hash; app sem hash nos nomes usa \"no-cache\"."
+  type        = string
+  default     = "public, max-age=31536000, immutable"
+}
+
+variable "extra_objects" {
+  description = "Objetos gerados pela IaC: caminho -> conteúdo (ex.: { \"config.json\" = jsonencode(...) }), publicados sem cache."
+  type        = map(string)
+  default     = {}
+}

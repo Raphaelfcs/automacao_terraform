@@ -53,6 +53,8 @@ Each example has its own backend (state isolated per module and example). Differ
 | `log_retention_days` | `number` | `30` | no | Access log retention days in the audit bucket. |
 | `force_destroy` | `bool` | `false` | no | Allows destroying buckets with objects (true in labs; false in production). |
 | `labels` | `map(string)` | `{}` | no | Additional labels applied to the buckets. |
+| `assets_cache_control` | `string` | `"public, max-age=3600"` | no | Cache-Control for files that are not HTML/JSON. |
+| `extra_objects` | `map(string)` | `{}` | no | IaC-generated objects: path -> content (e.g. { "config.json" = jsonencode(...) }), published without cache. |
 
 ## Outputs
 

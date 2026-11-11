@@ -88,3 +88,14 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "user_pool_tier" {
+  description = "LITE, ESSENTIALS ou PLUS. Managed login (versão 2) exige ESSENTIALS; advanced_security_mode diferente de OFF exige PLUS. null = padrão da AWS."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.user_pool_tier == null || contains(["LITE", "ESSENTIALS", "PLUS"], coalesce(var.user_pool_tier, "x"))
+    error_message = "user_pool_tier deve ser LITE, ESSENTIALS ou PLUS."
+  }
+}

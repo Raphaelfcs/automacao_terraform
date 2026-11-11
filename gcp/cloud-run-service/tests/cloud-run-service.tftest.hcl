@@ -49,3 +49,32 @@ run "ingress_invalido" {
 
   expect_failures = [var.ingress]
 }
+
+run "conta_de_servico_existente" {
+  command = plan
+
+  variables {
+    project_id            = "demo-dev"
+    name                  = "demo-dev-eventos"
+    image                 = "southamerica-east1-docker.pkg.dev/demo-dev/docs/docs-pacientes:abc123"
+    service_account_email = "demo-dev-eventos@demo-dev.iam.gserviceaccount.com"
+    ingress               = "INGRESS_TRAFFIC_INTERNAL_ONLY"
+  }
+
+  assert {
+    condition     = length(google_service_account.this) == 0 && google_cloud_run_v2_service.this.template[0].service_account == "demo-dev-eventos@demo-dev.iam.gserviceaccount.com"
+    error_message = "Usa a conta existente sem criar outra."
+  }
+}
+
+run "sem_conta_de_servico" {
+  command = plan
+
+  variables {
+    project_id = "demo-dev"
+    name       = "x"
+    image      = "x"
+  }
+
+  expect_failures = [var.service_account_email]
+}

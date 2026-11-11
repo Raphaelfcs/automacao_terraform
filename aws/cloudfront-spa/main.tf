@@ -194,9 +194,21 @@ resource "aws_s3_object" "dist" {
   content_type = lookup(local.mime_types, regex("\\.[^.]+$|$", each.value), "application/octet-stream")
 
   # O index nao pode ser cacheado: e ele que aponta para o bundle novo a cada deploy.
-  cache_control = each.value == "index.html" ? "no-cache, no-store, must-revalidate" : "public, max-age=31536000, immutable"
+  cache_control = each.value == "index.html" ? "no-cache, no-store, must-revalidate" : var.assets_cache_control
 
   tags = var.tags
 }
 
 data "aws_caller_identity" "current" {}
+
+# Arquivos gerados pela IaC (ex.: config.json com IDs do ambiente), sem cache.
+resource "aws_s3_object" "extra" {
+  for_each = var.extra_objects
+
+  bucket        = aws_s3_bucket.this.id
+  key           = each.key
+  content       = each.value
+  content_type  = lookup(local.mime_types, regex("\\.[^.]+$|$", each.key), "application/octet-stream")
+  cache_control = "no-cache, no-store, must-revalidate"
+  tags          = var.tags
+}

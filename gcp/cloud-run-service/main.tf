@@ -3,6 +3,7 @@
 # serverless (create_serverless_neg) e use ingress "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER".
 
 resource "google_service_account" "this" {
+  count        = var.service_account_email == null ? 1 : 0
   project      = var.project_id
   account_id   = var.service_account_id
   display_name = "Cloud Run ${var.name}"
@@ -16,7 +17,7 @@ resource "google_cloud_run_v2_service" "this" {
   deletion_protection = var.deletion_protection
 
   template {
-    service_account                  = google_service_account.this.email
+    service_account                  = local.sa_email
     max_instance_request_concurrency = var.concurrency
     timeout                          = "${var.timeout_seconds}s"
     execution_environment            = "EXECUTION_ENVIRONMENT_GEN2"
@@ -63,7 +64,7 @@ resource "google_project_iam_member" "sa" {
   for_each = toset(var.project_roles)
   project  = var.project_id
   role     = each.value
-  member   = "serviceAccount:${google_service_account.this.email}"
+  member   = "serviceAccount:${local.sa_email}"
 }
 
 resource "google_compute_region_network_endpoint_group" "this" {

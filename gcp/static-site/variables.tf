@@ -81,3 +81,15 @@ variable "labels" {
   type        = map(string)
   default     = {}
 }
+
+variable "extra_objects" {
+  description = "Objetos gerados pela IaC: caminho -> conteúdo (ex.: { \"config.json\" = jsonencode(...) }), publicados sem cache."
+  type        = map(string)
+  default     = {}
+}
+
+variable "assets_cache_control" {
+  description = "Cache-Control dos arquivos que não são HTML/JSON."
+  type        = string
+  default     = "public, max-age=3600"
+}

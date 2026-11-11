@@ -53,6 +53,8 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `log_retention_days` | `number` | `30` | não | Dias de retenção dos logs de acesso no bucket de auditoria. |
 | `force_destroy` | `bool` | `false` | não | Permite destruir buckets com objetos (true em laboratório; false em produção). |
 | `labels` | `map(string)` | `{}` | não | Labels adicionais aplicadas aos buckets. |
+| `assets_cache_control` | `string` | `"public, max-age=3600"` | não | Cache-Control dos arquivos que não são HTML/JSON. |
+| `extra_objects` | `map(string)` | `{}` | não | Objetos gerados pela IaC: caminho -> conteúdo (ex.: { "config.json" = jsonencode(...) }), publicados sem cache. |
 
 ## Saídas
 

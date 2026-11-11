@@ -160,3 +160,35 @@ run "exemplo_web_e_maquinas" {
     tags              = { Projeto = "demo", Ambiente = "teste" }
   }
 }
+
+run "tier_explicito" {
+  command = plan
+
+  variables {
+    name_prefix            = "demo-teste"
+    domain_prefix          = "demo-teste-login"
+    callback_urls          = ["https://app.example.com/"]
+    logout_urls            = ["https://app.example.com/"]
+    user_pool_tier         = "ESSENTIALS"
+    advanced_security_mode = "OFF"
+  }
+
+  assert {
+    condition     = aws_cognito_user_pool.this.user_pool_tier == "ESSENTIALS"
+    error_message = "Tier aplicado ao pool."
+  }
+}
+
+run "tier_invalido" {
+  command = plan
+
+  variables {
+    name_prefix    = "demo-teste"
+    domain_prefix  = "demo-teste-login"
+    callback_urls  = ["https://app.example.com/"]
+    logout_urls    = ["https://app.example.com/"]
+    user_pool_tier = "GRATIS"
+  }
+
+  expect_failures = [var.user_pool_tier]
+}

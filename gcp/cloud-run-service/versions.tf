@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.7"
+  required_version = ">= 1.9" # validação que cita outra variável
 
   required_providers {
     google = {

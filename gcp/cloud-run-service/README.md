@@ -52,7 +52,8 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `name` | `string` | - | **sim** | Nome do serviço. |
 | `region` | `string` | `"southamerica-east1"` | não | Região do serviço. |
 | `image` | `string` | - | **sim** | Imagem do container (Artifact Registry), de preferência com digest ou tag imutável. |
-| `service_account_id` | `string` | - | **sim** | ID da conta de serviço criada para o serviço (6 a 30 caracteres). |
+| `service_account_id` | `string` | `null` | não | ID da conta de serviço criada para o serviço (6 a 30 caracteres). Ignorado se service_account_email for informado. |
+| `service_account_email` | `string` | `null` | não | Conta de serviço já existente. null = cria uma com service_account_id. |
 | `ingress` | `string` | `"INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"` | não | INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY ou INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER. |
 | `env` | `map(string)` | `{}` | não | Variáveis de ambiente (sem segredos: use Secret Manager ou identidade federada). |
 | `min_instances` | `number` | `0` | não | Instâncias mínimas (0 = escala a zero e não cobra parado). |
@@ -74,11 +75,12 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `name` | Nome do serviço. |
 | `uri` | URL do serviço (só responde conforme o ingress). |
 | `service_account_email` | E-mail da conta de serviço. |
-| `service_account_unique_id` | ID único da conta de serviço (usado em trust policy da AWS). |
+| `service_account_unique_id` | ID único da conta de serviço criada aqui (usado em trust policy da AWS); null se a conta veio de fora. |
 | `neg_id` | ID do NEG serverless (null se não criado). |
 
 ## Arquivos
 
+- `locals.tf`: valores derivados
 - `main.tf`: recursos principais
 - `outputs.tf`: saídas
 - `variables.tf`: entradas e validações

@@ -20,8 +20,20 @@ variable "image" {
 }
 
 variable "service_account_id" {
-  description = "ID da conta de serviço criada para o serviço (6 a 30 caracteres)."
+  description = "ID da conta de serviço criada para o serviço (6 a 30 caracteres). Ignorado se service_account_email for informado."
   type        = string
+  default     = null
+}
+
+variable "service_account_email" {
+  description = "Conta de serviço já existente. null = cria uma com service_account_id."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.service_account_email != null || var.service_account_id != null
+    error_message = "Informe service_account_email (existente) ou service_account_id (para criar)."
+  }
 }
 
 variable "ingress" {

@@ -63,6 +63,7 @@ Each example has its own backend (state isolated per module and example). Differ
 | `machine_scopes` | `map(string)` | `{}` | no | Machine scopes: name -> description. |
 | `service_clients` | `map(list(string))` | `{}` | no | Machine identities: service -> list of scopes from machine_scopes. |
 | `tags` | `map(string)` | `{}` | no | Tags applied to all resources. |
+| `user_pool_tier` | `string` | `null` | no | LITE, ESSENTIALS or PLUS. Managed login (version 2) requires ESSENTIALS; advanced_security_mode other than OFF requires PLUS. null = AWS default. |
 
 ## Outputs
 

@@ -62,6 +62,8 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | `api_vpc_origin_domain` | `string` | `""` | não | DNS do ALB interno de api_vpc_origin_arn. |
 | `api_vpc_origin_protocol_policy` | `string` | `"http-only"` | não | http-only enquanto o ALB interno não tem certificado (tráfego dentro da VPC); https-only com ACM. |
 | `tags` | `map(string)` | `{}` | não | Tags aplicadas a todos os recursos. |
+| `assets_cache_control` | `string` | `"public, max-age=31536000, immutable"` | não | Cache-Control dos arquivos que não são o index.html. O padrão (1 ano, immutable) exige nomes com hash; app sem hash nos nomes usa "no-cache". |
+| `extra_objects` | `map(string)` | `{}` | não | Objetos gerados pela IaC: caminho -> conteúdo (ex.: { "config.json" = jsonencode(...) }), publicados sem cache. |
 
 ## Saídas
 

@@ -81,5 +81,16 @@ resource "google_storage_bucket_object" "site_files" {
   name          = each.key
   source        = "${var.site_source_dir}/${each.key}"
   content_type  = lookup(local.mime_types, lower(regex("[^.]*$", each.key)), "application/octet-stream")
-  cache_control = endswith(each.key, ".html") || endswith(each.key, ".json") ? "no-cache, max-age=0" : "public, max-age=3600"
+  cache_control = endswith(each.key, ".html") || endswith(each.key, ".json") ? "no-cache, max-age=0" : var.assets_cache_control
+}
+
+# Arquivos gerados pela IaC (ex.: config.json com IDs do ambiente), sem cache.
+resource "google_storage_bucket_object" "extra" {
+  for_each = var.extra_objects
+
+  bucket        = google_storage_bucket.site.name
+  name          = each.key
+  content       = each.value
+  content_type  = lookup(local.mime_types, lower(regex("[^.]*$", each.key)), "application/octet-stream")
+  cache_control = "no-cache, max-age=0"
 }

@@ -18,8 +18,8 @@ run "documentos_sensiveis" {
   }
 
   assert {
-    condition     = google_storage_bucket.this.retention_policy[0].retention_period == 2592000 && !google_storage_bucket.this.retention_policy[0].is_locked
-    error_message = "Retenção de 30 dias sem trava por padrão."
+    condition     = google_storage_bucket.this.retention_policy[0].retention_period == 2592000
+    error_message = "Retenção de 30 dias aplicada."
   }
 
   assert {

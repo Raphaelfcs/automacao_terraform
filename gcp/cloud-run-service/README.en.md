@@ -52,7 +52,8 @@ Each example has its own backend (state isolated per module and example). Differ
 | `name` | `string` | - | **yes** | Service name. |
 | `region` | `string` | `"southamerica-east1"` | no | Service region. |
 | `image` | `string` | - | **yes** | Container image (Artifact Registry), preferably with a digest or immutable tag. |
-| `service_account_id` | `string` | - | **yes** | ID of the service account created for the service (6 to 30 characters). |
+| `service_account_id` | `string` | `null` | no | ID of the service account created for the service (6 to 30 characters). Ignored if service_account_email is set. |
+| `service_account_email` | `string` | `null` | no | Existing service account. null = create one with service_account_id. |
 | `ingress` | `string` | `"INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"` | no | INGRESS_TRAFFIC_ALL, INGRESS_TRAFFIC_INTERNAL_ONLY or INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER. |
 | `env` | `map(string)` | `{}` | no | Environment variables (no secrets: use Secret Manager or federated identity). |
 | `min_instances` | `number` | `0` | no | Minimum instances (0 = scales to zero and costs nothing idle). |
@@ -74,11 +75,12 @@ Each example has its own backend (state isolated per module and example). Differ
 | `name` | Service name. |
 | `uri` | Service URL (answers only as the ingress allows). |
 | `service_account_email` | Service account email. |
-| `service_account_unique_id` | Service account unique ID (used in an AWS trust policy). |
+| `service_account_unique_id` | Unique ID of the service account created here (used in an AWS trust policy); null if the account came from outside. |
 | `neg_id` | Serverless NEG ID (null if not created). |
 
 ## Files
 
+- `locals.tf`: derived values
 - `main.tf`: main resources
 - `outputs.tf`: outputs
 - `variables.tf`: inputs and validations
