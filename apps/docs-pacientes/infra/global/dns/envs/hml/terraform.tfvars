@@ -1,0 +1,6 @@
+ambiente          = "hml"
+dominio_app       = "app-hml.example.com"
+estado_aws_bucket = "docs-tfstate-hml-123456789012"
+estado_gcp_bucket = "docs-tfstate-hml"
+zona_dns_id       = "Z0123456789ABCDEFGHIJ"
+emails_alerta     = ["plataforma@example.com"]

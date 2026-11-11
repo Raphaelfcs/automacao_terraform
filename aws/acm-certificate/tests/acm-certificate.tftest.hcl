@@ -18,4 +18,9 @@ run "certificado_cloudfront" {
     condition     = aws_acm_certificate.this.validation_method == "DNS"
     error_message = "Validação por DNS."
   }
+
+  assert {
+    condition     = keys(aws_route53_record.validacao) == ["app.example.com"]
+    error_message = "Um registro de validação por nome, com chave conhecida no plano."
+  }
 }

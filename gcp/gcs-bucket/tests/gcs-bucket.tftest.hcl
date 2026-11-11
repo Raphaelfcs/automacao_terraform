@@ -18,7 +18,7 @@ run "documentos_sensiveis" {
   }
 
   assert {
-    condition     = google_storage_bucket.this.retention_policy[0].retention_period == 2592000
+    condition     = tonumber(google_storage_bucket.this.retention_policy[0].retention_period) == 2592000
     error_message = "Retenção de 30 dias aplicada."
   }
 

@@ -42,7 +42,7 @@ Each example has its own backend (state isolated per module and example). Differ
 | Name | Type | Default | Required | Description |
 |---|---|---|---|---|
 | `project_id` | `string` | - | **yes** | GCP project ID where the buckets are created. |
-| `environment` | `string` | - | **yes** | Environment name (devel or stage). |
+| `environment` | `string` | - | **yes** | Environment name (devel, stage, dev, hml or prd). |
 | `app_name` | `string` | - | **yes** | Short app name, used in bucket names (lowercase letters, numbers and hyphens). |
 | `location` | `string` | `"US"` | no | Bucket region/multi-region (e.g. US, SOUTHAMERICA-EAST1). |
 | `public_access_enabled` | `bool` | `false` | no | true = site open to the Internet (test window). false = closed (public access prevention enforced). |

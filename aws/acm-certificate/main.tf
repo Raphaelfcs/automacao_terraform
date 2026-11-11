@@ -18,13 +18,14 @@ resource "aws_acm_certificate" "this" {
   tags = var.tags
 }
 
+# Chaves pelos nomes declarados (conhecidos no plan); os valores de validação só existem no apply.
 resource "aws_route53_record" "validacao" {
-  for_each = { for o in aws_acm_certificate.this.domain_validation_options : o.domain_name => o }
+  for_each = toset(concat([var.domain_name], var.subject_alternative_names))
 
   zone_id         = var.zone_id
-  name            = each.value.resource_record_name
-  type            = each.value.resource_record_type
-  records         = [each.value.resource_record_value]
+  name            = one([for o in aws_acm_certificate.this.domain_validation_options : o.resource_record_name if o.domain_name == each.key])
+  type            = one([for o in aws_acm_certificate.this.domain_validation_options : o.resource_record_type if o.domain_name == each.key])
+  records         = [one([for o in aws_acm_certificate.this.domain_validation_options : o.resource_record_value if o.domain_name == each.key])]
   ttl             = 300
   allow_overwrite = true
 }

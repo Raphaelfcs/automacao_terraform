@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1E5A8F">
+  <meta name="referrer" content="no-referrer">
+  <title>Meus Documentos de Saúde</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icones/icone.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icones/icone-192.png">
+  <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca"><img src="/icones/icone.svg" alt="" width="28" height="28"> Documentos de Saúde</div>
+    <button id="sair" class="link" hidden>Sair</button>
+  </header>
+
+  <main id="conteudo">
+    <section id="entrada" class="cartao centro">
+      <h1>Seus exames, diagnósticos e receitas, a um toque.</h1>
+      <p class="sutil">Acesso protegido. Cada pessoa vê só o que é seu.</p>
+      <div class="botoes">
+        <button class="primario" data-login="paciente">Sou paciente</button>
+        <button class="secundario" data-login="equipe">Sou da clínica</button>
+      </div>
+    </section>
+
+    <section id="paciente" hidden>
+      <h1>Meus documentos</h1>
+      <div class="filtros" role="tablist">
+        <button class="chip ativo" data-filtro="">Todos</button>
+        <button class="chip" data-filtro="exame">Exames</button>
+        <button class="chip" data-filtro="diagnostico">Diagnósticos</button>
+        <button class="chip" data-filtro="receita">Receitas</button>
+      </div>
+      <ul id="lista-docs" class="lista"></ul>
+      <details class="cartao"><summary>Quem acessou meus documentos</summary><ul id="lista-acessos" class="lista mini"></ul></details>
+    </section>
+
+    <section id="equipe" hidden>
+      <h1>Pacientes da clínica</h1>
+      <form id="form-paciente" class="cartao linha">
+        <input name="nome" required maxlength="120" placeholder="Nome do paciente" autocomplete="off">
+        <input name="email" required type="email" maxlength="200" placeholder="E-mail do paciente" autocomplete="off">
+        <button class="primario">Cadastrar</button>
+      </form>
+      <ul id="lista-pacientes" class="lista"></ul>
+      <form id="form-envio" class="cartao" hidden>
+        <h2>Enviar PDF para <span id="envio-nome"></span></h2>
+        <div class="linha">
+          <select name="tipo" required>
+            <option value="exame">Exame</option><option value="diagnostico">Diagnóstico</option><option value="receita">Receita</option>
+          </select>
+          <input name="titulo" required maxlength="120" placeholder="Título (ex.: Hemograma completo)">
+        </div>
+        <input name="arquivo" type="file" accept="application/pdf" required>
+        <button class="primario">Enviar</button>
+        <p id="envio-status" class="sutil" role="status"></p>
+      </form>
+    </section>
+    <p id="aviso" class="aviso" role="alert" hidden></p>
+  </main>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

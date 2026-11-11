@@ -42,7 +42,7 @@ Cada exemplo tem seu próprio backend (state isolado por módulo e exemplo). Amb
 | Nome | Tipo | Padrão | Obrigatória | Descrição |
 |---|---|---|---|---|
 | `project_id` | `string` | - | **sim** | ID do projeto GCP onde os buckets serão criados. |
-| `environment` | `string` | - | **sim** | Nome do ambiente (devel ou stage). |
+| `environment` | `string` | - | **sim** | Nome do ambiente (devel, stage, dev, hml ou prd). |
 | `app_name` | `string` | - | **sim** | Nome curto da aplicação, usado no nome dos buckets (minúsculas, números e hífen). |
 | `location` | `string` | `"US"` | não | Região/multirregião dos buckets (ex.: US, SOUTHAMERICA-EAST1). |
 | `public_access_enabled` | `bool` | `false` | não | true = site aberto à Internet (janela de teste). false = fechado (public access prevention enforced). |

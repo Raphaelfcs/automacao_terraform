@@ -36,6 +36,7 @@ jobs:
       gcp: ${{ steps.filtro.outputs.gcp }}
       azure: ${{ steps.filtro.outputs.azure }}
       repositorio: ${{ steps.filtro.outputs.repositorio }}
+      apps: ${{ steps.filtro.outputs.apps }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,7 +47,7 @@ jobs:
           ESCOLHA: ${{ inputs.provedor }}
           BASE: ${{ github.base_ref }}
         run: |
-          todos() { for p in aws gcp azure repositorio; do echo "$p=$1" >> "$GITHUB_OUTPUT"; done; }
+          todos() { for p in aws gcp azure repositorio apps; do echo "$p=$1" >> "$GITHUB_OUTPUT"; done; }
 
           if [ "$EVENTO" = "workflow_dispatch" ] && [ "$ESCOLHA" != "todos" ]; then
             todos false; echo "$ESCOLHA=true" >> "$GITHUB_OUTPUT"; exit 0
@@ -60,6 +61,8 @@ jobs:
             echo "$p=$(echo "$arquivos" | grep -q "^$p/" && echo true || echo false)" >> "$GITHUB_OUTPUT"
           done
           echo "repositorio=$(echo "$arquivos" | grep -qE '^(labs|padrao-iac)/' && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          # apps usam os módulos de aws/ e gcp/: mudança neles também valida os apps
+          echo "apps=$(echo "$arquivos" | grep -qE '^(apps|aws|gcp)/' && echo true || echo false)" >> "$GITHUB_OUTPUT"
 
   aws:
     name: AWS
@@ -105,9 +108,44 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
+  # Apps completos (código + roots por ambiente): testes do app, fmt, lint e validate de cada root.
+  apps:
+    name: apps
+    needs: mudancas
+    if: needs.mudancas.outputs.apps == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: testes do app docs-pacientes
+        working-directory: apps/docs-pacientes/app
+        run: |
+          pip install -q -r requirements-dev.txt
+          python -m pytest -q
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.12.2
+      - run: terraform fmt -recursive -check -diff apps
+      - name: validate dos roots
+        run: |
+          for root in $(find apps -name provider.tf -path '*/infra/*' -exec dirname {} \; | sort); do
+            echo "::group::$root"
+            terraform -chdir="$root" init -backend=false -input=false
+            terraform -chdir="$root" validate
+            echo "::endgroup::"
+          done
+      - uses: terraform-linters/setup-tflint@v4
+      - run: |
+          tflint --init --config="$GITHUB_WORKSPACE/.tflint.hcl"
+          tflint --recursive --chdir=apps --config="$GITHUB_WORKSPACE/.tflint.hcl"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
   resultado:
     name: resultado
-    needs: [mudancas, aws, gcp, azure, repositorio]
+    needs: [mudancas, aws, gcp, azure, repositorio, apps]
     if: always()
     runs-on: ubuntu-latest
     steps:

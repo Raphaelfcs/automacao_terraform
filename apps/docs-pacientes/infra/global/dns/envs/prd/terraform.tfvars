@@ -1,0 +1,6 @@
+ambiente          = "prd"
+dominio_app       = "app.example.com"
+estado_aws_bucket = "docs-tfstate-prd-123456789012"
+estado_gcp_bucket = "docs-tfstate-prd"
+zona_dns_id       = "Z0123456789ABCDEFGHIJ"
+emails_alerta     = ["plataforma@example.com"]
